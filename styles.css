@@ -91,3 +91,15 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 @media(max-width:650px){.wrap{padding:0 18px}.nav{min-height:66px}.logo{font-size:19px}.menu-toggle{display:block}.navlinks{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;align-items:stretch;padding:17px 24px;background:#e5d8ff;border-bottom:2px solid #b99bf1}.navlinks.open{display:flex}.hero-grid{padding-top:43px}.hero h1{font-size:46px}.hero-scene{transform:scale(.84);transform-origin:center top;height:305px}.project-grid,.mini-grid,.experience-grid,.about-card{grid-template-columns:1fr}.section{padding-top:54px;padding-bottom:48px}.section-head{align-items:start}.section-head .text-link{font-size:12px}.about-card{padding:22px}.mascot{width:52px;height:52px}.hero-actions{flex-wrap:wrap}}
 @media(max-width:375px){.hero h1{font-size:40px}.hero-scene{transform:scale(.73);transform-origin:left top;width:135%;height:275px}.project-art{height:140px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* Refined illustrated hero and company identity */
+.hero-scene{display:flex;align-items:center;justify-content:center}
+.pixel-hero-image{display:block;width:min(100%,510px);height:auto;max-height:370px;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(0 14px 20px #6d48a52a)}
+.company-logo{width:56px;height:56px;flex:0 0 56px;object-fit:contain;padding:9px;border:1.5px solid #d3baf2;border-radius:13px;background:white}
+.campus-art{text-align:center;margin:38px auto 12px;max-width:490px}
+.campus-art img{display:block;width:100%;height:auto;image-rendering:pixelated}
+.project-links{align-items:center;min-height:34px}
+.icon-link{display:inline-flex;align-items:center;justify-content:center;width:35px;height:35px;border:1.5px solid #ae91e4;border-radius:10px;background:#f8f1ff;color:#56358c;transition:transform .18s,background .18s}
+.icon-link svg{width:20px;height:20px}
+.icon-link:hover{transform:translateY(-3px);background:#e8dcff}
+@media(max-width:650px){.hero-scene{height:auto;min-height:230px;transform:none;width:100%}.pixel-hero-image{max-height:290px}.company-logo{width:48px;height:48px;flex-basis:48px}}
