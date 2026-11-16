@@ -134,3 +134,7 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .icon-link{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;overflow:visible;padding:5px;border:1.5px solid #b69be6;border-radius:10px;background:#f8f1ff}
 .icon-link:hover{background:#e9dcff;transform:translateY(-2px)}
 .icon-link:hover .uploaded-icon{transform:scale(1.08)}
+
+/* Uploaded custom purple action icons */
+.uploaded-paint{background-image:url("assets/paintbrush_icon.png")}
+.uploaded-demo-robot{background-image:url("assets/demo_robot.png")}
