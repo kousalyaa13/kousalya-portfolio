@@ -62,8 +62,8 @@ const projects = [
 const icons = {
   github:'<span class="uploaded-icon uploaded-github" aria-hidden="true"></span>',
   medium:'<span class="uploaded-icon uploaded-medium" aria-hidden="true"></span>',
-  paint:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14.4 6.6 3 3M4 20c2.7.5 4.8-.2 5.5-2.6.3-1.2 1.1-2.1 2.2-2.7L20.8 5.6a2.1 2.1 0 0 0-3-3l-9.1 9.1c-.6 1.1-1.5 1.9-2.7 2.2C3.6 14.6 3 16.8 4 20Z"/></svg>',
-  robot:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4m-2 0h4M4 13H2m20 0h-2M8 16h.01M16 16h.01M9 19h6"/></svg>'
+  paint:'<span class="uploaded-icon uploaded-paint" aria-hidden="true"></span>',
+  robot:'<span class="uploaded-icon uploaded-demo-robot" aria-hidden="true"></span>'
 };
 const repoUrl = name => name ? "https://github.com/" + owner + "/" + encodeURIComponent(name) : null;
 const escapeHTML = text => String(text).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
