@@ -37,7 +37,7 @@ const projects = [
     description:"Exploring similarities among American colleges through K-means clustering, network analysis, and supervised machine learning.",
     emoji:"🎓",category:"data",featured:true,
     tags:["K-Means","Networks","Python"],
-    repo:"College-Clustering-Analysis",
+    repo:"College-Clustering-Analysis",medium:"https://medium.com/@kousalyapotti/what-clustering-reveals-about-colleges-that-rankings-dont-ad25e5a561fd",
     image:"https://raw.githubusercontent.com/kousalyaa13/College-Clustering-Analysis/main/kmeans_scatter.png"
   },
   {
@@ -51,14 +51,18 @@ const projects = [
   {title:"PawPal+ 🐾",description:"An AI pet care planner that recommends tasks and organizes priority-based, conflict-free schedules.",emoji:"🐶",category:"apps",repo:"PawPal"},
   {title:"Manifest Fandom Classifier",description:"Reddit NLP classification comparing a fine-tuned DistilBERT model with a zero-shot Groq baseline.",emoji:"💬",category:"ai",repo:"Manifest-Fandom-Analysis"},
   {title:"Amazon Vine Review Analysis",description:"Comparing incentivized and non-incentivized reviews through text analytics.",emoji:"📝",category:"data",repo:"inst425_amazon_vine_review_analysis"},
-  {title:"TV Show Cosine Similarity",description:"TF-IDF and cosine similarity over animated TV show summaries.",emoji:"📺",category:"ai",repo:"TV-Show-Cosine-Similarity"},
+  {title:"TV Show Cosine Similarity",description:"TF-IDF and cosine similarity over animated TV show summaries.",emoji:"📺",category:"ai",repo:"TV-Show-Cosine-Similarity",medium:"https://medium.com/@kousalyapotti/from-dora-to-batman-finding-similar-animated-tv-shows-with-nlp-a930ea117ae8"},
   {title:"Accutane Side Effects Analysis",description:"Exploratory analysis of FAERS-reported adverse events involving isotretinoin.",emoji:"🔬",category:"data",repo:"Accutane-Psychiatric-Side-Effects-Analysis"},
-  {title:"Career Network Analysis",description:"Web scraping and network analysis of career advice for introverts and extroverts.",emoji:"🕸️",category:"data",repo:"Career-Network-Analysis"},
+  {title:"Career Network Analysis",description:"Web scraping and network analysis of career advice for introverts and extroverts.",emoji:"🕸️",category:"data",repo:"Career-Network-Analysis",medium:"https://medium.com/@kousalyapotti/a-network-analysis-of-introvert-vs-extrovert-career-recommendations-5ec2e7f8751d"},
   {title:"MTA Transit Equity",description:"SQL-based transit equity analysis, database design, and data exploration.",emoji:"🚇",category:"data",repo:"mta_transit_sql_analysis"},
   {title:"SafeTravels",description:"A Figma prototype for safer travel planning and alerts.",emoji:"🧭",category:"apps",repo:"SafeTravels"},
   {title:"The Mane Box",description:"A Python-powered customized hair-care product recommender.",emoji:"🧴",category:"apps",repo:"the_mane_box"},
   {title:"Art Portfolio",description:"A handmade collection of my drawing, painting, and digital art.",emoji:"🎨",category:"apps",repo:"Kousalyart"}
 ];
+const icons = {
+  github:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.14c-3.13.68-3.79-1.33-3.79-1.33-.51-1.29-1.25-1.64-1.25-1.64-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 .17 1.75.1 2.18-.12.1-.72.39-1.22.71-1.5-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.29-.5-1.43.11-2.97 0 0 .94-.3 3.08 1.15a10.7 10.7 0 0 1 5.6 0c2.14-1.45 3.08-1.15 3.08-1.15.61 1.54.23 2.68.11 2.97.72.79 1.16 1.79 1.16 3.02 0 4.32-2.64 5.28-5.15 5.56.4.35.76 1.02.76 2.06v3.06c0 .3.2.65.77.54A11.2 11.2 0 0 0 12 .8Z"/></svg>',
+  medium:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M2 5.5c.02-.2-.05-.4-.19-.54L.4 3.3V3h7.1l5.5 12.1L17.8 3h6.76v.3l-1.2 1.15c-.1.08-.15.21-.13.34v14.4c-.02.13.03.26.13.34l1.17 1.15v.3h-5.88v-.3l1.21-1.18c.12-.12.12-.15.12-.33V7.5l-5.55 13.4h-.4L7.6 7.5v9.82c-.03.24.05.47.21.65l1.58 1.9v.3H4.9v-.3l1.58-1.9c.16-.17.23-.42.2-.65V6.14a.78.78 0 0 0-.25-.64L5.1 3.9V3H2v2.5Z"/></svg>'
+};
 const repoUrl = name => name ? "https://github.com/" + owner + "/" + encodeURIComponent(name) : null;
 const escapeHTML = text => String(text).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function featureCard(p) {
@@ -66,14 +70,19 @@ function featureCard(p) {
     ? '<img loading="lazy" src="' + escapeHTML(p.image) + '" alt="Screenshot or diagram from ' + escapeHTML(p.title) + ' project" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"><span class="emoji" style="display:none">' + p.emoji + '</span>'
     : '<span class="emoji" aria-hidden="true">' + p.emoji + '</span>';
   const tags = (p.tags || []).map(t => '<span>' + escapeHTML(t) + '</span>').join("");
-  const link = p.repo
-    ? '<a href="' + repoUrl(p.repo) + '" target="_blank" rel="noopener noreferrer" aria-label="See ' + escapeHTML(p.title) + ' on GitHub">View project ↗</a>'
-    : '<span class="private-note">Internship project · details above</span>';
+  const link = projectLinks(p);
   return '<article class="project-card"><div class="window-bar" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="project-inner"><div class="project-art">' + art + '</div><h3>' + escapeHTML(p.title) + '</h3><div class="project-subtitle">' + escapeHTML(p.subtitle) + '</div><p>' + escapeHTML(p.description) + '</p><div class="project-tags">' + tags + '</div><div class="project-links">' + link + '</div></div></article>';
 }
-function miniCard(p) {
-  return '<article class="mini-card"><h4>' + p.emoji + ' ' + escapeHTML(p.title) + '</h4><p>' + escapeHTML(p.description) + '</p><a href="' + repoUrl(p.repo) + '" target="_blank" rel="noopener noreferrer" aria-label="Explore ' + escapeHTML(p.title) + ' on GitHub">Explore on GitHub ↗</a></article>';
+function projectLinks(p) {
+  let links=[];
+  if(p.repo) links.push('<a class="icon-link" href="'+repoUrl(p.repo)+'" target="_blank" rel="noopener noreferrer" title="GitHub repository" aria-label="GitHub repository for '+escapeHTML(p.title)+'">'+icons.github+'</a>');
+  if(p.medium) links.push('<a class="icon-link" href="'+escapeHTML(p.medium)+'" target="_blank" rel="noopener noreferrer" title="Read Medium article" aria-label="Medium article for '+escapeHTML(p.title)+'">'+icons.medium+'</a>');
+  return links.length ? links.join("") : '<span class="private-note">Internship project</span>';
 }
+function miniCard(p) {
+  return '<article class="mini-card"><h4>'+p.emoji+' '+escapeHTML(p.title)+'</h4><p>'+escapeHTML(p.description)+'</p><div class="project-links">'+projectLinks(p)+'</div></article>';
+}
+
 document.getElementById("featured-projects").innerHTML = projects.filter(p => p.featured).map(featureCard).join("");
 const other = document.getElementById("other-projects");
 function renderOther(filter="all") {
