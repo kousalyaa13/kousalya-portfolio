@@ -138,3 +138,9 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 /* Uploaded custom purple action icons */
 .uploaded-paint{background-image:url("assets/paintbrush_icon.png")}
 .uploaded-demo-robot{background-image:url("assets/demo_robot.png")}
+
+/* Reliable image rendering with a visible fallback under each uploaded icon */
+.custom-icon-holder{position:relative;display:block;width:27px;height:27px;color:#7851c4}
+.custom-icon-holder .icon-fallback{position:absolute;inset:0;width:100%;height:100%;display:block}
+.custom-icon-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+.icon-link:hover .custom-icon-holder{transform:scale(1.08);transition:transform .2s ease}
