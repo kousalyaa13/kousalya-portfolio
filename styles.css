@@ -103,3 +103,25 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .icon-link svg{width:20px;height:20px}
 .icon-link:hover{transform:translateY(-3px);background:#e8dcff}
 @media(max-width:650px){.hero-scene{height:auto;min-height:230px;transform:none;width:100%}.pixel-hero-image{max-height:290px}.company-logo{width:48px;height:48px;flex-basis:48px}}
+
+/* Uploaded pixel-art collection: four quadrants from one sheet.
+   No extra asset uploads or image cropping needed. */
+.sprite{display:block;background-image:url("assets/Cozy%20Campus%20Pixel%20Art%20Collection.png");background-repeat:no-repeat;background-size:200% 200%;image-rendering:auto}
+.sprite-girl{width:min(100%,530px);aspect-ratio:1.5;background-position:left top;animation:cozy-float 5.5s ease-in-out infinite;filter:drop-shadow(0 10px 12px #6945a126)}
+.sprite-campus{width:100%;aspect-ratio:1.5;background-position:right top;animation:campus-appear 1s ease both}
+.sprite-robot{width:90px;height:90px;aspect-ratio:1;background-position:left bottom;transform-origin:50% 80%}
+.sprite-garden{width:min(360px,100%);aspect-ratio:1.5;background-position:right bottom;animation:cozy-float 7s ease-in-out infinite}
+.hero-scene{position:relative;min-height:340px}
+.hero-sparkle{position:absolute;right:9%;top:12%;font-size:35px;color:#edb844;animation:twinkle 2.8s ease-in-out infinite;pointer-events:none}
+.campus-art{max-width:600px}
+.footer-flowers{display:flex;justify-content:center}
+.mascot{width:90px;height:90px;background:transparent;border:0;box-shadow:none;padding:0;border-radius:0;animation:cozy-float 4s ease-in-out infinite}
+.mascot:before{display:none}
+.mascot:hover .sprite-robot,.mascot:focus-visible .sprite-robot{animation:robot-wave .5s ease-in-out 2}
+.mascot-speech{right:90px;bottom:48px}
+@keyframes cozy-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+@keyframes twinkle{0%,100%{opacity:.25;transform:scale(.8) rotate(0)}50%{opacity:1;transform:scale(1.18) rotate(25deg)}}
+@keyframes robot-wave{0%,100%{transform:rotate(0)}35%{transform:rotate(-12deg)}70%{transform:rotate(8deg)}}
+@keyframes campus-appear{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:650px){.hero-scene{min-height:230px}.sprite-girl{width:100%}.mascot,.sprite-robot{width:70px;height:70px}.mascot-speech{right:68px}}
+@media(prefers-reduced-motion:reduce){.sprite,.hero-sparkle,.mascot,.sprite-robot{animation:none!important}}
