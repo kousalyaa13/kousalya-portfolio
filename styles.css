@@ -134,3 +134,12 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 /* The currently uploaded hero is a white-backed PNG.
    Multiply compositing visually blends its white pixels into the hero gradient. */
 .sprite-girl{mix-blend-mode:multiply}
+
+/* Icons from the uploaded transparent artwork sheet.
+   The artwork is cropped via background positioning, preserving the user's exact icons. */
+.uploaded-icon{display:block;width:42px;height:42px;flex:none;background-image:url("assets/Pixel-Art%20Creator%20Desk%20with%20Medium%20and%20GitHub%20Icons.png");background-repeat:no-repeat;background-size:340px auto;filter:none}
+.uploaded-medium{background-position:-25px -47px}
+.uploaded-github{background-position:-102px -47px}
+.icon-link{width:48px;height:48px;overflow:hidden;border:0;background:transparent;padding:3px}
+.icon-link:hover{background:#eee4ff}
+.icon-link:hover .uploaded-icon{transform:scale(1.06)}
