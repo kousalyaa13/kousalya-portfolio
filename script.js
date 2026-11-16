@@ -7,7 +7,7 @@ const projects = [
     description:"A hackathon-built AI advisor helping small business owners compare tools, explore workflows, estimate costs, and plan a small pilot.",
     emoji:"🌱",category:"ai",featured:true,
     tags:["AI","Full Stack","Product"],
-    repo:"ai_small_business_starter",
+    repo:"ai_small_business_starter",demo:"https://ai-small-business-starter.onrender.com/",
     image:"https://raw.githubusercontent.com/kousalyaa13/ai_small_business_starter/main/static/small_business_banner.jpg"
   },
   {
@@ -45,23 +45,25 @@ const projects = [
     description:"Classifying customer-favorite beauty products using review signals and models including Random Forest and Gradient Boosting.",
     emoji:"💄",category:"data",featured:true,
     tags:["Scikit-learn","ML","Python"],
-    repo:"Sephora-Popularity-Predictor",
+    repo:"Sephora-Popularity-Predictor",medium:"https://medium.com/@kousalyapotti/can-machine-learning-predict-which-sephora-products-become-customer-favorites-49fb673fe0d4",
     image:"https://raw.githubusercontent.com/kousalyaa13/Sephora-Popularity-Predictor/main/images/fig6_model_comparison.png"
   },
   {title:"PawPal+ 🐾",description:"An AI pet care planner that recommends tasks and organizes priority-based, conflict-free schedules.",emoji:"🐶",category:"apps",repo:"PawPal"},
   {title:"Manifest Fandom Classifier",description:"Reddit NLP classification comparing a fine-tuned DistilBERT model with a zero-shot Groq baseline.",emoji:"💬",category:"ai",repo:"Manifest-Fandom-Analysis"},
   {title:"Amazon Vine Review Analysis",description:"Comparing incentivized and non-incentivized reviews through text analytics.",emoji:"📝",category:"data",repo:"inst425_amazon_vine_review_analysis"},
   {title:"TV Show Cosine Similarity",description:"TF-IDF and cosine similarity over animated TV show summaries.",emoji:"📺",category:"ai",repo:"TV-Show-Cosine-Similarity",medium:"https://medium.com/@kousalyapotti/from-dora-to-batman-finding-similar-animated-tv-shows-with-nlp-a930ea117ae8"},
-  {title:"Accutane Side Effects Analysis",description:"Exploratory analysis of FAERS-reported adverse events involving isotretinoin.",emoji:"🔬",category:"data",repo:"Accutane-Psychiatric-Side-Effects-Analysis"},
+  {title:"Accutane Side Effects Analysis",description:"Exploratory analysis of FAERS-reported adverse events involving isotretinoin.",emoji:"🔬",category:"data",repo:"Accutane-Psychiatric-Side-Effects-Analysis",medium:"https://medium.com/inst414-data-science-tech/is-accutane-linked-to-psychiatric-side-effects-8677a33dbd54"},
   {title:"Career Network Analysis",description:"Web scraping and network analysis of career advice for introverts and extroverts.",emoji:"🕸️",category:"data",repo:"Career-Network-Analysis",medium:"https://medium.com/@kousalyapotti/a-network-analysis-of-introvert-vs-extrovert-career-recommendations-5ec2e7f8751d"},
   {title:"MTA Transit Equity",description:"SQL-based transit equity analysis, database design, and data exploration.",emoji:"🚇",category:"data",repo:"mta_transit_sql_analysis"},
   {title:"SafeTravels",description:"A Figma prototype for safer travel planning and alerts.",emoji:"🧭",category:"apps",repo:"SafeTravels"},
   {title:"The Mane Box",description:"A Python-powered customized hair-care product recommender.",emoji:"🧴",category:"apps",repo:"the_mane_box"},
-  {title:"Art Portfolio",description:"A handmade collection of my drawing, painting, and digital art.",emoji:"🎨",category:"apps",repo:"Kousalyart"}
+  {title:"Art Portfolio",description:"A handmade collection of my drawing, painting, and digital art.",emoji:"🎨",category:"apps",repo:"Kousalyart",website:"https://kousalyaa13.github.io/Kousalyart/"}
 ];
 const icons = {
   github:'<span class="uploaded-icon uploaded-github" aria-hidden="true"></span>',
-  medium:'<span class="uploaded-icon uploaded-medium" aria-hidden="true"></span>'
+  medium:'<span class="uploaded-icon uploaded-medium" aria-hidden="true"></span>',
+  paint:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m14.4 6.6 3 3M4 20c2.7.5 4.8-.2 5.5-2.6.3-1.2 1.1-2.1 2.2-2.7L20.8 5.6a2.1 2.1 0 0 0-3-3l-9.1 9.1c-.6 1.1-1.5 1.9-2.7 2.2C3.6 14.6 3 16.8 4 20Z"/></svg>',
+  robot:'<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4m-2 0h4M4 13H2m20 0h-2M8 16h.01M16 16h.01M9 19h6"/></svg>'
 };
 const repoUrl = name => name ? "https://github.com/" + owner + "/" + encodeURIComponent(name) : null;
 const escapeHTML = text => String(text).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -77,6 +79,8 @@ function projectLinks(p) {
   let links=[];
   if(p.repo) links.push('<a class="icon-link" href="'+repoUrl(p.repo)+'" target="_blank" rel="noopener noreferrer" title="GitHub repository" aria-label="GitHub repository for '+escapeHTML(p.title)+'">'+icons.github+'</a>');
   if(p.medium) links.push('<a class="icon-link" href="'+escapeHTML(p.medium)+'" target="_blank" rel="noopener noreferrer" title="Read Medium article" aria-label="Medium article for '+escapeHTML(p.title)+'">'+icons.medium+'</a>');
+  if(p.website) links.push('<a class="icon-link" href="'+escapeHTML(p.website)+'" target="_blank" rel="noopener noreferrer" title="Open art portfolio" aria-label="Open art portfolio website">'+icons.paint+'</a>');
+  if(p.demo) links.push('<a class="icon-link" href="'+escapeHTML(p.demo)+'" target="_blank" rel="noopener noreferrer" title="Try the live app" aria-label="Try '+escapeHTML(p.title)+' live">'+icons.robot+'</a>');
   return links.length ? links.join("") : '<span class="private-note">Internship project</span>';
 }
 function miniCard(p) {
