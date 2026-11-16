@@ -106,7 +106,7 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 
 /* Four independent uploaded illustrations, with transparent backgrounds. */
 .sprite{display:block;background-repeat:no-repeat;background-size:contain;background-position:center;image-rendering:auto}
-.sprite-girl{width:min(100%,530px);aspect-ratio:1.45;background-image:url("assets/me_image.png");animation:cozy-float 5.5s ease-in-out infinite;filter:drop-shadow(0 10px 12px #6945a126)}
+.sprite-girl{width:min(100%,530px);aspect-ratio:1.45;background-image:url("assets/kousalya_image.png");animation:cozy-float 5.5s ease-in-out infinite;filter:drop-shadow(0 10px 12px #6945a126)}
 .sprite-campus{width:100%;aspect-ratio:1.55;background-image:url("assets/umd_image.png");animation:campus-appear 1s ease both}
 .sprite-robot{width:90px;height:90px;aspect-ratio:1;background-image:url("assets/robot_image.png");transform-origin:50% 80%}
 .sprite-garden{width:min(360px,100%);aspect-ratio:1.5;background-image:url("assets/flowers_image.png");animation:cozy-float 7s ease-in-out infinite}
