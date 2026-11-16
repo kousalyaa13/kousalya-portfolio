@@ -62,8 +62,8 @@ const projects = [
 const icons = {
   github:'<span class="uploaded-icon uploaded-github" aria-hidden="true"></span>',
   medium:'<span class="uploaded-icon uploaded-medium" aria-hidden="true"></span>',
-  paint:'<span class="uploaded-icon uploaded-paint" aria-hidden="true"></span>',
-  robot:'<span class="uploaded-icon uploaded-demo-robot" aria-hidden="true"></span>'
+  paint:'<span class="custom-icon-holder"><svg class="icon-fallback" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 7l3 3M3 21c3 0 6-1 6-4l11-11a2 2 0 0 0-3-3L6 14c-3 0-4 3-3 7Z"/></svg><img class="custom-icon-img" src="assets/paintbrush_icon.png?v=2" alt="" loading="lazy" onerror="this.style.display=\'none\'"></span>',
+  robot:'<span class="custom-icon-holder"><svg class="icon-fallback" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4m-2 0h4M4 13H2m20 0h-2M8 15h.01M16 15h.01M9 18h6"/></svg><img class="custom-icon-img" src="assets/demo_robot.png?v=2" alt="" loading="lazy" onerror="this.style.display=\'none\'"></span>'
 };
 const repoUrl = name => name ? "https://github.com/" + owner + "/" + encodeURIComponent(name) : null;
 const escapeHTML = text => String(text).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
