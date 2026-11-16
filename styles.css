@@ -124,3 +124,13 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 @keyframes campus-appear{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:650px){.hero-scene{min-height:230px}.sprite-girl{width:100%}.mascot,.sprite-robot{width:70px;height:70px}.mascot-speech{right:68px}}
 @media(prefers-reduced-motion:reduce){.sprite,.hero-sparkle,.mascot,.sprite-robot{animation:none!important}}
+
+/* Purple social marks, matching the supplied reference logos */
+.icon-link{color:#7851c4;background:#f8f1ff;border-color:#b69be6}
+.icon-link svg{fill:#7851c4}
+.icon-link .medium-mark{font-family:Georgia,"Times New Roman",serif;font-size:27px;font-weight:900;line-height:1;color:#7851c4;letter-spacing:-2px}
+.icon-link:hover{color:#50338a;background:#e6d8ff}
+.icon-link:hover svg,.icon-link:hover .medium-mark{fill:#50338a;color:#50338a}
+/* The currently uploaded hero is a white-backed PNG.
+   Multiply compositing visually blends its white pixels into the hero gradient. */
+.sprite-girl{mix-blend-mode:multiply}
