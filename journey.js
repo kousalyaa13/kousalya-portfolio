@@ -513,14 +513,78 @@ const loudounRoles = [
    return '<div class="book-skill-group">'+title+'<ul class="book-skills">'+tags+'</ul></div>';
   }).join('');
  }
+ const recommendations = {
+  "capitalone": [
+    {
+      "name": "Eddie McGolrick",
+      "title": "Data Analysis Manager at Capital One",
+      "date": "August 15, 2026",
+      "relationship": "Senior colleague",
+      "quote": [
+        "Kousalya came into Capital One as an intern and knew exactly what she was doing. She asks the right questions, goes the extra mile, and brings a confidence rarely seen this early in one's career. Whatever team ends up landing Kousalya is extremely lucky to have her."
+      ]
+    }
+  ],
+  "loudoun": [
+    {
+      "name": "Sucheta Kodali",
+      "title": "Data & Analytics Manager at Loudoun County Government",
+      "date": "June 9, 2026",
+      "relationship": "Direct manager",
+      "quote": [
+        "It's remarkable to reflect on the past year since Kousalya began her journey as an intern and then transitioned into a part-time data analyst at Loudoun County. What truly distinguishes Kousalya is her enthusiasm for tackling complex tasks and her proactive approach to researching and optimizing workflows. She frequently reaches out to explore emerging opportunities in AI and Data Analytics, all the while maintaining a high standard in her current responsibilities with M365 Power Apps and PowerBI.",
+        "Kousalya consistently demonstrates a talent for not only completing assignments efficiently but also enhancing existing processes by adopting innovative technologies. Her commitment to going above and beyond has genuinely impressed me, making each project more effective and forward-thinking.",
+        "If the opportunity were available, I'd gladly welcome Kousalya as a full-time member of the team. I'm confident that any manager would appreciate her dedication, motivation, and eagerness to contribute. Kousalya is truly a valuable asset, and I look forward to seeing her continued impact and growth."
+      ]
+    },
+    {
+      "name": "Travis Snider",
+      "title": "Data Engineer at Arlington County",
+      "date": "May 24, 2026",
+      "relationship": "Teammate",
+      "quote": [
+        "Kousalya is an exceptionally dedicated professional who approaches every new challenge with enthusiasm. Having worked closely with her for over a year, I have seen her consistently exceed expectations. Her positive attitude and proactive mindset truly elevate the team dynamic.",
+        "She has proven to be an invaluable asset, particularly through her technical initiatives. During her tenure with Loudoun County, Kousalya developed a custom budget application using Microsoft Power Apps, completely eliminating the need for cumbersome Excel spreadsheets and significantly improving our budget production and review processes. Additionally, her contributions to our Transit project have been vital; she successfully streamlined an incredibly convoluted process into a highly manageable and maintainable workflow. I cannot recommend Kousalya highly enough for any team looking for a top-tier problem solver and collaborator."
+      ]
+    },
+    {
+      "name": "Lana Blum",
+      "title": "Data Architect at Loudoun County Government",
+      "date": "February 3, 2026",
+      "relationship": "Teammate",
+      "quote": [
+        "I had the pleasure of working with Kousalya over the summer during her internship, and she quickly proved to be such a valuable contributor that we retained her when she returned to college. Although she works just 20 hours per week, you would never know it—she consistently attends the vast majority of team and project meetings, completes all assigned work on time, and proactively recommends improvements to our project platforms and processes.",
+        "Kousalya is currently the primary Power Platform developer on two highly visible projects. She rapidly became proficient in Power Apps and then Power Pages and is now expanding her expertise into SharePoint. Even when faced with what initially seems like an “impossible” request, she finds a way to deliver effective solutions.",
+        "She is highly motivated and professional. She asks thoughtful, insightful questions during customer meetings, demonstrating strong preparation and genuine engagement. Kousalya brings a level of maturity, reliability, and problem-solving ability well beyond her years, and any organization would be fortunate to have her on their team."
+      ]
+    }
+  ]
+};
+ function addRecommendations(id) {
+  const people = recommendations[id];
+  if (!people) return;
+  const section = document.createElement('section');
+  section.className = 'book-references';
+  section.innerHTML = '<h3>References</h3><div class="reference-buttons">'+people.map((person,i) =>
+   '<button type="button" data-reference="'+i+'" aria-haspopup="dialog"><span class="reference-icon" aria-hidden="true"></span>'+h(person.name)+'</button>'
+  ).join('')+'</div><dialog class="reference-dialog" aria-labelledby="reference-name"><form method="dialog"><button type="submit" autofocus>Close</button></form><div class="reference-content"></div></dialog>';
+  book.querySelector('.book-context').append(section);
+  const dialog = section.querySelector('dialog');
+  const content = dialog.querySelector('.reference-content');
+  section.querySelectorAll('[data-reference]').forEach(button => button.addEventListener('click', () => {
+   const person = people[Number(button.dataset.reference)];
+   content.innerHTML = '<h2 id="reference-name">'+h(person.name)+'</h2><p>'+h(person.title)+'</p><small>'+h(person.relationship)+' · '+h(person.date)+'</small><blockquote>'+person.quote.map(paragraph=>'<p>'+h(paragraph)+'</p>').join('')+'</blockquote>';
+   dialog.showModal();
+  }));
+ }
  function select(id, navigate = false) {
   const entry = entries.find(p => p.id === id);
   shelf.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.book === id)));
   const roles = rolesFor(entry);
   const plaque = entry.plaque ? '<img class="book-plaque" alt="" src="assets/plaques/'+encodeURIComponent(entry.plaque)+'">' : '';
   book.innerHTML = '<div class="book-page"><h2 tabindex="-1">'+h(labels[entry.id] || entry.name)+'</h2>'+roles.map(roleBlock).join('')+'</div><div class="book-page book-context">'+plaque+'<h3>Top skills</h3>'+skillGroups(roles)+
-   '<button type="button" class="book-back">Back to shelf</button></div>';
-  book.querySelector('.book-back').onclick = () => shelf.querySelector('[aria-pressed="true"]').focus();
+   '</div>';
+  addRecommendations(id);
   if (navigate) book.querySelector('h2').focus({preventScroll:!matchMedia('(max-width: 780px)').matches});
  }
  shelf.innerHTML = [['work','Work experience'],['program','Programs & research']].map(([type,title]) =>

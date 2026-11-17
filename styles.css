@@ -195,7 +195,7 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .book-spines button[aria-pressed="true"] { outline:3px solid #ffe39a; outline-offset:-3px; transform:translateY(-4px); }
 .book-spines span { writing-mode:vertical-rl; transform:rotate(180deg); font-weight:800; font-size:12px; text-align:center; }
 .open-book {
- display:grid; grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
+ display:grid; grid-template-columns: repeat(2, minmax(0, 1fr));
  color:#492f55; background:#a483b8; padding:8px; border-radius:14px; box-shadow:0 7px 0 #ded0e8;
 }
 .book-page { background:#fff6e7; padding:clamp(15px, 2.5vw, 30px); border-radius:8px 3px 3px 8px; overflow-wrap:anywhere; }
@@ -208,7 +208,6 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .book-context ul { list-style:none; padding:0; margin:10px 0 16px; display:flex; gap:6px; flex-wrap:wrap; }
 .book-context li { background:#ecdbef; border-radius:5px; padding:3px 7px; font-size:12px; }
 .book-plaque { width:100%; max-width:170px; height:75px; object-fit:contain; margin-bottom:10px; }
-.book-back { background:transparent; border:0; padding:0; text-decoration:underline; color:#5d3871; font-size:13px; }
 @media(max-width:780px) {
  .bookshelf-layout { grid-template-columns:minmax(0,1fr); }
  .book-spines button { height:128px; }
@@ -225,3 +224,17 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .book-description { margin:8px 0 0; padding-left:19px; font-size:14px; line-height:1.5; }
 .book-description li + li { margin-top:6px; }
 .book-skill-group + .book-skill-group { border-top:1px solid #e1cddb; padding-top:6px; }
+
+.book-references { margin-top:22px; }
+.reference-buttons { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.reference-buttons button { display:inline-flex; align-items:center; gap:7px; padding:7px 9px; border:1px solid #bea4cc; border-radius:8px; background:#f3e6f4; color:#492f55; font-size:12px; cursor:pointer; }
+.reference-icon { position:relative; width:16px; height:16px; flex:none; color:#765683; }
+.reference-icon::before,.reference-icon::after { content:""; position:absolute; background:currentColor; }
+.reference-icon::before { width:7px; height:7px; left:4.5px; border-radius:50%; }
+.reference-icon::after { width:14px; height:7px; left:1px; bottom:0; border-radius:8px 8px 3px 3px; }
+.reference-dialog { width:min(620px,calc(100% - 32px)); max-height:85dvh; padding:24px; overflow:auto; border:2px solid #b694c5; border-radius:15px; background:#fff8eb; color:#492f55; }
+.reference-dialog::backdrop { background:#30233999; }
+.reference-dialog form { display:flex; justify-content:flex-end; margin-bottom:10px; }
+.reference-dialog form button { padding:6px 12px; border:1px solid #bea4cc; border-radius:6px; color:inherit; background:#f3e6f4; cursor:pointer; }
+.reference-dialog blockquote { margin:15px 0 0; padding-left:13px; border-left:3px solid #bea4cc; }
+.reference-dialog blockquote p + p { margin-top:12px; }
