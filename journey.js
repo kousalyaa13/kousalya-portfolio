@@ -455,7 +455,6 @@ const loudounRoles = [
 };
  const issuerFor = ([id,,issuer]) => ({'google-pm':'Google','ibm-sql':'IBM',meta:'Meta',azure:'Microsoft'})[id] || issuer;
  const dialog = document.getElementById('credential-dialog');
- const featuredIssuers = ['Amazon Web Services (AWS)','Anthropic','Microsoft','OpenAI','Snowflake','CodePath','Cornell University','AT&T'];
  const wordmarks = {'Amazon Web Services (AWS)':'AWS','Cornell University':'Cornell','NRF Foundation':'NRF'};
  function openCredentials(issuer, selectedId) {
   document.getElementById('credential-issuer').textContent = issuer;
@@ -468,14 +467,21 @@ const loudounRoles = [
   const selected = selectedId && document.getElementById('credential-'+selectedId);
   if (selected) selected.focus();
  }
- for (const issuer of new Set([...featuredIssuers, ...credentials.map(issuerFor)])) {
+ for (const issuer of new Set(credentials.map(issuerFor))) {
   const button = document.createElement('button');
   button.type = 'button';
-  button.textContent = wordmarks[issuer] || issuer;
+  const label = wordmarks[issuer] || issuer;
+  button.className = 'issuer-gumball';
+  button.textContent = label;
+  const logo = new Image();
+  logo.alt = '';
+  const logoName = label.toLowerCase().replace('&','and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  logo.addEventListener('load', () => button.replaceChildren(logo), {once:true});
+  logo.src = 'assets/issuer-logos/'+logoName+'.png';
   button.setAttribute('aria-label', issuer);
   button.setAttribute('aria-haspopup','dialog');
   button.addEventListener('click',()=>openCredentials(issuer));
-  document.getElementById(featuredIssuers.includes(issuer)?'issuer-buttons':'more-issuers').append(button);
+  document.getElementById('issuer-buttons').append(button);
  }
  function relatedCredentials(bookId) {
   const ids = {att:['att'], codepath:['ai110','ai201'], bttai:['cornell'], fire:['citi']}[bookId] || [];
