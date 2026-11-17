@@ -235,7 +235,7 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .reference-icon::after { width:14px; height:7px; left:1px; bottom:0; border-radius:8px 8px 3px 3px; }
 .reference-dialog { width:min(620px,calc(100% - 32px)); max-height:85dvh; padding:24px; overflow:auto; border:2px solid #b694c5; border-radius:15px; background:#fff8eb; color:#492f55; }
 .reference-dialog::backdrop { background:#30233999; }
-.reference-dialog .reference-actions { display:flex; justify-content:flex-end; margin-bottom:10px; }
-.reference-dialog .reference-actions button { padding:6px 12px; border:1px solid #bea4cc; border-radius:6px; color:inherit; background:#f3e6f4; cursor:pointer; }
+.reference-dialog form { display:flex; justify-content:flex-end; margin-bottom:10px; }
+.reference-dialog form button { padding:6px 12px; border:1px solid #bea4cc; border-radius:6px; color:inherit; background:#f3e6f4; cursor:pointer; }
 .reference-dialog blockquote { margin:15px 0 0; padding-left:13px; border-left:3px solid #bea4cc; }
 .reference-dialog blockquote p + p { margin-top:12px; }

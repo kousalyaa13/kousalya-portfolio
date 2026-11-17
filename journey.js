@@ -567,20 +567,13 @@ const loudounRoles = [
   section.className = 'book-references';
   section.innerHTML = '<h3>References</h3><div class="reference-buttons">'+people.map((person,i) =>
    '<button type="button" data-reference="'+i+'" aria-haspopup="dialog"><span class="reference-icon" aria-hidden="true"></span>'+h(person.name)+'</button>'
-  ).join('')+'</div>';
+  ).join('')+'</div><dialog class="reference-dialog" aria-labelledby="reference-name"><form method="dialog"><button type="submit" autofocus>Close</button></form><div class="reference-content"></div></dialog>';
   book.querySelector('.book-context').append(section);
+  const dialog = section.querySelector('dialog');
+  const content = dialog.querySelector('.reference-content');
   section.querySelectorAll('[data-reference]').forEach(button => button.addEventListener('click', () => {
    const person = people[Number(button.dataset.reference)];
-   const dialog = document.createElement('dialog');
-   dialog.className = 'reference-dialog';
-   dialog.setAttribute('aria-labelledby','reference-name');
-   dialog.innerHTML = '<div class="reference-actions"><button type="button" autofocus>Close</button></div><h2 id="reference-name">'+h(person.name)+'</h2><p>'+h(person.title)+'</p><small>'+h(person.relationship)+' · '+h(person.date)+'</small><blockquote>'+person.quote.map(paragraph=>'<p>'+h(paragraph)+'</p>').join('')+'</blockquote>';
-   document.body.append(dialog);
-   dialog.querySelector('button').addEventListener('click', () => dialog.close());
-   dialog.addEventListener('close', () => {
-    dialog.remove();
-    button.focus({preventScroll:true});
-   }, {once:true});
+   content.innerHTML = '<h2 id="reference-name">'+h(person.name)+'</h2><p>'+h(person.title)+'</p><small>'+h(person.relationship)+' · '+h(person.date)+'</small><blockquote>'+person.quote.map(paragraph=>'<p>'+h(paragraph)+'</p>').join('')+'</blockquote>';
    dialog.showModal();
   }));
  }
