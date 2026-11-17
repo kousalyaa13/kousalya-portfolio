@@ -276,3 +276,5 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 
 .issuer-ibm { color:#0f4b9b; font-family:Georgia,serif; font-size:clamp(10px,1.3vw,15px); letter-spacing:0.045em; }
 @media(prefers-reduced-motion:reduce) { .issuer-gumball:hover { transform:none; } }
+
+.gumball-globe { touch-action:pan-y pinch-zoom; }

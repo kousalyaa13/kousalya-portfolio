@@ -467,7 +467,7 @@ const loudounRoles = [
   button.className = 'issuer-gumball';
   button.textContent = label;
   if (issuer === 'IBM') button.classList.add('issuer-ibm');
-  const filenames = {"anthropic":"anthropic_logo.png","at&t":"at&t_logo.webp","autodesk":"autodesk_logo.png","aws":"aws_logo.png","codepath":"codepath_logo.png","cornell":"cornell_tech_logo.png","google":"google_logo.png","leetcode":"leetcode_logo.png","meta":"meta_logo.png","microsoft":"microsoft_logo.png","nrf":"nrf_logo.png","openai":"openai_logo.svg","oracle":"oracle_logo.png","servicenow":"servicenow_logo.png","snowflake":"snowflake_logo.png","tryhackme":"try_hack_me_logo.png"};
+  const filenames = {"anthropic":"anthropic_logo.png","at&t":"at&t_logo.webp","autodesk":"autodesk_logo.png","aws":"aws_logo.png","ibm":"ibm_logo.png","codepath":"codepath_logo.png","cornell":"cornell_tech_logo.png","google":"google_logo.png","leetcode":"leetcode_logo.png","meta":"meta_logo.png","microsoft":"microsoft_logo.png","nrf":"nrf_logo.png","openai":"openai_logo.svg","oracle":"oracle_logo.png","servicenow":"servicenow_logo.png","snowflake":"snowflake_logo.png","tryhackme":"try_hack_me_logo.png"};
   const filename = filenames[label.toLowerCase()];
   if (filename) {
    const logo = new Image();
@@ -481,37 +481,88 @@ const loudounRoles = [
   document.getElementById('issuer-buttons').append(button);
  }
  const globe = document.querySelector('.gumball-globe');
- const balls = [...globe.querySelectorAll('.issuer-gumball')];
  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
- const bounces = new WeakMap();
- let lastBounce = 0;
+ const balls = [...globe.querySelectorAll('.issuer-gumball')].map(button => ({
+  button, x:0, y:0, vx:0, vy:0
+ }));
+ let frame = 0;
+ let previousTime = 0;
+ let touchStart = null;
+ let swiped = false;
 
- function nudgeGumballs(event) {
-  if (reducedMotion.matches || (event.type === 'pointermove' && event.pointerType === 'touch' && !event.buttons)) return;
-  const now = performance.now();
-  if (event.type === 'pointermove' && now - lastBounce < 45) return;
-  lastBounce = now;
+ function animateBalls(time) {
+  const dt = previousTime ? Math.min((time-previousTime)/16.67,2) : 1;
+  previousTime = time;
+  const bounds = globe.getBoundingClientRect();
+  let moving = false;
   for (const ball of balls) {
-   if (bounces.get(ball)?.playState === 'running') continue;
-   const rect = ball.getBoundingClientRect();
-   const dx = rect.left + rect.width / 2 - event.clientX;
-   const dy = rect.top + rect.height / 2 - event.clientY;
-   const distance = Math.hypot(dx, dy);
-   const reach = rect.width * 1.5;
-   if (distance >= reach) continue;
-   const strength = (1 - distance / reach) * Math.min(9, rect.width * 0.16);
-   const x = distance > 1 ? dx / distance * strength : 0;
-   const y = distance > 1 ? dy / distance * strength : -strength;
-   bounces.set(ball, ball.animate([
-    { translate: '0 0' },
-    { translate: x+'px '+y+'px', offset: 0.28 },
-    { translate: (-x*0.35)+'px '+(-y*0.35)+'px', offset: 0.64 },
-    { translate: '0 0' }
-   ], { duration: 420, easing: 'ease-out' }));
+   const {button} = ball;
+   if (reducedMotion.matches) ball.x = ball.y = ball.vx = ball.vy = 0;
+   const rect = button.getBoundingClientRect();
+   const homeX = rect.left + rect.width/2 - ball.x - bounds.left - bounds.width/2;
+   const homeY = rect.top + rect.height/2 - ball.y - bounds.top - bounds.height/2;
+   ball.vx = (ball.vx - ball.x*0.012*dt) * Math.pow(0.94,dt);
+   ball.vy = (ball.vy - ball.y*0.012*dt) * Math.pow(0.94,dt);
+   ball.x += ball.vx*dt;
+   ball.y += ball.vy*dt;
+   const x = homeX+ball.x, y = homeY+ball.y;
+   const distance = Math.hypot(x,y);
+   const radius = Math.min(bounds.width,bounds.height)/2 - rect.width/2 - 5;
+   if (distance > radius && radius > 0 && (ball.x || ball.y)) {
+    const nx = x/distance, ny = y/distance;
+    ball.x = nx*radius-homeX;
+    ball.y = ny*radius-homeY;
+    const outward = ball.vx*nx + ball.vy*ny;
+    if (outward > 0) {
+     ball.vx -= 1.75*outward*nx;
+     ball.vy -= 1.75*outward*ny;
+    }
+   }
+   if (Math.abs(ball.x)+Math.abs(ball.y)+Math.abs(ball.vx)+Math.abs(ball.vy) < 0.45) {
+    ball.x = ball.y = ball.vx = ball.vy = 0;
+   } else moving = true;
+   button.style.translate = ball.x+'px '+ball.y+'px';
   }
+  frame = moving ? requestAnimationFrame(animateBalls) : 0;
+  if (!moving) previousTime = 0;
  }
- globe.addEventListener('pointerdown', nudgeGumballs);
- globe.addEventListener('pointermove', nudgeGumballs);
+
+ function stir(event, strength) {
+  if (reducedMotion.matches) return;
+  for (const ball of balls) {
+   const rect = ball.button.getBoundingClientRect();
+   const x = rect.left+rect.width/2-event.clientX;
+   const y = rect.top+rect.height/2-event.clientY;
+   const distance = Math.hypot(x,y);
+   const reach = rect.width*2;
+   if (distance >= reach) continue;
+   const push = strength*(1-distance/reach);
+   ball.vx = Math.max(-18,Math.min(18,ball.vx+(distance > 1 ? x/distance : 0)*push));
+   ball.vy = Math.max(-18,Math.min(18,ball.vy+(distance > 1 ? y/distance : -1)*push));
+  }
+  if (!frame) frame = requestAnimationFrame(animateBalls);
+ }
+
+ globe.addEventListener('pointerdown', event => {
+  swiped = false;
+  touchStart = event.pointerType === 'touch' ? {id:event.pointerId,x:event.clientX,y:event.clientY} : null;
+ });
+ globe.addEventListener('pointermove', event => {
+  if (event.pointerType === 'touch') {
+   if (touchStart?.id !== event.pointerId) return;
+   if (Math.hypot(event.clientX-touchStart.x,event.clientY-touchStart.y) < 8) return;
+   swiped = true;
+  }
+  stir(event,event.pointerType === 'touch' ? 7 : 3);
+ });
+ for (const type of ['pointerup','pointercancel']) globe.addEventListener(type, () => { touchStart = null; });
+ globe.addEventListener('click', event => {
+  if (swiped && event.detail !== 0) {
+   event.preventDefault();
+   event.stopPropagation();
+   swiped = false;
+  }
+ }, true);
  function relatedCredentials(bookId) {
   const ids = {att:['att'], codepath:['ai110','ai201'], bttai:['cornell']}[bookId] || [];
   if (!ids.length) return '';
