@@ -487,9 +487,9 @@ const loudounRoles = [
  }));
  let frame = 0;
  let previousTime = 0;
- let touchStart = null;
- let swiped = false;
-
+ const machine = globe.closest('.gumball-machine');
+ let pointerNearby = false;
+ let touchUntil = 0;
  function animateBalls(time) {
   const dt = previousTime ? Math.min((time-previousTime)/16.67,2) : 1;
   previousTime = time;
@@ -527,42 +527,44 @@ const loudounRoles = [
   if (!moving) previousTime = 0;
  }
 
- function stir(event, strength) {
-  if (reducedMotion.matches) return;
+ function settleBalls() {
+  cancelAnimationFrame(frame);
+  frame = previousTime = 0;
   for (const ball of balls) {
-   const rect = ball.button.getBoundingClientRect();
-   const x = rect.left+rect.width/2-event.clientX;
-   const y = rect.top+rect.height/2-event.clientY;
-   const distance = Math.hypot(x,y);
-   const reach = rect.width*2;
-   if (distance >= reach) continue;
-   const push = strength*(1-distance/reach);
-   ball.vx = Math.max(-18,Math.min(18,ball.vx+(distance > 1 ? x/distance : 0)*push));
-   ball.vy = Math.max(-18,Math.min(18,ball.vy+(distance > 1 ? y/distance : -1)*push));
+   ball.x = ball.y = ball.vx = ball.vy = 0;
+   ball.button.style.translate = '';
+  }
+ }
+
+ function idleBounce() {
+  if (reducedMotion.matches || document.hidden || pointerNearby ||
+      machine.matches(':focus-within') || dialog.open || performance.now() < touchUntil) return;
+  const bounds = globe.getBoundingClientRect();
+  if (bounds.bottom <= 0 || bounds.top >= innerHeight) return;
+  for (const ball of balls) {
+   const angle = Math.random()*Math.PI*2;
+   const speed = 2.5+Math.random()*3;
+   ball.vx = Math.cos(angle)*speed;
+   ball.vy = Math.sin(angle)*speed;
   }
   if (!frame) frame = requestAnimationFrame(animateBalls);
  }
 
+ machine.addEventListener('pointerenter', event => {
+  if (event.pointerType === 'touch') return;
+  pointerNearby = true;
+  settleBalls();
+ });
+ machine.addEventListener('pointerleave', event => {
+  if (event.pointerType !== 'touch') pointerNearby = false;
+ });
  globe.addEventListener('pointerdown', event => {
-  swiped = false;
-  touchStart = event.pointerType === 'touch' ? {id:event.pointerId,x:event.clientX,y:event.clientY} : null;
+  if (event.pointerType === 'touch') touchUntil = performance.now()+1800;
+  settleBalls();
  });
- globe.addEventListener('pointermove', event => {
-  if (event.pointerType === 'touch') {
-   if (touchStart?.id !== event.pointerId) return;
-   if (Math.hypot(event.clientX-touchStart.x,event.clientY-touchStart.y) < 8) return;
-   swiped = true;
-  }
-  stir(event,event.pointerType === 'touch' ? 7 : 3);
- });
- for (const type of ['pointerup','pointercancel']) globe.addEventListener(type, () => { touchStart = null; });
- globe.addEventListener('click', event => {
-  if (swiped && event.detail !== 0) {
-   event.preventDefault();
-   event.stopPropagation();
-   swiped = false;
-  }
- }, true);
+ machine.addEventListener('focusin', settleBalls);
+ reducedMotion.addEventListener('change', settleBalls);
+ setInterval(idleBounce, 1500);
  function relatedCredentials(bookId) {
   const ids = {att:['att'], codepath:['ai110','ai201'], bttai:['cornell']}[bookId] || [];
   if (!ids.length) return '';
