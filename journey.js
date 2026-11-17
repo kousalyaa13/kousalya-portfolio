@@ -268,7 +268,7 @@ const loudounRoles = [
   obscurity: ['Analyzed SiK/MAVLink telemetry with software-defined radio tools and experimented with object detection using Roboflow and Hugging Face.']
  };
  const codepath = {
-  id:'codepath', type:'program', name:'CodePath AI',
+  id:'codepath', type:'program', name:'CodePath AI', start:'2026-01',
   roles:[
    {id:'ai110',role:'AI110',date:'First course',description:'Started the CodePath AI Engineering sequence with AI110.'},
    {id:'ai201',role:'AI201',date:'Follow-on course',description:'Continued the AI Engineering sequence with AI201 after completing AI110.'}
@@ -276,8 +276,10 @@ const loudounRoles = [
  };
  const labels = {loudoun:'Loudoun County Government',witomni:'witOmni AI Marketing',fairfax:'Fairfax County Government',umdta:'UMD Teaching Assistant',bttai:'Break Through Tech AI/ML',bttguild:'Break Through Tech Guild',cci:'Commonwealth Cyber Initiative',kohls:"Kohl's",oracle:'Oracle REACH'};
  const entries = [...experienceRecords.filter(p => p.id !== 'fairfaxdb').map(p => p.id === 'fairfax' ? {...p, roles:[p,experienceRecords.find(r => r.id === 'fairfaxdb')]} : p), codepath];
- const priority = ['loudoun','capitalone','witomni','fairfax'];
- entries.sort((a,b) => (priority.includes(a.id) ? priority.indexOf(a.id) : 9) - (priority.includes(b.id) ? priority.indexOf(b.id) : 9));
+ // Sort by the latest role start within each book, keeping role progression chronological.
+ const latestStart = entry => entry.id === 'loudoun' ? '2026-04' :
+  (entry.roles || [entry]).reduce((latest, role) => (role.start || '') > latest ? role.start : latest, entry.start || '');
+ entries.sort((a,b) => latestStart(b).localeCompare(latestStart(a)));
  const topSkills = {
   "fairfax": [
     "Power Apps",
@@ -480,23 +482,43 @@ const loudounRoles = [
   ]
 };
  const highlights = /(?:\b(?:SQL Server|Power Apps|Power Pages|Power BI|Snowflake|Databricks|Python|QuickSight|Customer Assist AI|machine learning|computer vision|model drift|data pipelines|vehicle calibration|competitive AI\/ML fellowship)\b|\b\d[\d,]*(?:%|\+)|\b(?:first place|second place|hours to seconds)\b)/gi;
- const paragraphs = lines => lines.map(line => '<p>'+h(line).replace(highlights, match => '<strong>'+match+'</strong>')+'</p>').join('');
- function roleBlock(id, role, date, lines) {
-  const tags = topSkills[id].map(skill => '<li>'+h(skill)+'</li>').join('');
-  return '<article><h3>'+h(role)+'</h3><small>'+h(date)+'</small>'+paragraphs(lines)+'<h4>Top skills</h4><ul class="book-skills">'+tags+'</ul></article>';
+ const resumeDetails = {
+  bttai: [
+   'Built and evaluated classification and neural-network models using Python, Pandas, scikit-learn, TensorFlow, and Keras.',
+   'Built machine learning workflows covering preprocessing, feature engineering, cross-validation, hyperparameter tuning, evaluation, and responsible AI.'
+  ],
+  ai201: [
+   'Continued the CodePath AI Engineering sequence after AI110.',
+   'Across the fellowship, built 10+ AI applications using Claude Code and Python, applying RAG, agent workflows, vector embeddings, API integration, and model evaluation.'
+  ],
+  'loudoun3': ['Developing a Microsoft Teams agent that integrates ServiceNow and Jira requests to streamline IT service workflows.']
+ };
+ function rolesFor(entry) {
+  if (entry.id === 'loudoun') return loudounRoles.map((role,i) => ({
+   id:'loudoun'+(i+1), role:role.title, date:role.date
+  }));
+  return entry.roles || [entry];
  }
- function detail(entry) {
-  if (entry.id === 'loudoun') return loudounRoles.map((role, i) => {
-   const id = 'loudoun'+(i+1);
-   return roleBlock(id,role.title,role.date,fullDescriptions[id]);
+ function roleBlock(role) {
+  const source = fullDescriptions[role.id] || extra[role.id] || [role.description];
+  const lines = [...new Set([...source, ...(resumeDetails[role.id] || [])])];
+  const bullets = lines.flatMap(line => line.match(/[^.!?]+[.!?]+(?:\s|$)|[^.!?]+$/g) || [line])
+   .map(line => '<li>'+h(line.trim()).replace(highlights, match => '<strong>'+match+'</strong>')+'</li>').join('');
+  return '<article><h3>'+h(role.role)+'</h3><small>'+h(range(role))+'</small><ul class="book-description">'+bullets+'</ul></article>';
+ }
+ function skillGroups(roles) {
+  return roles.map(role => {
+   const tags = topSkills[role.id].map(skill => '<li>'+h(skill)+'</li>').join('');
+   const title = roles.length > 1 ? '<h4>'+h(role.role)+'</h4>' : '';
+   return '<div class="book-skill-group">'+title+'<ul class="book-skills">'+tags+'</ul></div>';
   }).join('');
-  return (entry.roles || [entry]).map(role => roleBlock(role.id,role.role,range(role),fullDescriptions[role.id] || extra[role.id] || [role.description])).join('');
  }
  function select(id, navigate = false) {
   const entry = entries.find(p => p.id === id);
   shelf.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.book === id)));
+  const roles = rolesFor(entry);
   const plaque = entry.plaque ? '<img class="book-plaque" alt="" src="assets/plaques/'+encodeURIComponent(entry.plaque)+'">' : '';
-  book.innerHTML = '<div class="book-page"><h2 tabindex="-1">'+h(labels[entry.id] || entry.name)+'</h2>'+detail(entry)+'</div><div class="book-page book-context">'+plaque+
+  book.innerHTML = '<div class="book-page"><h2 tabindex="-1">'+h(labels[entry.id] || entry.name)+'</h2>'+roles.map(roleBlock).join('')+'</div><div class="book-page book-context">'+plaque+'<h3>Top skills</h3>'+skillGroups(roles)+
    '<button type="button" class="book-back">Back to shelf</button></div>';
   book.querySelector('.book-back').onclick = () => shelf.querySelector('[aria-pressed="true"]').focus();
   if (navigate) book.querySelector('h2').focus({preventScroll:!matchMedia('(max-width: 780px)').matches});

@@ -221,3 +221,7 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .book-skills { display:flex; flex-wrap:wrap; gap:5px; list-style:none; margin:0; padding:0; }
 .book-skills li { background:#ecdbef; border-radius:5px; padding:3px 7px; font-size:12px; }
 @media(max-width:780px) { .book-spines span { max-height:112px; } }
+
+.book-description { margin:8px 0 0; padding-left:19px; font-size:14px; line-height:1.5; }
+.book-description li + li { margin-top:6px; }
+.book-skill-group + .book-skill-group { border-top:1px solid #e1cddb; padding-top:6px; }
