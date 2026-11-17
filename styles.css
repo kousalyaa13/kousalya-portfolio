@@ -157,3 +157,17 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 #project-gallery .project-art{height:172px}
 @media(max-width:800px){#project-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:570px){#project-gallery{grid-template-columns:1fr}#project-gallery .project-art{height:190px}}
+
+/* Compact, text-first gallery: all projects retain descriptions, skills and links. */
+#project-gallery{gap:15px;align-items:stretch}
+#project-gallery .compact-project{border:1.5px solid #d5c2f0;border-radius:14px;box-shadow:3px 4px 0 #e5d9f8;background:#fffdfb}
+#project-gallery .compact-project:hover{transform:translateY(-4px);box-shadow:4px 7px 0 #d9c8f3}
+#project-gallery .compact-project .project-inner{padding:18px 18px 16px}
+#project-gallery .compact-project h3{font-size:20px;line-height:1.22;margin:0 0 3px}
+#project-gallery .compact-project .project-subtitle{font-size:12px;min-height:0}
+#project-gallery .compact-project p{font-size:13px;line-height:1.5;margin:10px 0 13px;min-height:0;flex:1}
+#project-gallery .compact-project .project-tags{gap:5px;margin-bottom:12px}
+#project-gallery .compact-project .project-tags span{font-size:10px;padding:2px 7px}
+#project-gallery .compact-project .project-links{gap:8px}
+#project-gallery .compact-project .icon-link{width:36px;height:36px;padding:4px}
+#project-gallery .compact-project .uploaded-icon,#project-gallery .compact-project .custom-icon-holder{width:24px;height:24px}
