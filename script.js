@@ -310,12 +310,8 @@ const icons = {
 const repoUrl = name => name ? "https://github.com/" + owner + "/" + encodeURIComponent(name) : null;
 const escapeHTML = text => String(text).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function featureCard(p) {
-  const art = p.image
-    ? '<img loading="lazy" src="' + escapeHTML(p.image) + '" alt="Screenshot or diagram from ' + escapeHTML(p.title) + ' project" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'block\'"><span class="emoji" style="display:none">' + p.emoji + '</span>'
-    : '<span class="emoji" aria-hidden="true">' + p.emoji + '</span>';
-  const tags = (p.tags || []).map(t => '<span>' + escapeHTML(t) + '</span>').join("");
-  const link = projectLinks(p);
-  return '<article class="project-card"><div class="window-bar" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="project-inner"><div class="project-art">' + art + '</div><h3>' + escapeHTML(p.title) + '</h3><div class="project-subtitle">' + escapeHTML(p.subtitle) + '</div><p>' + escapeHTML(p.description) + '</p><div class="project-tags">' + tags + '</div><div class="project-links">' + link + '</div></div></article>';
+  const tags = (p.tags || []).slice(0, 5).map(t => '<span>' + escapeHTML(t) + '</span>').join("");
+  return '<article class="project-card compact-project"><div class="project-inner"><h3>' + escapeHTML(p.title) + '</h3><div class="project-subtitle">' + escapeHTML(p.subtitle || "") + '</div><p>' + escapeHTML(p.description) + '</p><div class="project-tags">' + tags + '</div><div class="project-links">' + projectLinks(p) + '</div></div></article>';
 }
 function projectLinks(p) {
   let links=[];
