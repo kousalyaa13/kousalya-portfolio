@@ -393,41 +393,39 @@ const journeyPlaques = {
 };
 const journeyArt = file => "assets/" + file.split("/").map(encodeURIComponent).join("/");
 
-/* Storybook chapters: four calm scenes instead of thirteen overlapping labels. */
+/* Chronological, responsive journey timeline. */
 (() => {
  const root=document.querySelector(".journey-v2");
  if(!root)return;
  const chapters=["2023","2024","2025","2026"];
- const slots=[{x:17,y:74},{x:38,y:45},{x:61,y:66},{x:82,y:35},{x:52,y:22}];
- const markers=document.getElementById("jv-markers"),avatar=document.getElementById("jv-avatar");
+ const timeline=document.getElementById("jt-timeline");
  const modal=document.getElementById("jv-modal"),body=document.getElementById("jv-dialog-body"),dialog=modal.querySelector(".jv-dialog");
- let year="2023",type="all",lastFocus=null;
+ let type="all",lastFocus=null;
  const imageFor=p=>journeyPlaques[p.id]?journeyArt("plaques/"+journeyPlaques[p.id]):null;
  function setActive(selector,key,value){
   document.querySelectorAll(selector).forEach(b=>{let active=b.dataset[key]===value;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active));});
  }
+ const chapterNames=["The first spark", "Finding my direction", "Building with purpose", "Bringing it all together"];
  function render(){
-  const items=journeyMilestones.filter(p=>p.year===year&&(type==="all"||p.type===type));
-  const positions=items.length===1?[slots[2]]:items.length===2?[slots[1],slots[3]]:items.length===3?[slots[0],slots[2],slots[3]]:items.length===4?[slots[0],slots[1],slots[2],slots[3]]:slots;
-  markers.innerHTML=items.map((p,i)=>'<button type="button" class="jv-marker" data-id="'+p.id+'" style="left:'+positions[i].x+'%;top:'+positions[i].y+'%" aria-label="Explore '+escapeHTML(p.name)+'"><span class="jv-sign">'+(imageFor(p)?'<img src="'+imageFor(p)+'" alt="">':'<span class="jv-plain-sign">'+escapeHTML(p.name)+'</span>')+'</span><span class="jv-marker-caption">'+escapeHTML(p.name)+'</span></button>').join("");
-  markers.querySelectorAll("button").forEach((b,i)=>b.addEventListener("click",()=>openMilestone(items[i],positions[i],b)));
-  document.getElementById("jv-chapter").textContent="chapter "+["one","two","three","four"][chapters.indexOf(year)]+" · "+year;
-  document.getElementById("jv-count").textContent=items.length+" milestone"+(items.length===1?"":"s")+" in "+year;
-  avatar.style.left=(positions[0]?.x??50)+"%";avatar.style.top=(positions[0]?.y??50)+"%";
-  setActive(".jv-year","year",year);setActive(".jv-filter","type",type);
+  const items=journeyMilestones.filter(p=>type==="all"||p.type===type);
+  timeline.innerHTML=chapters.map((year,index)=>{
+   const entries=items.filter(p=>p.year===year);
+   if(!entries.length)return "";
+   return '<section class="jt-chapter" aria-labelledby="chapter-'+year+'"><div class="jt-year"><span class="jt-chapter-number">CHAPTER 0'+(index+1)+'</span><h3 id="chapter-'+year+'">'+year+'</h3><p>'+chapterNames[index]+'</p></div><div class="jt-cards">'+entries.map(p=>'<button type="button" class="jt-card" data-id="'+p.id+'" aria-haspopup="dialog"><span class="jt-card-top"><span class="jt-kind '+p.type+'">'+(p.type==="work"?'WORK':'PROGRAM')+'</span><span class="jt-date">'+escapeHTML(p.date)+'</span></span><span class="jt-card-main"><span class="jt-art">'+(imageFor(p)?'<img src="'+imageFor(p)+'" alt="" loading="lazy">':'<span aria-hidden="true">✦</span>')+'</span><span class="jt-card-heading"><span class="jt-company">'+escapeHTML(p.name)+'</span><span class="jt-role">'+escapeHTML(p.role)+'</span></span></span><span class="jt-description">'+escapeHTML(p.description)+'</span><span class="jt-card-footer"><span>'+p.skills.slice(0,2).map(escapeHTML).join(' · ')+'</span><span class="jt-open">Explore <span aria-hidden="true">↗</span></span></span></button>').join("")+'</div></section>';
+  }).join("");
+  timeline.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>openMilestone(items.find(p=>p.id===b.dataset.id),b)));
+  document.getElementById("jv-count").textContent=items.length+" experiences · 2023–2026";
+  setActive(".jv-filter","type",type);
  }
- function openMilestone(p,pos,button){
-  lastFocus=button;avatar.style.left=pos.x+"%";avatar.style.top=pos.y+"%";
+ function openMilestone(p,button){
+  lastFocus=button;
   body.innerHTML='<div class="jv-dialog-content"><div class="jv-dialog-logo">'+(imageFor(p)?'<img src="'+imageFor(p)+'" alt="">':p.icon)+'</div><div class="jv-dialog-meta">'+escapeHTML(p.year)+' · '+(p.type==="work"?"work experience":"program & fellowship")+'</div><h3 id="jv-title">'+escapeHTML(p.name)+'</h3><strong>'+escapeHTML(p.role)+'</strong><div class="jv-dialog-date">'+escapeHTML(p.date)+'</div><p>'+escapeHTML(p.description)+'</p><div class="jv-skill-heading">✦ skills & experiences</div><div class="jv-skills">'+p.skills.map(t=>'<span>'+escapeHTML(t)+'</span>').join("")+'</div></div>';
   modal.hidden=false;document.body.classList.add("jv-modal-open");dialog.focus();
  }
  function close(){modal.hidden=true;document.body.classList.remove("jv-modal-open");lastFocus?.focus();}
- document.querySelectorAll(".jv-year").forEach(b=>b.addEventListener("click",()=>{year=b.dataset.year;render();}));
  document.querySelectorAll(".jv-filter").forEach(b=>b.addEventListener("click",()=>{type=b.dataset.type;render();}));
- document.getElementById("jv-prev").addEventListener("click",()=>{year=chapters[(chapters.indexOf(year)+3)%4];render();});
- document.getElementById("jv-next").addEventListener("click",()=>{year=chapters[(chapters.indexOf(year)+1)%4];render();});
  document.getElementById("jv-close").addEventListener("click",close);
  modal.querySelector(".jv-backdrop").addEventListener("click",close);
- document.addEventListener("keydown",e=>{if(modal.hidden)return;if(e.key==="Escape")close();if(e.key==="Tab"){const nodes=[...dialog.querySelectorAll("button,[href],[tabindex]:not([tabindex='-1'])")];if(!nodes.length)return;const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+ document.addEventListener("keydown",e=>{if(modal.hidden)return;if(e.key==="Escape")close();if(e.key==="Tab"){const nodes=[...dialog.querySelectorAll("button,[href],[tabindex]:not([tabindex='-1'])")];if(!nodes.length)return;const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&(document.activeElement===first||document.activeElement===dialog)){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
  render();
 })();

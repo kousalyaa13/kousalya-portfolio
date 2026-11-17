@@ -60,21 +60,13 @@
     <section class="section lavender-section journey-v2" id="experience">
       <div class="wrap">
         <div class="section-head"><div><div class="mini-label">MY JOURNEY ✿</div><h2>little steps, big adventures 🌷</h2><p>The work, programs, and people that shaped how I build.</p></div></div>
-        <div class="jv-toolbar">
-          <div class="jv-years" role="group" aria-label="Choose journey chapter"><button class="jv-year active" data-year="2023" aria-pressed="true">2023</button><button class="jv-year" data-year="2024" aria-pressed="false">2024</button><button class="jv-year" data-year="2025" aria-pressed="false">2025</button><button class="jv-year" data-year="2026" aria-pressed="false">2026</button></div>
-          <div class="jv-filters" role="group" aria-label="Filter milestones"><button class="jv-filter active" data-type="all" aria-pressed="true">All</button><button class="jv-filter" data-type="work" aria-pressed="false">Work</button><button class="jv-filter" data-type="program" aria-pressed="false">Programs</button></div>
+        <div class="jt-toolbar">
+          <span class="jt-note">A little more curious with every chapter.</span>
+          <div class="jv-filters" role="group" aria-label="Filter milestones"><button class="jv-filter active" data-type="all" aria-pressed="true">All experiences</button><button class="jv-filter" data-type="work" aria-pressed="false">Work</button><button class="jv-filter" data-type="program" aria-pressed="false">Programs</button></div>
         </div>
-        <div class="jv-world" id="journey-world">
-          <div class="jv-sky"></div><div class="jv-mountains"></div><div class="jv-meadow"></div>
-          <svg class="jv-road" viewBox="0 0 1200 600" preserveAspectRatio="none" aria-hidden="true"><path d="M-50 520 C140 490 220 540 340 450 S470 300 610 350 S780 490 855 315 S1020 150 1250 120"/></svg>
-          <img class="jv-prop jv-cherry-left" src="assets/backgrounds/cherry_blossom.png" alt=""><img class="jv-prop jv-cherry-right" src="assets/backgrounds/cherry_blossom.png" alt="">
-          <img class="jv-prop jv-office" src="assets/buildings/office.png" alt=""><img class="jv-prop jv-academy" src="assets/buildings/academy.png" alt=""><img class="jv-prop jv-university" src="assets/buildings/university.png" alt=""><img class="jv-prop jv-cottage" src="assets/buildings/cottage.png" alt="">
-          <img class="jv-prop jv-tree" src="assets/backgrounds/green_tree.png" alt=""><img class="jv-prop jv-flowers" src="assets/backgrounds/flowers1.png" alt=""><img class="jv-prop jv-butterfly" src="assets/decorations/butterfly.png" alt="">
-          <div class="jv-markers" id="jv-markers"></div><img class="jv-avatar" id="jv-avatar" src="assets/characters/standing.png" alt="">
-          <div class="jv-chapter" id="jv-chapter">chapter one · 2023</div>
-          <div class="jv-hint">✦ click a village sign to explore ✦</div>
-        </div>
-        <div class="jv-bottom"><button id="jv-prev" type="button">← previous chapter</button><span id="jv-count" role="status"></span><button id="jv-next" type="button">next chapter →</button></div>
+        <p class="jt-count" id="jv-count" role="status" aria-live="polite"></p>
+        <div class="jt-timeline" id="jt-timeline"></div>
+        <div class="jt-ending"><span aria-hidden="true">✦</span> still learning, still building, still blooming.</div>
       </div>
       <div class="jv-modal" id="jv-modal" hidden><div class="jv-backdrop" data-close="true"></div><div class="jv-dialog" role="dialog" aria-modal="true" aria-labelledby="jv-title" tabindex="-1"><div class="jv-dialog-head"><span>● &nbsp;● &nbsp;●</span><span>✦ milestone unlocked</span><button id="jv-close" type="button" aria-label="Close milestone">×</button></div><div id="jv-dialog-body"></div></div></div>
     </section>
