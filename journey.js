@@ -481,90 +481,37 @@ const loudounRoles = [
   document.getElementById('issuer-buttons').append(button);
  }
  const globe = document.querySelector('.gumball-globe');
+ const balls = [...globe.querySelectorAll('.issuer-gumball')];
  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
- const balls = [...globe.querySelectorAll('.issuer-gumball')].map(button => ({
-  button, x:0, y:0, vx:0, vy:0
- }));
- let frame = 0;
- let previousTime = 0;
- const machine = globe.closest('.gumball-machine');
- let pointerNearby = false;
- let touchUntil = 0;
- function animateBalls(time) {
-  const dt = previousTime ? Math.min((time-previousTime)/16.67,2) : 1;
-  previousTime = time;
-  const bounds = globe.getBoundingClientRect();
-  let moving = false;
-  for (const ball of balls) {
-   const {button} = ball;
-   if (reducedMotion.matches) ball.x = ball.y = ball.vx = ball.vy = 0;
-   const rect = button.getBoundingClientRect();
-   const homeX = rect.left + rect.width/2 - ball.x - bounds.left - bounds.width/2;
-   const homeY = rect.top + rect.height/2 - ball.y - bounds.top - bounds.height/2;
-   ball.vx = (ball.vx - ball.x*0.012*dt) * Math.pow(0.94,dt);
-   ball.vy = (ball.vy - ball.y*0.012*dt) * Math.pow(0.94,dt);
-   ball.x += ball.vx*dt;
-   ball.y += ball.vy*dt;
-   const x = homeX+ball.x, y = homeY+ball.y;
-   const distance = Math.hypot(x,y);
-   const radius = Math.min(bounds.width,bounds.height)/2 - rect.width/2 - 5;
-   if (distance > radius && radius > 0 && (ball.x || ball.y)) {
-    const nx = x/distance, ny = y/distance;
-    ball.x = nx*radius-homeX;
-    ball.y = ny*radius-homeY;
-    const outward = ball.vx*nx + ball.vy*ny;
-    if (outward > 0) {
-     ball.vx -= 1.75*outward*nx;
-     ball.vy -= 1.75*outward*ny;
-    }
-   }
-   if (Math.abs(ball.x)+Math.abs(ball.y)+Math.abs(ball.vx)+Math.abs(ball.vy) < 0.45) {
-    ball.x = ball.y = ball.vx = ball.vy = 0;
-   } else moving = true;
-   button.style.translate = ball.x+'px '+ball.y+'px';
-  }
-  frame = moving ? requestAnimationFrame(animateBalls) : 0;
-  if (!moving) previousTime = 0;
- }
+ const bounces = new WeakMap();
+ let lastBounce = 0;
 
- function settleBalls() {
-  cancelAnimationFrame(frame);
-  frame = previousTime = 0;
+ function nudgeGumballs(event) {
+  if (reducedMotion.matches || (event.type === 'pointermove' && event.pointerType === 'touch' && !event.buttons)) return;
+  const now = performance.now();
+  if (event.type === 'pointermove' && now - lastBounce < 45) return;
+  lastBounce = now;
   for (const ball of balls) {
-   ball.x = ball.y = ball.vx = ball.vy = 0;
-   ball.button.style.translate = '';
+   if (bounces.get(ball)?.playState === 'running') continue;
+   const rect = ball.getBoundingClientRect();
+   const dx = rect.left + rect.width / 2 - event.clientX;
+   const dy = rect.top + rect.height / 2 - event.clientY;
+   const distance = Math.hypot(dx, dy);
+   const reach = rect.width * 1.5;
+   if (distance >= reach) continue;
+   const strength = (1 - distance / reach) * Math.min(5, rect.width * 0.1);
+   const x = distance > 1 ? dx / distance * strength : 0;
+   const y = distance > 1 ? dy / distance * strength : -strength;
+   bounces.set(ball, ball.animate([
+    { translate: '0 0' },
+    { translate: x+'px '+y+'px', offset: 0.28 },
+    { translate: (-x*0.35)+'px '+(-y*0.35)+'px', offset: 0.64 },
+    { translate: '0 0' }
+   ], { duration: 420, easing: 'ease-out' }));
   }
  }
-
- function idleBounce() {
-  if (reducedMotion.matches || document.hidden || pointerNearby ||
-      machine.matches(':focus-within') || dialog.open || performance.now() < touchUntil) return;
-  const bounds = globe.getBoundingClientRect();
-  if (bounds.bottom <= 0 || bounds.top >= innerHeight) return;
-  for (const ball of balls) {
-   const angle = Math.random()*Math.PI*2;
-   const speed = 2.5+Math.random()*3;
-   ball.vx = Math.cos(angle)*speed;
-   ball.vy = Math.sin(angle)*speed;
-  }
-  if (!frame) frame = requestAnimationFrame(animateBalls);
- }
-
- machine.addEventListener('pointerenter', event => {
-  if (event.pointerType === 'touch') return;
-  pointerNearby = true;
-  settleBalls();
- });
- machine.addEventListener('pointerleave', event => {
-  if (event.pointerType !== 'touch') pointerNearby = false;
- });
- globe.addEventListener('pointerdown', event => {
-  if (event.pointerType === 'touch') touchUntil = performance.now()+1800;
-  settleBalls();
- });
- machine.addEventListener('focusin', settleBalls);
- reducedMotion.addEventListener('change', settleBalls);
- setInterval(idleBounce, 1500);
+ globe.addEventListener('pointerdown', nudgeGumballs);
+ globe.addEventListener('pointermove', nudgeGumballs);
  function relatedCredentials(bookId) {
   const ids = {att:['att'], codepath:['ai110','ai201'], bttai:['cornell']}[bookId] || [];
   if (!ids.length) return '';
