@@ -392,25 +392,42 @@ const journeyPlaques = {
  bttai:"break_through_tech.png",witomni:"witomni.png",nrg:"national_research_group.png"
 };
 const journeyArt = file => "assets/" + file.split("/").map(encodeURIComponent).join("/");
-const journeyStops = document.getElementById("journey-stops");
-const journeyDetail = document.getElementById("journey-detail");
-if (journeyStops && journeyDetail) {
- let selected = "capitalone", filter = "all";
- function showJourneyDetail() {
-  const p = journeyMilestones.find(m=>m.id===selected);
-  if (!p) return;
-  journeyDetail.innerHTML = '<div class="journey-window-top"><span>● &nbsp;● &nbsp;●</span><span>✦ milestone unlocked</span></div><div class="journey-window-body"><div class="journey-detail-icon">'+(journeyPlaques[p.id]?'<img src="'+journeyArt("plaques/"+journeyPlaques[p.id])+'" alt="">':p.icon)+'</div><div class="journey-year">'+escapeHTML(p.year)+' · '+(p.type==="work"?"Work experience":"Program & fellowship")+'</div><h3>'+escapeHTML(p.name)+'</h3><div class="journey-role">'+escapeHTML(p.role)+'</div><div class="journey-date">'+escapeHTML(p.date)+'</div><p>'+escapeHTML(p.description)+'</p><div class="journey-skill-label">✦ Skills & experiences</div><div class="journey-skills">'+p.skills.map(t=>'<span>'+escapeHTML(t)+'</span>').join("")+'</div></div>';
+
+/* Storybook chapters: four calm scenes instead of thirteen overlapping labels. */
+(() => {
+ const root=document.querySelector(".journey-v2");
+ if(!root)return;
+ const chapters=["2023","2024","2025","2026"];
+ const slots=[{x:17,y:74},{x:38,y:45},{x:61,y:66},{x:82,y:35},{x:52,y:22}];
+ const markers=document.getElementById("jv-markers"),avatar=document.getElementById("jv-avatar");
+ const modal=document.getElementById("jv-modal"),body=document.getElementById("jv-dialog-body"),dialog=modal.querySelector(".jv-dialog");
+ let year="2023",type="all",lastFocus=null;
+ const imageFor=p=>journeyPlaques[p.id]?journeyArt("plaques/"+journeyPlaques[p.id]):null;
+ function setActive(selector,key,value){
+  document.querySelectorAll(selector).forEach(b=>{let active=b.dataset[key]===value;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active));});
  }
- function renderJourney() {
-  const visible = journeyMilestones.filter(m=>filter==="all"||m.type===filter);
-  if (!visible.some(m=>m.id===selected)) selected=visible[0]?.id;
-  journeyStops.innerHTML=visible.map(m=>'<button type="button" class="journey-stop '+(m.id===selected?'selected':'')+'" style="left:'+m.x+'%;top:'+m.y+'%" data-stop="'+m.id+'" aria-pressed="'+(m.id===selected)+'" aria-label="Explore '+escapeHTML(m.name)+'"><span class="journey-stop-icon">'+m.icon+'</span><span class="journey-stop-name">'+escapeHTML(m.name)+'</span><span class="journey-stop-year">'+escapeHTML(m.year)+'</span></button>').join("");
-  journeyStops.querySelectorAll(".journey-stop").forEach(b=>b.addEventListener("click",()=>{selected=b.dataset.stop;renderJourney();}));
-  const p=journeyMilestones.find(m=>m.id===selected);
-  const avatar=document.querySelector(".journey-character");
-  if(p&&avatar){avatar.style.left=p.x+"%";avatar.style.top=p.y+"%";}
-  showJourneyDetail();
+ function render(){
+  const items=journeyMilestones.filter(p=>p.year===year&&(type==="all"||p.type===type));
+  const positions=items.length===1?[slots[2]]:items.length===2?[slots[1],slots[3]]:items.length===3?[slots[0],slots[2],slots[3]]:items.length===4?[slots[0],slots[1],slots[2],slots[3]]:slots;
+  markers.innerHTML=items.map((p,i)=>'<button type="button" class="jv-marker" data-id="'+p.id+'" style="left:'+positions[i].x+'%;top:'+positions[i].y+'%" aria-label="Explore '+escapeHTML(p.name)+'"><span class="jv-sign">'+(imageFor(p)?'<img src="'+imageFor(p)+'" alt="">':'<span class="jv-plain-sign">'+escapeHTML(p.name)+'</span>')+'</span><span class="jv-marker-caption">'+escapeHTML(p.name)+'</span></button>').join("");
+  markers.querySelectorAll("button").forEach((b,i)=>b.addEventListener("click",()=>openMilestone(items[i],positions[i],b)));
+  document.getElementById("jv-chapter").textContent="chapter "+["one","two","three","four"][chapters.indexOf(year)]+" · "+year;
+  document.getElementById("jv-count").textContent=items.length+" milestone"+(items.length===1?"":"s")+" in "+year;
+  avatar.style.left=(positions[0]?.x??50)+"%";avatar.style.top=(positions[0]?.y??50)+"%";
+  setActive(".jv-year","year",year);setActive(".jv-filter","type",type);
  }
- document.querySelectorAll(".journey-filter").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.journeyFilter;document.querySelectorAll(".journey-filter").forEach(x=>{x.classList.toggle("active",x===b);x.setAttribute("aria-pressed",String(x===b));});renderJourney();}));
- renderJourney();
-}
+ function openMilestone(p,pos,button){
+  lastFocus=button;avatar.style.left=pos.x+"%";avatar.style.top=pos.y+"%";
+  body.innerHTML='<div class="jv-dialog-content"><div class="jv-dialog-logo">'+(imageFor(p)?'<img src="'+imageFor(p)+'" alt="">':p.icon)+'</div><div class="jv-dialog-meta">'+escapeHTML(p.year)+' · '+(p.type==="work"?"work experience":"program & fellowship")+'</div><h3 id="jv-title">'+escapeHTML(p.name)+'</h3><strong>'+escapeHTML(p.role)+'</strong><div class="jv-dialog-date">'+escapeHTML(p.date)+'</div><p>'+escapeHTML(p.description)+'</p><div class="jv-skill-heading">✦ skills & experiences</div><div class="jv-skills">'+p.skills.map(t=>'<span>'+escapeHTML(t)+'</span>').join("")+'</div></div>';
+  modal.hidden=false;document.body.classList.add("jv-modal-open");dialog.focus();
+ }
+ function close(){modal.hidden=true;document.body.classList.remove("jv-modal-open");lastFocus?.focus();}
+ document.querySelectorAll(".jv-year").forEach(b=>b.addEventListener("click",()=>{year=b.dataset.year;render();}));
+ document.querySelectorAll(".jv-filter").forEach(b=>b.addEventListener("click",()=>{type=b.dataset.type;render();}));
+ document.getElementById("jv-prev").addEventListener("click",()=>{year=chapters[(chapters.indexOf(year)+3)%4];render();});
+ document.getElementById("jv-next").addEventListener("click",()=>{year=chapters[(chapters.indexOf(year)+1)%4];render();});
+ document.getElementById("jv-close").addEventListener("click",close);
+ modal.querySelector(".jv-backdrop").addEventListener("click",close);
+ document.addEventListener("keydown",e=>{if(modal.hidden)return;if(e.key==="Escape")close();if(e.key==="Tab"){const nodes=[...dialog.querySelectorAll("button,[href],[tabindex]:not([tabindex='-1'])")];if(!nodes.length)return;const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+ render();
+})();
