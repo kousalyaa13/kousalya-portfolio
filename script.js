@@ -367,3 +367,43 @@ mascot.addEventListener("click",()=>{
   mascot.hideTimeout=window.setTimeout(()=>mascot.classList.remove("talking"),3000);
 });
 document.getElementById("year").textContent=String(new Date().getFullYear());
+
+
+/* Storybook journey: editable work and program milestones. */
+const journeyMilestones = [
+ {id:"fairfax",type:"work",year:"2023",x:10,y:83,icon:"🏛️",name:"Fairfax County Government",role:"Business Applications Intern",date:"Jun 2023 – Jun 2024",description:"Modernized enterprise applications, developed a Power Apps print workflow, and explored infrastructure systems including VMware, DNS, and Active Directory.",skills:["Power Apps","JavaScript","Infrastructure","Automation"]},
+ {id:"markcuban",type:"program",year:"2023",x:22,y:72,icon:"🎓",name:"Mark Cuban Foundation",role:"AI Bootcamp",date:"2023",description:"Explored foundational artificial intelligence concepts and practical applications through an educational bootcamp.",skills:["AI","Learning"]},
+ {id:"obscurity",type:"work",year:"2024",x:14,y:51,icon:"🔬",name:"Obscurity Labs",role:"Security Product Development Intern",date:"Summer 2024",description:"Worked with drone telemetry, software-defined radio, MAVLink, and computer vision to explore security applications.",skills:["Python","GNU Radio","MAVLink","Computer Vision"]},
+ {id:"fire",type:"program",year:"2024",x:36,y:62,icon:"🌟",name:"UMD FIRE",role:"Computing & Society Research",date:"2024",description:"Explored computing and its broader societal implications through undergraduate research.",skills:["Research","Computing"]},
+ {id:"bttguild",type:"program",year:"2024",x:28,y:39,icon:"📚",name:"Break Through Tech",role:"Summer Guild",date:"2024",description:"Participated in a technology-focused learning community and explored pathways into technical careers.",skills:["Technology","Career Development"]},
+ {id:"loudoun",type:"work",year:"2025",x:52,y:55,icon:"🏢",name:"Loudoun County Government",role:"Junior Data Analyst",date:"Jun 2025 – Present",description:"Built end-to-end departmental tools, SQL-backed applications, and Power BI dashboards to replace manual workflows and improve operations.",skills:["SQL Server","Power Apps","Power BI","Dataverse","Python"]},
+ {id:"umdta",type:"work",year:"2025",x:48,y:79,icon:"🏫",name:"University of Maryland",role:"Database Design Teaching Assistant",date:"Fall 2025",description:"Supported students learning relational database concepts and SQL in INST327.",skills:["SQL","Database Design","Teaching"]},
+ {id:"oracle",type:"program",year:"2025",x:65,y:72,icon:"🎓",name:"Oracle REACH",role:"Career Development Program",date:"2025",description:"Participated in a professional development program exploring technology careers.",skills:["Professional Development","Technology"]},
+ {id:"codepath",type:"program",year:"2025",x:57,y:31,icon:"💻",name:"CodePath",role:"AI Engineering Program",date:"2025–2026",description:"Expanded practical AI engineering skills through project-based technical learning.",skills:["AI Engineering","Python","LLMs"]},
+ {id:"capitalone",type:"work",year:"2026",x:83,y:19,icon:"🏦",name:"Capital One",role:"Data Analyst Intern",date:"Summer 2026",description:"Built Snowflake SQL quality controls, a daily Databricks pipeline, and a centralized analytics table for Customer Assist AI used by 20+ teams.",skills:["Snowflake","SQL","Databricks","ETL","QuickSight"]},
+ {id:"bttai",type:"program",year:"2026",x:71,y:38,icon:"✨",name:"Break Through Tech AI",role:"AI Fellow",date:"2026",description:"Selected for an AI fellowship emphasizing hands-on machine learning and industry-aligned project work.",skills:["Machine Learning","AI","Teamwork"]},
+ {id:"witomni",type:"work",year:"2026",x:85,y:52,icon:"🤖",name:"witOmni",role:"AI Engineering Intern",date:"Aug 2026 – Present",description:"Developing a repurchase prediction classifier using more than 500,000 transactions and customer behavior features.",skills:["Python","Machine Learning","RFM","Classification"]},
+ {id:"nrg",type:"program",year:"2024",x:32,y:17,icon:"📈",name:"National Research Group",role:"Program Experience",date:"2024",description:"A milestone in my early exploration of technology and professional opportunities.",skills:["Professional Development"]}
+];
+const journeyStops = document.getElementById("journey-stops");
+const journeyDetail = document.getElementById("journey-detail");
+if (journeyStops && journeyDetail) {
+ let selected = "capitalone", filter = "all";
+ function showJourneyDetail() {
+  const p = journeyMilestones.find(m=>m.id===selected);
+  if (!p) return;
+  journeyDetail.innerHTML = '<div class="journey-window-top"><span>● &nbsp;● &nbsp;●</span><span>✦ milestone unlocked</span></div><div class="journey-window-body"><div class="journey-detail-icon">'+p.icon+'</div><div class="journey-year">'+escapeHTML(p.year)+' · '+(p.type==="work"?"Work experience":"Program & fellowship")+'</div><h3>'+escapeHTML(p.name)+'</h3><div class="journey-role">'+escapeHTML(p.role)+'</div><div class="journey-date">'+escapeHTML(p.date)+'</div><p>'+escapeHTML(p.description)+'</p><div class="journey-skill-label">✦ Skills & experiences</div><div class="journey-skills">'+p.skills.map(t=>'<span>'+escapeHTML(t)+'</span>').join("")+'</div></div>';
+ }
+ function renderJourney() {
+  const visible = journeyMilestones.filter(m=>filter==="all"||m.type===filter);
+  if (!visible.some(m=>m.id===selected)) selected=visible[0]?.id;
+  journeyStops.innerHTML=visible.map(m=>'<button type="button" class="journey-stop '+(m.id===selected?'selected':'')+'" style="left:'+m.x+'%;top:'+m.y+'%" data-stop="'+m.id+'" aria-pressed="'+(m.id===selected)+'" aria-label="Explore '+escapeHTML(m.name)+'"><span class="journey-stop-icon">'+m.icon+'</span><span class="journey-stop-name">'+escapeHTML(m.name)+'</span><span class="journey-stop-year">'+escapeHTML(m.year)+'</span></button>').join("");
+  journeyStops.querySelectorAll(".journey-stop").forEach(b=>b.addEventListener("click",()=>{selected=b.dataset.stop;renderJourney();}));
+  const p=journeyMilestones.find(m=>m.id===selected);
+  const avatar=document.querySelector(".journey-character");
+  if(p&&avatar){avatar.style.left=p.x+"%";avatar.style.top=p.y+"%";}
+  showJourneyDetail();
+ }
+ document.querySelectorAll(".journey-filter").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.journeyFilter;document.querySelectorAll(".journey-filter").forEach(x=>{x.classList.toggle("active",x===b);x.setAttribute("aria-pressed",String(x===b));});renderJourney();}));
+ renderJourney();
+}
