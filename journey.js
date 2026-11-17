@@ -201,7 +201,7 @@ const experienceRecords = [
     "id": "capitalone",
     "type": "work",
     "start": "2026-06",
-    "end": null,
+    "end": "2026-08",
     "name": "Capital One",
     "role": "Data Analyst Intern",
     "description": "Built SQL quality controls, an analytics table used by 20+ teams, and a daily Databricks pipeline with 86+ columns.",
