@@ -473,11 +473,14 @@ const loudounRoles = [
   const label = wordmarks[issuer] || issuer;
   button.className = 'issuer-gumball';
   button.textContent = label;
-  const logo = new Image();
-  logo.alt = '';
-  const logoName = label.toLowerCase().replace('&','and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  logo.addEventListener('load', () => button.replaceChildren(logo), {once:true});
-  logo.src = 'assets/issuer-logos/'+logoName+'.png';
+  const filenames = {"anthropic":"anthropic_logo.png","at&t":"at&t_logo.webp","autodesk":"autodesk_logo.png","aws":"aws_logo.webp","codepath":"codepath_logo.png","cornell":"cornell_tech_logo.png","google":"google_logo.jpg","leetcode":"leetcode_logo.png","meta":"meta_logo.png","microsoft":"microsoft_logo.png","nrf":"nrf_logo.png","openai":"openai_logo.svg","oracle":"oracle_logo.png","servicenow":"servicenow_logo.png","snowflake":"snowflake_logo.png","tryhackme":"try_hack_me_logo.png"};
+  const filename = filenames[label.toLowerCase()];
+  if (filename) {
+   const logo = new Image();
+   logo.alt = '';
+   logo.addEventListener('load', () => button.replaceChildren(logo), {once:true});
+   logo.src = 'assets/logos/'+encodeURIComponent(filename);
+  }
   button.setAttribute('aria-label', issuer);
   button.setAttribute('aria-haspopup','dialog');
   button.addEventListener('click',()=>openCredentials(issuer));
