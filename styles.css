@@ -240,13 +240,23 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .reference-dialog blockquote p + p { margin-top:12px; }
 
 .certs { position:relative; }
-.cert-controls { display:flex; justify-content:flex-end; gap:8px; margin-bottom:8px; }
-.cert-controls button { min-width:44px; min-height:44px; border:1px solid #bea4cc; border-radius:8px; background:#f3e6f4; color:#492f55; cursor:pointer; }
-.cert-carousel { display:flex; gap:12px; overflow-x:auto; scroll-snap-type:x proximity; list-style:none; padding:4px 4px 12px; margin:0; }
-.cert-carousel li { flex:0 0 min(275px, 85%); display:flex; flex-direction:column; gap:8px; scroll-snap-align:start; border:1px solid #d6bde2; border-radius:12px; padding:16px; background:#fff8eb; color:#492f55; }
-.cert-carousel li:focus { outline:2px solid #765683; outline-offset:1px; }
-.cert-carousel span,.cert-carousel small { color:#6b4d76; font-size:12px; }
-.cert-carousel strong { flex:1; }
 .book-context .book-credentials { display:grid; gap:7px; }
 .book-credentials a,.book-credentials small { display:block; }
 .book-credentials a { text-decoration:underline; }
+
+.cert-bubbles { display:grid; grid-template-columns:minmax(0,1.55fr) minmax(0,1fr); align-items:center; gap:24px; }
+.earned-bubble,.exploring-bubble { border-radius:48px; padding:clamp(20px,4vw,42px); color:#492f55; }
+.earned-bubble { background:#ede0f4; }
+.exploring-bubble { background:#e7edd9; border-radius:50%; min-height:250px; display:grid; place-content:center; text-align:center; }
+.cert-bubbles h4 { font-size:23px; margin:0 0 12px; }
+.issuer-buttons { display:grid; grid-template-columns:repeat(auto-fit,minmax(86px,1fr)); gap:10px; }
+.issuer-buttons button { min-height:72px; border:1px solid #bea4cc; border-radius:50%; background:#fffaf2; color:#492f55; font-weight:800; padding:10px; overflow-wrap:anywhere; cursor:pointer; }
+.issuer-buttons button:hover { background:#fff; border-color:#765683; }
+.earned-bubble summary { cursor:pointer; margin:12px 0; font-weight:700; }
+.exploring-bubble ul { padding:0; margin:0; list-style:none; }
+.exploring-bubble li { background:#fffaf2; border-radius:12px; padding:9px 14px; margin-top:7px; }
+.credential-detail { border:1px solid #d6bde2; border-radius:12px; padding:14px; margin-top:10px; }
+.credential-detail h5 { margin:0; font-size:16px; }
+.credential-detail p { margin:4px 0 8px; font-size:12px; }
+.credential-detail a,.credential-detail small { display:inline-block; margin-top:8px; }
+@media(max-width:750px) { .cert-bubbles { grid-template-columns:1fr; } .exploring-bubble { border-radius:36px; min-height:0; } }

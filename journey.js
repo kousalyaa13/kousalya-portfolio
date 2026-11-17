@@ -284,19 +284,205 @@ const loudounRoles = [
   ["powerpoint","Microsoft Office Specialist: PowerPoint Certification","Microsoft","May 2021"],
   ["word","Microsoft Office Specialist: Word Certification","Microsoft","May 2021"]
  ];
- const credentialShelf = document.getElementById('cert-carousel');
- credentialShelf.innerHTML = credentials.map(([id,title,issuer,issued,expires]) =>
-  '<li id="credential-'+id+'" tabindex="-1"><span>'+escapeHTML(issuer)+'</span><strong>'+escapeHTML(title)+'</strong><small>Issued '+issued+(expires?' · Expires '+expires:'')+'</small></li>'
- ).join('');
- document.querySelectorAll('[data-cert-step]').forEach(button => button.addEventListener('click', () => {
-  credentialShelf.scrollBy({left:Number(button.dataset.certStep)*credentialShelf.clientWidth*0.85,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
- }));
+ const credentialLinks = {
+  "aws-ai": "https://www.credly.com/badges/b6818726-d290-43a6-a046-65dd21b8da0d/linked_in_profile",
+  "claude": "https://verify.skilljar.com/c/zn6ekxs2wk92",
+  "fluency": "https://verify.skilljar.com/c/rsrcqwi3c4yk",
+  "openai": "https://oaiacademy.credential.net/cd6e06f8-8c8c-44ce-b725-c82bea6b3d6b?key=cac046b6478572ea5c0e8ea1a89c5e98fd7340dd73ec237fb693d84225c8316f",
+  "cornell": "https://mycredentials.ecornell.cornell.edu/mycredential/EGeuQbilPE",
+  "att": "https://www.credly.com/badges/de6c0688-d48e-472a-90ba-ba7cd698e04e",
+  "snowpro": "https://achieve.snowflake.com/74a84d65-e9f8-4b41-abfe-f4cfb3cda769",
+  "ibm-de": "https://www.coursera.org/account/accomplishments/records/YFQD5HBHCUZE",
+  "power-platform": "https://learn.microsoft.com/api/credentials/share/en-us/KousalyaPotti-8565/BF6F679795C038B3?sharingId",
+  "google-ai": "https://www.coursera.org/account/accomplishments/records/M3TSE7I8QGNY",
+  "aws-cloud": "https://www.credly.com/badges/cd3b0cf0-0626-48de-9adc-1102fc571079/linked_in_profile",
+  "citi": "https://www.citiprogram.org/verify/?w28e16c92-f178-4e9d-b3be-8d537fa77e47-68724383",
+  "tryhackme": "https://tryhackme.com/kousalyap/badges/intro-to-pentesting",
+  "pl900": "https://learn.microsoft.com/api/achievements/share/en-us/KousalyaPotti-8565/QTS5256E?sharingId=11BB235EC04BE87",
+  "google-pm": "https://coursera.org/verify/0IOKS3OWDIHB",
+  "ibm-sql": "https://coursera.org/verify/NQKKZE8BDTWJ",
+  "meta": "https://coursera.org/verify/9FAKPYLJ7NBN",
+  "sql50": "https://leetcode.com/medal/?showImg=0&id=7295343&isLevel=false"
+};
+ const credentialSkills = {
+  "aws-ai": [
+    "Amazon Bedrock",
+    "SageMaker",
+    "Responsible AI"
+  ],
+  "claude": [
+    "Claude",
+    "Prompt design",
+    "AI collaboration"
+  ],
+  "fluency": [
+    "AI delegation",
+    "Prompt direction",
+    "Output evaluation"
+  ],
+  "openai": [
+    "AI literacy",
+    "Prompting",
+    "Responsible use"
+  ],
+  "ai201": [
+    "RAG",
+    "AI agents",
+    "Vector embeddings",
+    "Model evaluation"
+  ],
+  "nask": [
+    "Prompt engineering",
+    "AI agents",
+    "ServiceNow"
+  ],
+  "cornell": [
+    "Exploratory analysis",
+    "Supervised learning",
+    "Model evaluation"
+  ],
+  "ai110": [
+    "Python",
+    "LLM APIs",
+    "Prompt engineering"
+  ],
+  "snowpro": [
+    "Snowflake",
+    "Database design",
+    "Data warehousing"
+  ],
+  "ibm-de": [
+    "ETL",
+    "Data governance",
+    "Relational databases"
+  ],
+  "att": [
+    "Agile delivery",
+    "Cloud computing",
+    "REST APIs",
+    "AI/ML"
+  ],
+  "sql50": [
+    "SQL joins",
+    "Aggregation",
+    "Subqueries"
+  ],
+  "power-platform": [
+    "Power Apps",
+    "Power BI",
+    "Power Automate"
+  ],
+  "google-ai": [
+    "AI productivity",
+    "Prompting",
+    "Responsible AI"
+  ],
+  "aws-cloud": [
+    "AWS services",
+    "Cloud economics",
+    "Cloud security"
+  ],
+  "citi": [
+    "Research ethics",
+    "Informed consent",
+    "Participant privacy"
+  ],
+  "tryhackme": [
+    "Networking",
+    "Linux",
+    "Security concepts"
+  ],
+  "pl900": [
+    "Power Apps",
+    "Power Automate",
+    "Dataverse"
+  ],
+  "google-pm": [
+    "Agile",
+    "Waterfall",
+    "Scrum"
+  ],
+  "ibm-sql": [
+    "SQL",
+    "Python",
+    "Relational databases"
+  ],
+  "meta": [
+    "HTML",
+    "CSS",
+    "Responsive design"
+  ],
+  "nrf": [
+    "Customer service",
+    "Sales",
+    "Customer communication"
+  ],
+  "azure": [
+    "Azure services",
+    "Cloud computing",
+    "Cloud governance"
+  ],
+  "revit": [
+    "BIM",
+    "Architectural modeling",
+    "Revit documentation"
+  ],
+  "oracle-db": [
+    "SQL",
+    "Relational databases",
+    "Database design"
+  ],
+  "autocad": [
+    "2D drafting",
+    "Engineering design",
+    "AutoCAD"
+  ],
+  "mta": [
+    "Python syntax",
+    "Control flow",
+    "Data structures"
+  ],
+  "powerpoint": [
+    "Slide design",
+    "Presentation formatting",
+    "Visual communication"
+  ],
+  "word": [
+    "Document formatting",
+    "Page layout",
+    "Microsoft Word"
+  ]
+};
+ const issuerFor = ([id,,issuer]) => ({'google-pm':'Google','ibm-sql':'IBM',meta:'Meta',azure:'Microsoft'})[id] || issuer;
+ const dialog = document.getElementById('credential-dialog');
+ const featuredIssuers = ['Amazon Web Services (AWS)','Anthropic','Microsoft','OpenAI','Snowflake','CodePath','Cornell University','AT&T'];
+ const wordmarks = {'Amazon Web Services (AWS)':'AWS','Cornell University':'Cornell','NRF Foundation':'NRF'};
+ function openCredentials(issuer, selectedId) {
+  document.getElementById('credential-issuer').textContent = issuer;
+  document.getElementById('issuer-credentials').innerHTML = credentials.filter(row => issuerFor(row) === issuer).map(([id,title,,issued,expires]) => {
+   const url = credentialLinks[id];
+   return '<article class="credential-detail" id="credential-'+id+'" tabindex="-1"><h5>'+escapeHTML(title)+'</h5><p>Issued '+issued+(expires?' · Expires '+expires:'')+'</p><ul class="book-skills" aria-label="Credential skills">'+credentialSkills[id].map(skill=>'<li>'+escapeHTML(skill)+'</li>').join('')+'</ul>'+
+    (url ? '<a href="'+escapeHTML(url)+'" target="_blank" rel="noopener noreferrer">View cert <span aria-hidden="true">↗</span></a>' : '<small>Certificate file or verification link unavailable</small>')+'</article>';
+  }).join('');
+  dialog.showModal();
+  const selected = selectedId && document.getElementById('credential-'+selectedId);
+  if (selected) selected.focus();
+ }
+ for (const issuer of new Set([...featuredIssuers, ...credentials.map(issuerFor)])) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.textContent = wordmarks[issuer] || issuer;
+  button.setAttribute('aria-label', issuer);
+  button.setAttribute('aria-haspopup','dialog');
+  button.addEventListener('click',()=>openCredentials(issuer));
+  document.getElementById(featuredIssuers.includes(issuer)?'issuer-buttons':'more-issuers').append(button);
+ }
  function relatedCredentials(bookId) {
   const ids = {att:['att'], codepath:['ai110','ai201'], bttai:['cornell'], fire:['citi']}[bookId] || [];
   if (!ids.length) return '';
   return '<section class="book-references"><h3>Related credentials</h3><ul class="book-credentials">'+ids.map(id => {
    const [,title,issuer,issued] = credentials.find(credential => credential[0] === id);
-   return '<li><a href="#credential-'+id+'">'+escapeHTML(title)+'</a><small>'+escapeHTML(issuer)+' · '+issued+'</small></li>';
+   return '<li><a aria-haspopup="dialog" href="#credential-'+id+'">'+escapeHTML(title)+'</a><small>'+escapeHTML(issuer)+' · '+issued+'</small></li>';
   }).join('')+'</ul></section>';
  }
  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -638,11 +824,11 @@ const loudounRoles = [
    '</div>';
   addRecommendations(id);
   book.querySelectorAll('.book-credentials a').forEach(link => link.addEventListener('click', event => {
-   const card = document.getElementById(link.hash.slice(1));
-   if (!card) return;
+   const id = link.hash.slice('#credential-'.length);
+   const credential = credentials.find(row => row[0] === id);
+   if (!credential) return;
    event.preventDefault();
-   card.scrollIntoView({block:'center',inline:'center'});
-   card.focus({preventScroll:true});
+   openCredentials(issuerFor(credential), id);
   }));
   if (navigate) book.querySelector('h2').focus({preventScroll:!matchMedia('(max-width: 780px)').matches});
  }
