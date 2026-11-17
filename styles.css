@@ -171,3 +171,29 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 #project-gallery .compact-project .project-links{gap:8px}
 #project-gallery .compact-project .icon-link{width:36px;height:36px;padding:4px}
 #project-gallery .compact-project .uploaded-icon,#project-gallery .compact-project .custom-icon-holder{width:24px;height:24px}
+
+/* Interactive cozy storybook journey */
+.journey-section{overflow:hidden}.journey-intro{color:#75569c;margin-top:8px}
+.journey-filters{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}
+.journey-filter{border:2px solid #b993ec;border-radius:999px;background:#fffafc;color:#68439e;font:700 14px inherit;padding:10px 17px;cursor:pointer;transition:transform .2s,background .2s}
+.journey-filter.active,.journey-filter:hover{background:#7851c4;color:white;transform:translateY(-2px)}
+.journey-layout{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(280px,1fr);align-items:start;gap:18px}
+.journey-world{position:relative;aspect-ratio:1000/650;border:4px solid #a77ae1;border-radius:25px;overflow:hidden;background:#d6c2ee;box-shadow:7px 8px 0 #e4d2fb}
+.journey-scenery{position:absolute;inset:0;background:url("assets/journey_village.svg") center/100% 100% no-repeat}
+.journey-path{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0}
+.journey-path path{fill:none;stroke:#ffe8b5;stroke-width:5;stroke-dasharray:8 10}
+.journey-stops{position:absolute;inset:0}
+.journey-stop{position:absolute;transform:translate(-50%,-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:90px;max-width:125px;border:2px solid #8e65bd;border-radius:12px;background:#fff9f2ed;color:#523584;padding:5px 6px;box-shadow:2px 4px 0 #ab8dcb;font-family:inherit;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.journey-stop:hover,.journey-stop.selected{transform:translate(-50%,-55%) scale(1.07);border-color:#6f42b5;box-shadow:0 0 0 3px #ffe7a6,2px 5px 0 #aa8bca;z-index:4}
+.journey-stop-icon{font-size:19px;line-height:1.1}.journey-stop-name{font-size:10px;line-height:1.15;font-weight:800}.journey-stop-year{font-size:10px;color:#8e63b5}
+.journey-character{position:absolute;z-index:3;left:83%;top:19%;transform:translate(-50%,30px);font-size:26px;pointer-events:none;transition:left .7s ease,top .7s ease;filter:drop-shadow(2px 2px 1px #fff)}
+.journey-map-caption{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;color:#6a438d;background:#fff7e6dd;padding:4px 10px;border-radius:99px;white-space:nowrap}
+.journey-detail{position:sticky;top:100px;border:3px solid #9062cf;border-radius:20px;overflow:hidden;background:#fff9fd;box-shadow:6px 7px 0 #dec6f7;min-height:340px;color:#4c347a}
+.journey-window-top{background:#e6d1fa;border-bottom:2px solid #a17bda;display:flex;justify-content:space-between;padding:10px 14px;font-size:11px;font-weight:800;color:#8356bd}
+.journey-window-body{padding:23px}.journey-detail-icon{font-size:40px;margin-bottom:8px}.journey-year{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9469bd;font-weight:800}
+.journey-detail h3{font-size:25px;margin:7px 0}.journey-role{font-size:15px;color:#7851c4;font-weight:800}.journey-date{font-size:12px;margin:5px 0 18px;color:#7d65a3}
+.journey-detail p{font-size:14px;line-height:1.65;margin:0 0 22px}.journey-skill-label{border-top:1px solid #ddc8f2;padding-top:14px;font-weight:800;font-size:13px;margin-bottom:10px}
+.journey-skills{display:flex;flex-wrap:wrap;gap:7px}.journey-skills span{border:1.5px solid #b793e6;border-radius:99px;padding:5px 9px;font-size:11px;font-weight:700;background:#f4eaff;color:#7851c4}
+@media(max-width:960px){.journey-layout{grid-template-columns:1fr}.journey-detail{position:static;min-height:0}.journey-stop{min-width:75px;max-width:95px}.journey-stop-name{font-size:9px}}
+@media(max-width:600px){.journey-world{aspect-ratio:auto;min-height:770px}.journey-scenery{background-size:auto 100%;background-position:center}.journey-stop{min-width:96px;max-width:120px;padding:7px}.journey-stop-name{font-size:10px}.journey-stop-year{font-size:9px}.journey-stop-icon{font-size:17px}.journey-character{display:none}.journey-filters{gap:7px}.journey-filter{font-size:12px;padding:8px 11px}}
+@media(prefers-reduced-motion:reduce){.journey-character,.journey-stop,.journey-filter{transition:none!important}}
