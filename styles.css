@@ -197,3 +197,20 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 @media(max-width:960px){.journey-layout{grid-template-columns:1fr}.journey-detail{position:static;min-height:0}.journey-stop{min-width:75px;max-width:95px}.journey-stop-name{font-size:9px}}
 @media(max-width:600px){.journey-world{aspect-ratio:auto;min-height:770px}.journey-scenery{background-size:auto 100%;background-position:center}.journey-stop{min-width:96px;max-width:120px;padding:7px}.journey-stop-name{font-size:10px}.journey-stop-year{font-size:9px}.journey-stop-icon{font-size:17px}.journey-character{display:none}.journey-filters{gap:7px}.journey-filter{font-size:12px;padding:8px 11px}}
 @media(prefers-reduced-motion:reduce){.journey-character,.journey-stop,.journey-filter{transition:none!important}}
+
+/* Uploaded pixel art overlays */
+.journey-decor{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.journey-decor .deco{position:absolute;width:12%;height:auto;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(2px 4px 0 #6b4b8a25)}
+.deco-cherry-a{left:1%;top:3%;width:17%!important}.deco-cherry-b{right:1%;bottom:6%;width:17%!important}
+.deco-office{left:4%;bottom:8%;width:15%!important}.deco-academy{left:30%;top:5%;width:15%!important}
+.deco-university{right:4%;top:4%;width:17%!important}.deco-cottage{left:35%;bottom:5%;width:13%!important}
+.deco-lab{right:11%;bottom:10%;width:14%!important}.deco-flower-a{left:22%;bottom:4%;width:8%!important}.deco-flower-b{right:29%;bottom:3%;width:8%!important}
+.deco-butterfly{left:56%;top:8%;width:6%!important;animation:journeyFlutter 5s ease-in-out infinite}
+@keyframes journeyFlutter{50%{transform:translate(9px,-12px) rotate(8deg)}}
+.journey-character{font-size:0;transform:translate(-50%,28px);width:45px;height:60px}
+.journey-character img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(1px 3px 1px #59407988)}
+.journey-stop{background:#fff9f2ed;min-width:65px;max-width:112px;padding:3px 5px}
+.journey-plaque{display:block;width:100%;max-width:100px;height:40px;object-fit:contain;image-rendering:pixelated}
+.journey-detail-icon img{width:155px;max-height:70px;object-fit:contain;image-rendering:pixelated}
+@media(max-width:600px){.journey-decor .deco{opacity:.65}.journey-stop{min-width:70px;max-width:90px}.journey-plaque{height:34px}}
+@media(prefers-reduced-motion:reduce){.deco-butterfly{animation:none}}
