@@ -144,3 +144,16 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .custom-icon-holder .icon-fallback{position:absolute;inset:0;width:100%;height:100%;display:block}
 .custom-icon-img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
 .icon-link:hover .custom-icon-holder{transform:scale(1.08);transition:transform .2s ease}
+
+/* Unified projects gallery */
+#projects .filter-bar{margin:22px 0 10px}
+.project-count{font-size:13px;color:#866ba8;margin:0 0 22px;font-weight:700}
+#project-gallery .project-card{display:flex;flex-direction:column;min-width:0}
+#project-gallery .project-inner{display:flex;flex-direction:column;flex:1}
+#project-gallery .project-card p{min-height:0;margin:13px 0 17px;flex:1}
+#project-gallery .project-subtitle{min-height:19px}
+#project-gallery .project-tags{margin-bottom:16px}
+#project-gallery .project-links{margin-top:auto;gap:12px}
+#project-gallery .project-art{height:172px}
+@media(max-width:800px){#project-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:570px){#project-gallery{grid-template-columns:1fr}#project-gallery .project-art{height:190px}}
