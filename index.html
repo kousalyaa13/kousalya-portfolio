@@ -60,13 +60,14 @@
     <section class="section lavender-section journey-v2" id="experience">
       <div class="wrap">
         <div class="section-head"><div><div class="mini-label">MY JOURNEY ✿</div><h2>little steps, big adventures 🌷</h2><p>The work, programs, and people that shaped how I build.</p></div></div>
-        <div class="jt-toolbar">
-          <span class="jt-note">A little more curious with every chapter.</span>
-          <div class="jv-filters" role="group" aria-label="Filter milestones"><button class="jv-filter active" data-type="all" aria-pressed="true">All experiences</button><button class="jv-filter" data-type="work" aria-pressed="false">Work</button><button class="jv-filter" data-type="program" aria-pressed="false">Programs</button></div>
+        <div class="tl-toolbar">
+          <div class="tl-years" role="group" aria-label="Choose timeline year"><button data-year="2023">2023</button><button data-year="2024">2024</button><button data-year="2025">2025</button><button data-year="2026">2026</button></div>
+          <span class="tl-legend"><i></i> Work <i></i> Programs & research</span>
         </div>
-        <p class="jt-count" id="jv-count" role="status" aria-live="polite"></p>
-        <div class="jt-timeline" id="jt-timeline"></div>
-        <div class="jt-ending"><span aria-hidden="true">✦</span> still learning, still building, still blooming.</div>
+        <div class="tl-summary"><span id="tl-count" role="status" aria-live="polite"></span><span>Scroll sideways · months spaced for readability <span aria-hidden="true">→</span></span></div>
+        <div class="tl-scroll" id="tl-scroll" tabindex="0" role="region" aria-label="Work and programs timeline. Use left and right arrow keys to scroll."><div id="tl-content"></div></div>
+        <div class="tl-controls"><button id="tl-prev" aria-label="Scroll timeline left">←</button><span id="tl-position" aria-live="polite"></span><button id="tl-next" aria-label="Scroll timeline right">→</button></div>
+        <p class="tl-extra">Also exploring: CodePath · AI Engineering Program · 2025–2026</p>
       </div>
       <div class="jv-modal" id="jv-modal" hidden><div class="jv-backdrop" data-close="true"></div><div class="jv-dialog" role="dialog" aria-modal="true" aria-labelledby="jv-title" tabindex="-1"><div class="jv-dialog-head"><span>● &nbsp;● &nbsp;●</span><span>✦ milestone unlocked</span><button id="jv-close" type="button" aria-label="Close milestone">×</button></div><div id="jv-dialog-body"></div></div></div>
     </section>
@@ -91,5 +92,6 @@
   </main>
   <footer><div class="wrap footer-content"><div class="footer-flowers" aria-hidden="true"><span class="sprite sprite-garden"></span></div><h2>let's make something lovely ✦</h2><p>Have a project idea, an opportunity, or just want to say hi?</p><div class="socials footer-social"><a href="https://github.com/kousalyaa13" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/kousalya-potti/" target="_blank" rel="noopener noreferrer">LinkedIn</a></div><small>© <span id="year">2026</span> Kousalya Potti · made with ♡ and a few pixels</small></div></footer>
   <button class="mascot" id="mascot" type="button" aria-label="Talk to the pixel companion"><span class="sprite sprite-robot" aria-hidden="true"></span><span class="mascot-speech" id="mascot-speech" aria-live="polite">psst... hi! ✨</span></button>
+  <script defer src="journey.js"></script>
 </body>
 </html>
