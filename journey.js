@@ -243,52 +243,51 @@ const loudounRoles = [
     "description": "Supporting live county platforms and developing a Sheriff’s Office vehicle calibration application."
   }
 ];
+/* A continuous, proportional month scale. No filters, hidden details, or dialogs. */
 (() => {
- const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
- const viewport=document.getElementById('tl-scroll'),content=document.getElementById('tl-content');
- const modal=document.getElementById('jv-modal'),dialog=modal.querySelector('.jv-dialog');
- const h=escapeHTML; let offsets=[], timelineWidth=0;
- let year=2026,lastFocus;
- const monthIndex=d=>Number(d.slice(5))-1;
- const format=d=>months[monthIndex(d)]+' '+d.slice(0,4);
- const dates=p=>format(p.start)+(p.end===p.start?'': ' – '+(p.end?format(p.end):'Present'));
- const art=p=>p.plaque?'<img src="assets/plaques/'+encodeURIComponent(p.plaque)+'" alt="" loading="lazy">':'<span aria-hidden="true">✦</span>';
- const progression=(compact=false)=>'<ol class="tl-promotions">'+loudounRoles.map((r,i)=>'<li><span class="tl-promotion-dot" aria-hidden="true">'+(i+1)+'</span><div><strong>'+h(r.title)+'</strong><time>'+h(r.date)+'</time><p>'+h(compact?['Prototyped budget and transit apps; supported endpoint security.','Delivered SQL-backed budget and transit platforms.','Supporting live platforms; modernizing vehicle calibration workflows.'][i]:r.description)+'</p></div></li>').join('')+'</ol>';
- function lane(items,type){
-  const rowEnds=[];
-  const placed=items.map(p=>{
-   const start=p.start.slice(0,4)<String(year)?0:monthIndex(p.start);
-   const x=offsets[start],w=p.id==='loudoun'?450:360;
-   let row=rowEnds.findIndex(end=>end+24<=x);if(row<0)row=rowEnds.length;
-   rowEnds[row]=x+w;return {p,x,w,row};
-  });
-  const rowHeight=type==='work'&&items.some(p=>p.id==='loudoun')?(matchMedia('(max-width:650px)').matches?460:410):270;
-  const height=Math.max(1,rowEnds.length)*rowHeight+44;
-  return '<section class="tl-lane '+type+'" aria-label="'+(type==='work'?'Work experience':'Programs and research')+'" style="height:'+height+'px"><div class="tl-lane-name">'+(type==='work'?'WORK':'PROGRAMS & RESEARCH')+'</div>'+placed.map(({p,x,w,row})=>'<article class="tl-card '+(p.id==='loudoun'?'tl-employer':'')+'" style="left:'+x+'px;'+(type==='work'?'bottom:':'top:')+(38+row*rowHeight)+'px;width:'+w+'px"><div class="tl-card-head"><div class="tl-plaque">'+art(p)+'</div><div><h3>'+h(p.name)+'</h3><span class="tl-dates">'+h(dates(p))+'</span></div></div>'+(p.id==='loudoun'?'<div class="tl-growth">3 roles · 2 promotions</div>'+progression(true):'<h4>'+h(p.role)+'</h4><p>'+h(p.description)+'</p>')+'<button class="tl-details" data-id="'+p.id+'" aria-haspopup="dialog" aria-label="Details for '+h(p.name)+'">Skills & details <span aria-hidden="true">↗</span></button></article>').join('')+(items.length?'':'<p class="tl-empty">No entries in this lane for '+year+'.</p>')+'</section>';
+ const viewport=document.getElementById('ct-scroll'),root=document.getElementById('ct-content');
+ const names=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ const h=escapeHTML,monthWidth=76;
+ const index=s=>{const [y,m]=s.split('-').map(Number);return y*12+m-1;};
+ const first=index('2023-06');
+ const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'numeric',day:'numeric'}).formatToParts(new Date());
+ const part=n=>Number(parts.find(p=>p.type===n).value);
+ const nowYear=part('year'),nowMonth=part('month'),nowDay=part('day');
+ const last=Math.max(first,nowYear*12+nowMonth-1),count=last-first+1;
+ const days=new Date(nowYear,nowMonth,0).getDate();
+ const presentX=(last-first+(nowDay-1)/days)*monthWidth;
+ const scaleWidth=count*monthWidth;
+ const format=s=>names[Number(s.slice(5))-1]+' '+s.slice(0,4);
+ const range=p=>format(p.start)+(p.end===p.start?'':' – '+(p.end?format(p.end):'Present'));
+ const plaque=p=>p.plaque?'<img src="assets/plaques/'+encodeURIComponent(p.plaque)+'" alt="">':'<span aria-hidden="true">✦</span>';
+ const roles=[
+  {start:'2025-06',end:'2025-08',role:loudounRoles[0].title,description:loudounRoles[0].description},
+  {start:'2025-08',end:'2026-04',role:loudounRoles[1].title,description:loudounRoles[1].description},
+  {start:'2026-04',end:null,role:loudounRoles[2].title,description:loudounRoles[2].description}
+ ];
+ function row(p,sub=false){
+  const x=(index(p.start)-first)*monthWidth;
+  const end=p.end?(index(p.end)-first+1)*monthWidth:presentX;
+  const width=Math.max(8,end-x);
+  return '<tr class="ct-row '+p.type+(sub?' ct-promotion':'')+'"><th scope="row"><div class="ct-label">'+(!sub?'<div class="ct-company"><span class="ct-plaque">'+plaque(p)+'</span><strong>'+h(p.name)+'</strong></div>':'')+'<div class="ct-role">'+h(p.role)+'</div><div class="ct-date">'+h(range(p))+'</div><p>'+h(p.description)+'</p></div></th><td><div class="ct-track" style="width:'+scaleWidth+'px"><div class="ct-now-line" style="left:'+presentX+'px"></div><div class="ct-bar '+(!p.end?'ongoing':'')+'" style="left:'+x+'px;width:'+width+'px" role="img" aria-label="'+h(p.role+': '+range(p))+'"><span>'+(!p.end?'ONGOING':h(p.start===p.end?names[Number(p.start.slice(5))-1]:''))+'</span></div></div></td></tr>';
  }
- function render(){
-  const items=experienceRecords.filter(p=>Number(p.start.slice(0,4))<=year&&(!p.end||Number(p.end.slice(0,4))>=year));
-  let x=24; offsets=months.map((_,i)=>{const atMonth=items.filter(p=>(p.start.slice(0,4)<String(year)?0:monthIndex(p.start))===i); const value=x; x+=atMonth.length?Math.max(...atMonth.map(p=>p.id==='loudoun'?450:360))+28:64;return value;}); timelineWidth=x+24; content.style.width=timelineWidth+'px';
-  content.innerHTML=lane(items.filter(p=>p.type==='work'),'work')+'<div class="tl-axis" aria-label="Months in '+year+'"><strong>'+year+'</strong>'+months.map((m,i)=>'<span style="left:'+offsets[i]+'px"><i></i>'+m+'</span>').join('')+'</div>'+lane(items.filter(p=>p.type==='program'),'program');
-  document.querySelectorAll('[data-year]').forEach(b=>{b.classList.toggle('active',Number(b.dataset.year)===year);b.setAttribute('aria-pressed',String(Number(b.dataset.year)===year));});
-  document.getElementById('tl-count').textContent=year+' · '+items.length+' experiences active this year';
-  content.querySelectorAll('[data-id]').forEach(b=>b.addEventListener('click',()=>open(experienceRecords.find(p=>p.id===b.dataset.id),b)));
-  const earliest=Math.min(...items.map(p=>p.start.slice(0,4)<String(year)?0:monthIndex(p.start)));
-  viewport.scrollLeft=Math.max(0,offsets[earliest]-24);update();
+ let body='';
+ for(const type of ['work','program']){
+  body+='<tr class="ct-group"><th scope="rowgroup">'+(type==='work'?'WORK EXPERIENCE':'PROGRAMS & RESEARCH')+'</th><td><span>'+ (type==='work'?'Employment & applied work':'Fellowships, research & learning')+'</span></td></tr>';
+  const entries=experienceRecords.filter(p=>p.type===type).sort((a,b)=>b.start.localeCompare(a.start));
+  for(const p of entries){
+   if(p.id==='loudoun'){
+    body+='<tr class="ct-employer"><th><div class="ct-company"><span class="ct-plaque">'+plaque(p)+'</span><strong>Loudoun County Government<small>3 roles · 2 promotions</small></strong></div></th><td><span class="ct-employer-note">Progression within the same employer</span></td></tr>';
+    body+=roles.map(r=>row({...p,...r},true)).join('');
+   }else body+=row(p);
+  }
  }
- function open(p,button){
-  lastFocus=button;
-  document.getElementById('jv-dialog-body').innerHTML='<div class="jv-dialog-content"><div class="jv-dialog-logo">'+art(p)+'</div><div class="jv-dialog-meta">'+(p.type==='work'?'Work experience':'Program & research')+'</div><h3 id="jv-title">'+h(p.name)+'</h3><strong>'+h(p.role)+'</strong><div class="jv-dialog-date">'+h(dates(p))+'</div>'+(p.id==='loudoun'?progression():'<p>'+h(p.description)+'</p>')+'<div class="jv-skills">'+p.skills.map(s=>'<span>'+h(s)+'</span>').join('')+'</div>';
-  modal.hidden=false;document.body.classList.add('jv-modal-open');document.getElementById('jv-close').focus();
- }
- function close(){modal.hidden=true;document.body.classList.remove('jv-modal-open');lastFocus?.focus();}
- function update(){const max=viewport.scrollWidth-viewport.clientWidth;document.getElementById('tl-prev').disabled=viewport.scrollLeft<2;document.getElementById('tl-next').disabled=viewport.scrollLeft>=max-2;document.getElementById('tl-position').textContent=months[Math.max(0,offsets.findLastIndex(x=>x<=viewport.scrollLeft+25))]+' '+year;}
- function move(dir){viewport.scrollBy({left:dir*Math.max(280,viewport.clientWidth*.75),behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});}
- document.querySelectorAll('[data-year]').forEach(b=>b.addEventListener('click',()=>{year=Number(b.dataset.year);render();}));
- document.getElementById('tl-prev').addEventListener('click',()=>move(-1));document.getElementById('tl-next').addEventListener('click',()=>move(1));
- viewport.addEventListener('scroll',update,{passive:true});let narrow=matchMedia('(max-width:650px)').matches; window.addEventListener('resize',()=>{const next=matchMedia('(max-width:650px)').matches;if(next!==narrow){narrow=next;render();}else update();});
- viewport.addEventListener('keydown',e=>{if(e.target!==viewport)return;if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();move(e.key==='ArrowRight'?1:-1);}});
- document.getElementById('jv-close').addEventListener('click',close);modal.querySelector('.jv-backdrop').addEventListener('click',close);
- modal.addEventListener('keydown',e=>{if(e.key==='Escape')close();if(e.key==='Tab'){e.preventDefault();document.getElementById('jv-close').focus();}});
- render();
+ root.innerHTML='<table class="ct-table"><caption>Work and programs, June 2023 to '+names[nowMonth-1]+' '+nowYear+'. End dates are shown at month precision.</caption><thead><tr><th scope="col">Experience <small>Dates & short descriptions</small></th><th scope="col"><div class="ct-calendar" style="width:'+scaleWidth+'px">'+Array.from({length:count},(_,i)=>{const n=first+i,y=Math.floor(n/12),m=n%12;return '<span class="ct-month" style="left:'+i*monthWidth+'px;width:'+monthWidth+'px"><b>'+y+'</b>'+names[m]+'</span>';}).join('')+'<span class="ct-present-label" style="left:'+presentX+'px">Present</span></div></th></tr></thead><tbody>'+body+'</tbody></table>';
+ const behavior=()=>matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth';
+ const go=atEnd=>viewport.scrollTo({left:atEnd?viewport.scrollWidth:0,behavior:behavior()});
+ document.getElementById('ct-start').addEventListener('click',()=>go(false));
+ document.getElementById('ct-present').addEventListener('click',()=>go(true));
+ viewport.addEventListener('keydown',e=>{if(e.target!==viewport)return;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();viewport.scrollBy({left:(e.key==='ArrowLeft'?-1:1)*monthWidth*3,behavior:behavior()});}if(e.key==='Home'||e.key==='End'){e.preventDefault();go(e.key==='End');}});
+ document.getElementById('ct-range').textContent='Jun 2023 — '+names[nowMonth-1]+' '+nowYear;
+ viewport.scrollLeft=viewport.scrollWidth;
 })();
