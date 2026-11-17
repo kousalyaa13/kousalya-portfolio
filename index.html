@@ -57,25 +57,18 @@
       <p class="project-count" id="project-count" role="status" aria-live="polite"></p>
       <div class="project-grid" id="project-gallery"></div>
     </section>
-    <section class="section lavender-section journey-section" id="experience">
+    <section class="section lavender-section journey-v2" id="experience">
       <div class="wrap">
-        <div class="section-head reveal"><div><div class="mini-label">MY JOURNEY ✿</div><h2>little steps, big adventures 🌷</h2><p class="journey-intro">The work, programs, and people that shaped how I build.</p></div></div>
-        <div class="journey-filters" role="group" aria-label="Journey filters">
-          <button type="button" class="journey-filter active" data-journey-filter="all" aria-pressed="true">✦ All milestones</button>
-          <button type="button" class="journey-filter" data-journey-filter="work" aria-pressed="false">🏢 Work experience</button>
-          <button type="button" class="journey-filter" data-journey-filter="program" aria-pressed="false">🎓 Programs & fellowships</button>
+        <div class="section-head"><div><div class="mini-label">MY JOURNEY ✿</div><h2>little steps, big adventures 🌷</h2><p>The work, programs, and people that shaped how I build.</p></div></div>
+        <div class="jt-toolbar">
+          <span class="jt-note">A little more curious with every chapter.</span>
+          <div class="jv-filters" role="group" aria-label="Filter milestones"><button class="jv-filter active" data-type="all" aria-pressed="true">All experiences</button><button class="jv-filter" data-type="work" aria-pressed="false">Work</button><button class="jv-filter" data-type="program" aria-pressed="false">Programs</button></div>
         </div>
-        <div class="journey-layout">
-          <div class="journey-world" aria-label="Interactive career journey map">
-            <div class="journey-scenery" aria-hidden="true"></div><div class="journey-decor" aria-hidden="true"><img class="deco deco-cherry-a" src="assets/backgrounds/cherry_blossom.png" alt=""><img class="deco deco-cherry-b" src="assets/backgrounds/cherry_blossom.png" alt=""><img class="deco deco-office" src="assets/buildings/office.png" alt=""><img class="deco deco-academy" src="assets/buildings/academy.png" alt=""><img class="deco deco-university" src="assets/buildings/university.png" alt=""><img class="deco deco-cottage" src="assets/buildings/cottage.png" alt=""><img class="deco deco-lab" src="assets/buildings/research_lab.png" alt=""><img class="deco deco-flower-a" src="assets/backgrounds/flowers1.png" alt=""><img class="deco deco-flower-b" src="assets/backgrounds/flowers2.png" alt=""><img class="deco deco-butterfly" src="assets/decorations/butterfly.png" alt=""></div>
-            <svg class="journey-path" viewBox="0 0 1000 650" preserveAspectRatio="none" aria-hidden="true"><path d="M55 560 C250 625 365 520 255 430 S100 300 300 315 S585 415 520 245 S760 140 950 100" /></svg>
-            <div id="journey-stops" class="journey-stops"></div>
-            <div class="journey-character" aria-hidden="true"><img src="assets/characters/standing.png" alt=""></div>
-            <div class="journey-map-caption">✦ select a landmark to explore ✦</div>
-          </div>
-          <aside class="journey-detail" id="journey-detail" aria-live="polite" aria-label="Selected journey milestone"></aside>
-        </div>
+        <p class="jt-count" id="jv-count" role="status" aria-live="polite"></p>
+        <div class="jt-timeline" id="jt-timeline"></div>
+        <div class="jt-ending"><span aria-hidden="true">✦</span> still learning, still building, still blooming.</div>
       </div>
+      <div class="jv-modal" id="jv-modal" hidden><div class="jv-backdrop" data-close="true"></div><div class="jv-dialog" role="dialog" aria-modal="true" aria-labelledby="jv-title" tabindex="-1"><div class="jv-dialog-head"><span>● &nbsp;● &nbsp;●</span><span>✦ milestone unlocked</span><button id="jv-close" type="button" aria-label="Close milestone">×</button></div><div id="jv-dialog-body"></div></div></div>
     </section>
     <section class="section wrap about-section" id="about">
       <div class="about-card reveal">

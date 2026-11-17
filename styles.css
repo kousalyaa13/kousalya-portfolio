@@ -172,45 +172,46 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 #project-gallery .compact-project .icon-link{width:36px;height:36px;padding:4px}
 #project-gallery .compact-project .uploaded-icon,#project-gallery .compact-project .custom-icon-holder{width:24px;height:24px}
 
-/* Interactive cozy storybook journey */
-.journey-section{overflow:hidden}.journey-intro{color:#75569c;margin-top:8px}
-.journey-filters{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}
-.journey-filter{border:2px solid #b993ec;border-radius:999px;background:#fffafc;color:#68439e;font:700 14px inherit;padding:10px 17px;cursor:pointer;transition:transform .2s,background .2s}
-.journey-filter.active,.journey-filter:hover{background:#7851c4;color:white;transform:translateY(-2px)}
-.journey-layout{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(280px,1fr);align-items:start;gap:18px}
-.journey-world{position:relative;aspect-ratio:1000/650;border:4px solid #a77ae1;border-radius:25px;overflow:hidden;background:#d6c2ee;box-shadow:7px 8px 0 #e4d2fb}
-.journey-scenery{position:absolute;inset:0;background:url("assets/journey_village.svg") center/100% 100% no-repeat}
-.journey-path{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0}
-.journey-path path{fill:none;stroke:#ffe8b5;stroke-width:5;stroke-dasharray:8 10}
-.journey-stops{position:absolute;inset:0}
-.journey-stop{position:absolute;transform:translate(-50%,-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:90px;max-width:125px;border:2px solid #8e65bd;border-radius:12px;background:#fff9f2ed;color:#523584;padding:5px 6px;box-shadow:2px 4px 0 #ab8dcb;font-family:inherit;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.journey-stop:hover,.journey-stop.selected{transform:translate(-50%,-55%) scale(1.07);border-color:#6f42b5;box-shadow:0 0 0 3px #ffe7a6,2px 5px 0 #aa8bca;z-index:4}
-.journey-stop-icon{font-size:19px;line-height:1.1}.journey-stop-name{font-size:10px;line-height:1.15;font-weight:800}.journey-stop-year{font-size:10px;color:#8e63b5}
-.journey-character{position:absolute;z-index:3;left:83%;top:19%;transform:translate(-50%,30px);font-size:26px;pointer-events:none;transition:left .7s ease,top .7s ease;filter:drop-shadow(2px 2px 1px #fff)}
-.journey-map-caption{position:absolute;bottom:9px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;color:#6a438d;background:#fff7e6dd;padding:4px 10px;border-radius:99px;white-space:nowrap}
-.journey-detail{position:sticky;top:100px;border:3px solid #9062cf;border-radius:20px;overflow:hidden;background:#fff9fd;box-shadow:6px 7px 0 #dec6f7;min-height:340px;color:#4c347a}
-.journey-window-top{background:#e6d1fa;border-bottom:2px solid #a17bda;display:flex;justify-content:space-between;padding:10px 14px;font-size:11px;font-weight:800;color:#8356bd}
-.journey-window-body{padding:23px}.journey-detail-icon{font-size:40px;margin-bottom:8px}.journey-year{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#9469bd;font-weight:800}
-.journey-detail h3{font-size:25px;margin:7px 0}.journey-role{font-size:15px;color:#7851c4;font-weight:800}.journey-date{font-size:12px;margin:5px 0 18px;color:#7d65a3}
-.journey-detail p{font-size:14px;line-height:1.65;margin:0 0 22px}.journey-skill-label{border-top:1px solid #ddc8f2;padding-top:14px;font-weight:800;font-size:13px;margin-bottom:10px}
-.journey-skills{display:flex;flex-wrap:wrap;gap:7px}.journey-skills span{border:1.5px solid #b793e6;border-radius:99px;padding:5px 9px;font-size:11px;font-weight:700;background:#f4eaff;color:#7851c4}
-@media(max-width:960px){.journey-layout{grid-template-columns:1fr}.journey-detail{position:static;min-height:0}.journey-stop{min-width:75px;max-width:95px}.journey-stop-name{font-size:9px}}
-@media(max-width:600px){.journey-world{aspect-ratio:auto;min-height:770px}.journey-scenery{background-size:auto 100%;background-position:center}.journey-stop{min-width:96px;max-width:120px;padding:7px}.journey-stop-name{font-size:10px}.journey-stop-year{font-size:9px}.journey-stop-icon{font-size:17px}.journey-character{display:none}.journey-filters{gap:7px}.journey-filter{font-size:12px;padding:8px 11px}}
-@media(prefers-reduced-motion:reduce){.journey-character,.journey-stop,.journey-filter{transition:none!important}}
-
-/* Uploaded pixel art overlays */
-.journey-decor{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-.journey-decor .deco{position:absolute;width:12%;height:auto;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(2px 4px 0 #6b4b8a25)}
-.deco-cherry-a{left:1%;top:3%;width:17%!important}.deco-cherry-b{right:1%;bottom:6%;width:17%!important}
-.deco-office{left:4%;bottom:8%;width:15%!important}.deco-academy{left:30%;top:5%;width:15%!important}
-.deco-university{right:4%;top:4%;width:17%!important}.deco-cottage{left:35%;bottom:5%;width:13%!important}
-.deco-lab{right:11%;bottom:10%;width:14%!important}.deco-flower-a{left:22%;bottom:4%;width:8%!important}.deco-flower-b{right:29%;bottom:3%;width:8%!important}
-.deco-butterfly{left:56%;top:8%;width:6%!important;animation:journeyFlutter 5s ease-in-out infinite}
-@keyframes journeyFlutter{50%{transform:translate(9px,-12px) rotate(8deg)}}
-.journey-character{font-size:0;transform:translate(-50%,28px);width:45px;height:60px}
-.journey-character img{width:100%;height:100%;object-fit:contain;image-rendering:pixelated;filter:drop-shadow(1px 3px 1px #59407988)}
-.journey-stop{background:#fff9f2ed;min-width:65px;max-width:112px;padding:3px 5px}
-.journey-plaque{display:block;width:100%;max-width:100px;height:40px;object-fit:contain;image-rendering:pixelated}
-.journey-detail-icon img{width:155px;max-height:70px;object-fit:contain;image-rendering:pixelated}
-@media(max-width:600px){.journey-decor .deco{opacity:.65}.journey-stop{min-width:70px;max-width:90px}.journey-plaque{height:34px}}
-@media(prefers-reduced-motion:reduce){.deco-butterfly{animation:none}}
+.jv-modal[hidden]{display:none}.jv-modal{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px}
+.jv-backdrop{position:absolute;inset:0;background:#281c44a8;backdrop-filter:blur(4px)}
+.jv-dialog{position:relative;z-index:1;width:min(100%,465px);max-height:min(85vh,720px);overflow:auto;background:#fff9ff;border:3px solid #9063ca;border-radius:21px;box-shadow:9px 10px 0 #6e4a9a55;outline:none}
+.jv-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#e7d2f9;border-bottom:2px solid #a883d5;padding:8px 14px;color:#7b50b5;font-size:12px;font-weight:800}
+.jv-dialog-head button{border:0;background:#fff8ff;color:#6f43a7;border-radius:8px;font-size:25px;width:33px;height:33px;cursor:pointer}
+.jv-dialog-content{padding:24px}.jv-dialog-logo{height:80px;display:flex;align-items:center;font-size:38px}.jv-dialog-logo img{width:175px;max-height:75px;object-fit:contain;image-rendering:pixelated}
+.jv-dialog-meta{font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:800;color:#9c70c4;margin:12px 0}
+.jv-dialog h3{font-size:27px;margin:0 0 8px;color:#513385}.jv-dialog strong{color:#7651b6}.jv-dialog-date{font-size:13px;color:#806ba3;margin:7px 0 19px}
+.jv-dialog p{font-size:15px;line-height:1.65;color:#4f3977}.jv-skill-heading{font-size:13px;font-weight:800;border-top:1px solid #dfc8f1;margin-top:18px;padding-top:17px}
+.jv-skills{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}.jv-skills span{border:1.5px solid #bc96ec;border-radius:99px;background:#f4eaff;padding:5px 10px;font-size:12px;color:#7651b6;font-weight:800}
+body.jv-modal-open{overflow:hidden}
+/* A storybook timeline, with artwork kept at a readable, consistent scale. */
+.journey-v2{background:#f3edfc;color:#53378b}
+.journey-v2 .section-head p{color:#806a99;margin-top:12px}
+.jt-toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:32px;padding-bottom:20px;border-bottom:1px solid #d9c9e9}
+.jt-note{font:400 19px 'Fredoka',sans-serif;color:#80659f}
+.jv-filters{display:flex;flex-wrap:wrap;gap:6px;background:#e8ddf4;padding:5px;border-radius:30px}
+.jv-filter{border:0;border-radius:24px;padding:9px 17px;background:transparent;color:#71558c;font-size:13px;font-weight:700}
+.jv-filter.active{background:#7651ad;color:#fff;box-shadow:0 2px 5px #62438a20}
+.jt-count{font-size:12px;color:#826a9b;margin:16px 0 30px}
+.jt-chapter{display:grid;grid-template-columns:175px 1fr;gap:38px;position:relative;padding-bottom:42px}
+.jt-chapter:before{content:"";position:absolute;left:185px;top:15px;bottom:-15px;width:2px;background:#d6c2e9}
+.jt-chapter:after{content:"✦";position:absolute;left:175px;top:8px;width:22px;background:#f3edfc;color:#9672bb;text-align:center;font-size:20px;line-height:24px}
+.jt-chapter:last-child:before{bottom:0}
+.jt-year{padding-top:6px}.jt-chapter-number{font-size:10px;letter-spacing:2px;font-weight:800;color:#8b6aa5}
+.jt-year h3{font:500 48px/1.1 'Fredoka',sans-serif;margin:9px 0;color:#684398;letter-spacing:-1px}
+.jt-year p{font-size:13px;margin:10px 0;color:#806594;max-width:140px}
+.jt-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:stretch}
+.jt-card{display:flex;flex-direction:column;text-align:left;color:#503768;background:#fffdfa;border:1px solid #d9c6e6;border-radius:18px;padding:22px;box-shadow:0 4px 0 #e6daf0;transition:transform .2s,box-shadow .2s;min-width:0}
+.jt-card:hover{transform:translateY(-4px);box-shadow:0 8px 0 #e3d4ef;border-color:#a783c4}
+.jt-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:20px}
+.jt-kind{font-size:9px;font-weight:800;letter-spacing:1px;padding:4px 8px;border-radius:6px;background:#e8e0f8;color:#76509f}
+.jt-kind.program{background:#f7ebcc;color:#8d6b2a}.jt-date{font-size:10px;color:#8a7697}
+.jt-card-main{display:flex;align-items:center;gap:14px;margin-bottom:17px;min-height:65px}
+.jt-art{width:94px;height:66px;flex-shrink:0;display:grid;place-items:center;background:#f6f0fa;border-radius:10px;padding:6px;font-size:32px;color:#ac85ca}
+.jt-art img{width:100%;height:100%;object-fit:contain}
+.jt-card-heading{display:block}.jt-company{display:block;font:500 19px/1.2 'Fredoka',sans-serif;color:#57377d}.jt-role{display:block;font-size:11px;line-height:1.5;color:#8a699c;margin-top:6px}
+.jt-description{display:block;font-size:12px;line-height:1.8;color:#796783;margin-bottom:20px}
+.jt-card-footer{margin-top:auto;border-top:1px solid #eee4f0;padding-top:14px;display:flex;justify-content:space-between;gap:10px;font-size:10px;color:#917a9f}.jt-open{color:#7950a3;font-weight:800;white-space:nowrap}
+.jt-ending{text-align:center;color:#9273a7;font:400 18px 'Fredoka',sans-serif;padding:12px 0 0}.jt-ending span{display:block;color:#bc93d7;font-size:26px;margin-bottom:10px}
+@media(max-width:950px){.jt-chapter{grid-template-columns:125px 1fr;gap:28px}.jt-chapter:before{left:132px}.jt-chapter:after{left:122px}.jt-card{padding:17px}.jt-card-main{flex-direction:column;align-items:flex-start}.jt-year h3{font-size:40px}}
+@media(max-width:650px){.jt-toolbar{align-items:flex-start;flex-direction:column;gap:15px}.jt-note{font-size:17px}.jt-chapter{grid-template-columns:1fr;gap:18px;padding-left:24px;padding-bottom:32px}.jt-chapter:before{left:0;top:23px}.jt-chapter:after{left:-10px;top:16px}.jt-year h3{font-size:36px;margin:4px 0}.jt-year p{max-width:none;margin:4px 0}.jt-cards{grid-template-columns:1fr;gap:16px}.jt-card-main{flex-direction:row;align-items:center}.jt-card{padding:20px}.jt-company{font-size:20px}.jt-description{font-size:13px}.jt-date{font-size:11px}.jt-ending{font-size:16px}.jv-filter{padding:8px 13px}}
+@media(prefers-reduced-motion:reduce){.jt-card{transition:none}}

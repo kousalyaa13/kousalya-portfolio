@@ -392,25 +392,40 @@ const journeyPlaques = {
  bttai:"break_through_tech.png",witomni:"witomni.png",nrg:"national_research_group.png"
 };
 const journeyArt = file => "assets/" + file.split("/").map(encodeURIComponent).join("/");
-const journeyStops = document.getElementById("journey-stops");
-const journeyDetail = document.getElementById("journey-detail");
-if (journeyStops && journeyDetail) {
- let selected = "capitalone", filter = "all";
- function showJourneyDetail() {
-  const p = journeyMilestones.find(m=>m.id===selected);
-  if (!p) return;
-  journeyDetail.innerHTML = '<div class="journey-window-top"><span>● &nbsp;● &nbsp;●</span><span>✦ milestone unlocked</span></div><div class="journey-window-body"><div class="journey-detail-icon">'+(journeyPlaques[p.id]?'<img src="'+journeyArt("plaques/"+journeyPlaques[p.id])+'" alt="">':p.icon)+'</div><div class="journey-year">'+escapeHTML(p.year)+' · '+(p.type==="work"?"Work experience":"Program & fellowship")+'</div><h3>'+escapeHTML(p.name)+'</h3><div class="journey-role">'+escapeHTML(p.role)+'</div><div class="journey-date">'+escapeHTML(p.date)+'</div><p>'+escapeHTML(p.description)+'</p><div class="journey-skill-label">✦ Skills & experiences</div><div class="journey-skills">'+p.skills.map(t=>'<span>'+escapeHTML(t)+'</span>').join("")+'</div></div>';
+
+/* Chronological, responsive journey timeline. */
+(() => {
+ const root=document.querySelector(".journey-v2");
+ if(!root)return;
+ const chapters=["2023","2024","2025","2026"];
+ const timeline=document.getElementById("jt-timeline");
+ const modal=document.getElementById("jv-modal"),body=document.getElementById("jv-dialog-body"),dialog=modal.querySelector(".jv-dialog");
+ let type="all",lastFocus=null;
+ const imageFor=p=>journeyPlaques[p.id]?journeyArt("plaques/"+journeyPlaques[p.id]):null;
+ function setActive(selector,key,value){
+  document.querySelectorAll(selector).forEach(b=>{let active=b.dataset[key]===value;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active));});
  }
- function renderJourney() {
-  const visible = journeyMilestones.filter(m=>filter==="all"||m.type===filter);
-  if (!visible.some(m=>m.id===selected)) selected=visible[0]?.id;
-  journeyStops.innerHTML=visible.map(m=>'<button type="button" class="journey-stop '+(m.id===selected?'selected':'')+'" style="left:'+m.x+'%;top:'+m.y+'%" data-stop="'+m.id+'" aria-pressed="'+(m.id===selected)+'" aria-label="Explore '+escapeHTML(m.name)+'"><span class="journey-stop-icon">'+m.icon+'</span><span class="journey-stop-name">'+escapeHTML(m.name)+'</span><span class="journey-stop-year">'+escapeHTML(m.year)+'</span></button>').join("");
-  journeyStops.querySelectorAll(".journey-stop").forEach(b=>b.addEventListener("click",()=>{selected=b.dataset.stop;renderJourney();}));
-  const p=journeyMilestones.find(m=>m.id===selected);
-  const avatar=document.querySelector(".journey-character");
-  if(p&&avatar){avatar.style.left=p.x+"%";avatar.style.top=p.y+"%";}
-  showJourneyDetail();
+ const chapterNames=["The first spark", "Finding my direction", "Building with purpose", "Bringing it all together"];
+ function render(){
+  const items=journeyMilestones.filter(p=>type==="all"||p.type===type);
+  timeline.innerHTML=chapters.map((year,index)=>{
+   const entries=items.filter(p=>p.year===year);
+   if(!entries.length)return "";
+   return '<section class="jt-chapter" aria-labelledby="chapter-'+year+'"><div class="jt-year"><span class="jt-chapter-number">CHAPTER 0'+(index+1)+'</span><h3 id="chapter-'+year+'">'+year+'</h3><p>'+chapterNames[index]+'</p></div><div class="jt-cards">'+entries.map(p=>'<button type="button" class="jt-card" data-id="'+p.id+'" aria-haspopup="dialog"><span class="jt-card-top"><span class="jt-kind '+p.type+'">'+(p.type==="work"?'WORK':'PROGRAM')+'</span><span class="jt-date">'+escapeHTML(p.date)+'</span></span><span class="jt-card-main"><span class="jt-art">'+(imageFor(p)?'<img src="'+imageFor(p)+'" alt="" loading="lazy">':'<span aria-hidden="true">✦</span>')+'</span><span class="jt-card-heading"><span class="jt-company">'+escapeHTML(p.name)+'</span><span class="jt-role">'+escapeHTML(p.role)+'</span></span></span><span class="jt-description">'+escapeHTML(p.description)+'</span><span class="jt-card-footer"><span>'+p.skills.slice(0,2).map(escapeHTML).join(' · ')+'</span><span class="jt-open">Explore <span aria-hidden="true">↗</span></span></span></button>').join("")+'</div></section>';
+  }).join("");
+  timeline.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>openMilestone(items.find(p=>p.id===b.dataset.id),b)));
+  document.getElementById("jv-count").textContent=items.length+" experiences · 2023–2026";
+  setActive(".jv-filter","type",type);
  }
- document.querySelectorAll(".journey-filter").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.journeyFilter;document.querySelectorAll(".journey-filter").forEach(x=>{x.classList.toggle("active",x===b);x.setAttribute("aria-pressed",String(x===b));});renderJourney();}));
- renderJourney();
-}
+ function openMilestone(p,button){
+  lastFocus=button;
+  body.innerHTML='<div class="jv-dialog-content"><div class="jv-dialog-logo">'+(imageFor(p)?'<img src="'+imageFor(p)+'" alt="">':p.icon)+'</div><div class="jv-dialog-meta">'+escapeHTML(p.year)+' · '+(p.type==="work"?"work experience":"program & fellowship")+'</div><h3 id="jv-title">'+escapeHTML(p.name)+'</h3><strong>'+escapeHTML(p.role)+'</strong><div class="jv-dialog-date">'+escapeHTML(p.date)+'</div><p>'+escapeHTML(p.description)+'</p><div class="jv-skill-heading">✦ skills & experiences</div><div class="jv-skills">'+p.skills.map(t=>'<span>'+escapeHTML(t)+'</span>').join("")+'</div></div>';
+  modal.hidden=false;document.body.classList.add("jv-modal-open");dialog.focus();
+ }
+ function close(){modal.hidden=true;document.body.classList.remove("jv-modal-open");lastFocus?.focus();}
+ document.querySelectorAll(".jv-filter").forEach(b=>b.addEventListener("click",()=>{type=b.dataset.type;render();}));
+ document.getElementById("jv-close").addEventListener("click",close);
+ modal.querySelector(".jv-backdrop").addEventListener("click",close);
+ document.addEventListener("keydown",e=>{if(modal.hidden)return;if(e.key==="Escape")close();if(e.key==="Tab"){const nodes=[...dialog.querySelectorAll("button,[href],[tabindex]:not([tabindex='-1'])")];if(!nodes.length)return;const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&(document.activeElement===first||document.activeElement===dialog)){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+ render();
+})();
