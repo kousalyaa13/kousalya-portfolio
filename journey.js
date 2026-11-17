@@ -1,6 +1,11 @@
 /* Experience dates and copy transcribed from the supplied LinkedIn PDF. */
 const experienceRecords = [
   {
+    id: 'att', type: 'program', name: 'AT&T', start: '2025', date: '2025',
+    role: 'AT&T Technology Academy Participant',
+    description: 'Completed AT&T’s Technology Academy program focused on Agile delivery, cloud computing, APIs, AI/ML fundamentals, and modern software engineering practices.'
+  },
+  {
     "id": "fairfax",
     "type": "work",
     "start": "2023-06",
@@ -281,6 +286,7 @@ const loudounRoles = [
   (entry.roles || [entry]).reduce((latest, role) => (role.start || '') > latest ? role.start : latest, entry.start || '');
  entries.sort((a,b) => latestStart(b).localeCompare(latestStart(a)));
  const topSkills = {
+  att: ["Agile Delivery", "Cloud Computing", "APIs", "AI/ML Fundamentals", "Software Engineering"],
   "fairfax": [
     "Power Apps",
     "Power Automate",
