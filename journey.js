@@ -243,51 +243,59 @@ const loudounRoles = [
     "description": "Supporting live county platforms and developing a Sheriff’s Office vehicle calibration application."
   }
 ];
-/* A continuous, proportional month scale. No filters, hidden details, or dialogs. */
+
 (() => {
- const viewport=document.getElementById('ct-scroll'),root=document.getElementById('ct-content');
- const names=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
- const h=escapeHTML,monthWidth=76;
- const index=s=>{const [y,m]=s.split('-').map(Number);return y*12+m-1;};
- const first=index('2023-06');
- const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'numeric',day:'numeric'}).formatToParts(new Date());
- const part=n=>Number(parts.find(p=>p.type===n).value);
- const nowYear=part('year'),nowMonth=part('month'),nowDay=part('day');
- const last=Math.max(first,nowYear*12+nowMonth-1),count=last-first+1;
- const days=new Date(nowYear,nowMonth,0).getDate();
- const presentX=(last-first+(nowDay-1)/days)*monthWidth;
- const scaleWidth=count*monthWidth;
- const format=s=>names[Number(s.slice(5))-1]+' '+s.slice(0,4);
- const range=p=>format(p.start)+(p.end===p.start?'':' – '+(p.end?format(p.end):'Present'));
- const plaque=p=>p.plaque?'<img src="assets/plaques/'+encodeURIComponent(p.plaque)+'" alt="">':'<span aria-hidden="true">✦</span>';
- const roles=[
-  {start:'2025-06',end:'2025-08',role:loudounRoles[0].title,description:loudounRoles[0].description},
-  {start:'2025-08',end:'2026-04',role:loudounRoles[1].title,description:loudounRoles[1].description},
-  {start:'2026-04',end:null,role:loudounRoles[2].title,description:loudounRoles[2].description}
+ const shelf = document.getElementById('bookshelf');
+ const book = document.getElementById('experience-book');
+ const h = escapeHTML;
+ const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+ const format = date => months[Number(date.slice(5))-1] + ' ' + date.slice(0,4);
+ const range = entry => entry.date || (format(entry.start) + (entry.start === entry.end ? '' : ' – ' + (entry.end ? format(entry.end) : 'Present')));
+ const extra = {
+  capitalone: [
+   'Built seven Snowflake SQL controls for Eno and Customer Assist AI. Six were active, with daily Databricks compliance reporting.',
+   'Automated a daily pipeline that flattened nested data into more than 86 standardized columns and added notifications.',
+   'Combined three sources into an analytics table with one row per chatbot response, adopted by more than 20 teams.',
+   'Built more than ten QuickSight dashboards and a reporting layer that combined five tables. Placed second for the Lifelong Learner award.'
+  ],
+  loudoun: [
+   ['Prototyped budget and transit applications and presented the budget prototype to county leadership. Helped replace spreadsheets used to log mileage, passenger counts, and service changes.'],
+   ['Built a budget app used by 27+ staff, replacing 15+ spreadsheets and cutting reconciliation from hours to seconds. Created SQL models, views, and stored procedures and built more than 15 Power BI reports.', 'Developed transit workflows for 200+ drivers across 50+ routes. Automated reminders reduced incomplete logs by about 70% and saved around ten hours of weekly follow-up.'],
+   ['Support the budget and transit tools after launch, resolve production issues, and document workflows for county staff.', 'Build a mobile-friendly Flask and SQL Server application for the Sheriff’s Office that digitizes vehicle calibration forms and automates PDF generation and printing.']
+  ],
+  witomni: ['Engineer recency, frequency, and monetary features from more than 500,000 transactions. Evaluate and tune classifiers using precision, recall, F1, and ROC-AUC to account for class imbalance and support retention analysis.'],
+  fairfax: ['Designed the print workflow from prototype through deployment and automated email notifications and operational reporting. Refactored JavaScript and API integrations across more than 50 files.'],
+  obscurity: ['Analyzed SiK/MAVLink telemetry with software-defined radio tools and experimented with object detection using Roboflow and Hugging Face.']
+ };
+ const codepath = [
+  {id:'ai110',type:'program',name:'CodePath AI110',role:'AI Engineering · AI110',date:'2025–2026 · CodePath program',description:'Coursework in practical AI engineering through CodePath.',skills:[]},
+  {id:'ai201',type:'program',name:'CodePath AI201',role:'AI Engineering · AI201',date:'2025–2026 · CodePath program',description:'Continued AI engineering coursework through CodePath.',skills:[]}
  ];
- function row(p,sub=false){
-  const x=(index(p.start)-first)*monthWidth;
-  const end=p.end?(index(p.end)-first+1)*monthWidth:presentX;
-  const width=Math.max(8,end-x);
-  return '<tr class="ct-row '+p.type+(sub?' ct-promotion':'')+'"><th scope="row"><div class="ct-label">'+(!sub?'<div class="ct-company"><span class="ct-plaque">'+plaque(p)+'</span><strong>'+h(p.name)+'</strong></div>':'')+'<div class="ct-role">'+h(p.role)+'</div><div class="ct-date">'+h(range(p))+'</div><p>'+h(p.description)+'</p></div></th><td><div class="ct-track" style="width:'+scaleWidth+'px"><div class="ct-now-line" style="left:'+presentX+'px"></div><div class="ct-bar '+(!p.end?'ongoing':'')+'" style="left:'+x+'px;width:'+width+'px" role="img" aria-label="'+h(p.role+': '+range(p))+'"><span>'+(!p.end?'ONGOING':h(p.start===p.end?names[Number(p.start.slice(5))-1]:''))+'</span></div></div></td></tr>';
+ const labels = {loudoun:'Loudoun County',witomni:'Wit Omni',capitalone:'Capital One',fairfax:'Fairfax County',obscurity:'Obscurity Labs',nrg:'National Research Group',umdta:'UMD Teaching',bttai:'Break Through Tech AI',bttguild:'Break Through Tech Guild',markcuban:'Mark Cuban Foundation',cci:'CCI',oracle:'Oracle REACH'};
+ const entries = [...experienceRecords.filter(p => p.id !== 'fairfaxdb').map(p => p.id === 'fairfax' ? {...p, roles:[p,experienceRecords.find(r => r.id === 'fairfaxdb')]} : p), ...codepath];
+ const priority = ['loudoun','capitalone','witomni','fairfax'];
+ entries.sort((a,b) => (priority.includes(a.id) ? priority.indexOf(a.id) : 9) - (priority.includes(b.id) ? priority.indexOf(b.id) : 9));
+ const skillsFor = p => p.id === 'loudoun' ? [...p.skills,'Power BI','Flask','Dataverse'] : [...new Set((p.roles || [p]).flatMap(r => r.skills))];
+ const paragraphs = lines => lines.map(line => '<p>'+h(line)+'</p>').join('');
+ const roleBlock = (role,date,lines) => '<article><h3>'+h(role)+'</h3><small>'+h(date)+'</small>'+paragraphs(lines)+'</article>';
+ const detail = p => {
+  if (p.id === 'loudoun') return loudounRoles.map((r,i) => roleBlock(r.title,r.date,extra.loudoun[i])).join('');
+  return (p.roles || [p]).map(r => roleBlock(r.role,range(r),[r.description,...(extra[r.id] || [])])).join('');
+ };
+ function select(id, navigate = false) {
+  const entry = entries.find(p => p.id === id);
+  shelf.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.book === id)));
+  const skills = skillsFor(entry);
+  const plaque = entry.plaque ? '<img class="book-plaque" alt="" src="assets/plaques/'+encodeURIComponent(entry.plaque)+'">' : '';
+  book.innerHTML = '<div class="book-page"><h2 tabindex="-1">'+h(entry.name)+'</h2>'+detail(entry)+'</div><div class="book-page book-context">'+plaque+
+   (skills.length ? '<h3>Skills</h3><ul>'+skills.map(skill=>'<li>'+h(skill)+'</li>').join('')+'</ul>' : '')+
+   '<button type="button" class="book-back">Back to shelf</button></div>';
+  book.querySelector('.book-back').onclick = () => shelf.querySelector('[aria-pressed="true"]').focus();
+  if (navigate) book.querySelector('h2').focus({preventScroll:!matchMedia('(max-width: 780px)').matches});
  }
- let body='';
- for(const type of ['work','program']){
-  body+='<tr class="ct-group"><th scope="rowgroup">'+(type==='work'?'WORK EXPERIENCE':'PROGRAMS & RESEARCH')+'</th><td><span>'+ (type==='work'?'Employment & applied work':'Fellowships, research & learning')+'</span></td></tr>';
-  const entries=experienceRecords.filter(p=>p.type===type).sort((a,b)=>b.start.localeCompare(a.start));
-  for(const p of entries){
-   if(p.id==='loudoun'){
-    body+='<tr class="ct-employer"><th><div class="ct-company"><span class="ct-plaque">'+plaque(p)+'</span><strong>Loudoun County Government<small>3 roles · 2 promotions</small></strong></div></th><td><span class="ct-employer-note">Progression within the same employer</span></td></tr>';
-    body+=roles.map(r=>row({...p,...r},true)).join('');
-   }else body+=row(p);
-  }
- }
- root.innerHTML='<table class="ct-table"><caption>Work and programs, June 2023 to '+names[nowMonth-1]+' '+nowYear+'. End dates are shown at month precision.</caption><thead><tr><th scope="col">Experience <small>Dates & short descriptions</small></th><th scope="col"><div class="ct-calendar" style="width:'+scaleWidth+'px">'+Array.from({length:count},(_,i)=>{const n=first+i,y=Math.floor(n/12),m=n%12;return '<span class="ct-month" style="left:'+i*monthWidth+'px;width:'+monthWidth+'px"><b>'+y+'</b>'+names[m]+'</span>';}).join('')+'<span class="ct-present-label" style="left:'+presentX+'px">Present</span></div></th></tr></thead><tbody>'+body+'</tbody></table>';
- const behavior=()=>matchMedia('(prefers-reduced-motion:reduce)').matches?'instant':'smooth';
- const go=atEnd=>viewport.scrollTo({left:atEnd?viewport.scrollWidth:0,behavior:behavior()});
- document.getElementById('ct-start').addEventListener('click',()=>go(false));
- document.getElementById('ct-present').addEventListener('click',()=>go(true));
- viewport.addEventListener('keydown',e=>{if(e.target!==viewport)return;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();viewport.scrollBy({left:(e.key==='ArrowLeft'?-1:1)*monthWidth*3,behavior:behavior()});}if(e.key==='Home'||e.key==='End'){e.preventDefault();go(e.key==='End');}});
- document.getElementById('ct-range').textContent='Jun 2023 — '+names[nowMonth-1]+' '+nowYear;
- viewport.scrollLeft=viewport.scrollWidth;
+ shelf.innerHTML = [['work','Work experience'],['program','Programs & research']].map(([type,title]) =>
+  '<section><h3>'+title+'</h3><div class="book-spines">'+entries.filter(p=>p.type===type).map(p=>'<button type="button" data-book="'+h(p.id)+'" aria-controls="experience-book"><span>'+h(labels[p.id] || p.name)+'</span></button>').join('')+'</div></section>'
+ ).join('');
+ shelf.querySelectorAll('button').forEach(button => button.addEventListener('click', () => select(button.dataset.book,true)));
+ select('loudoun');
 })();
