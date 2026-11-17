@@ -57,15 +57,23 @@
       <p class="project-count" id="project-count" role="status" aria-live="polite"></p>
       <div class="project-grid" id="project-gallery"></div>
     </section>
-    <section class="section lavender-section" id="experience">
+    <section class="section lavender-section journey-section" id="experience">
       <div class="wrap">
-        <div class="section-head reveal"><div><div class="mini-label">REAL-WORLD BUILDING</div><h2>💼 experience & impact</h2></div></div>
-        <div class="experience-grid">
-          <article class="exp-card reveal"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=capitalone.com&amp;sz=128" alt="Capital One logo"><div><h3>Capital One</h3><div class="exp-role">Data Analyst Intern · Summer 2026</div><p>Created Snowflake SQL quality controls, Databricks pipelines, and analytics tables to support customer-facing AI experiences and reporting.</p><span class="tagline">SQL · Snowflake · Databricks · QuickSight</span></div></article>
-          <article class="exp-card reveal"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=loudoun.gov&amp;sz=128" alt="Loudoun County logo"><div><h3>Loudoun County Government</h3><div class="exp-role">Junior Data Analyst</div><p>Built department-wide applications, SQL solutions, and dashboards that replaced spreadsheets and time-consuming manual processes.</p><span class="tagline">Power Apps · SQL Server · Power BI</span></div></article>
-          <article class="exp-card reveal"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=witomni.com&amp;sz=128" alt="witOmni logo"><div><h3>witOmni</h3><div class="exp-role">AI Engineering Intern</div><p>Developing machine-learning approaches to customer repurchase prediction using transaction data and behavioral features.</p><span class="tagline">Python · Machine Learning · RFM</span></div></article>
-          <article class="exp-card reveal"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=fairfaxcounty.gov&amp;sz=128" alt="Fairfax County logo"><div><h3>Fairfax County Government</h3><div class="exp-role">Business Applications Intern</div><p>Improved enterprise applications and supported work spanning automation, JavaScript, and IT infrastructure.</p><span class="tagline">JavaScript · Power Platform · Infrastructure</span></div></article>
-          <article class="exp-card reveal"><img class="company-logo" src="https://www.google.com/s2/favicons?domain=obscuritylabs.com&amp;sz=128" alt="Obscurity Labs logo"><div><h3>Obscurity Labs</h3><div class="exp-role">Security Product Development Intern · Summer 2024</div><p>Explored drone security telemetry and object detection using software-defined radio, MAVLink, and computer vision tools.</p><span class="tagline">GNU Radio · Python · Computer Vision</span></div></article>
+        <div class="section-head reveal"><div><div class="mini-label">MY JOURNEY ✿</div><h2>little steps, big adventures 🌷</h2><p class="journey-intro">The work, programs, and people that shaped how I build.</p></div></div>
+        <div class="journey-filters" role="group" aria-label="Journey filters">
+          <button type="button" class="journey-filter active" data-journey-filter="all" aria-pressed="true">✦ All milestones</button>
+          <button type="button" class="journey-filter" data-journey-filter="work" aria-pressed="false">🏢 Work experience</button>
+          <button type="button" class="journey-filter" data-journey-filter="program" aria-pressed="false">🎓 Programs & fellowships</button>
+        </div>
+        <div class="journey-layout">
+          <div class="journey-world" aria-label="Interactive career journey map">
+            <div class="journey-scenery" aria-hidden="true"></div>
+            <svg class="journey-path" viewBox="0 0 1000 650" preserveAspectRatio="none" aria-hidden="true"><path d="M55 560 C250 625 365 520 255 430 S100 300 300 315 S585 415 520 245 S760 140 950 100" /></svg>
+            <div id="journey-stops" class="journey-stops"></div>
+            <div class="journey-character" aria-hidden="true">👩🏻‍💻</div>
+            <div class="journey-map-caption">✦ select a landmark to explore ✦</div>
+          </div>
+          <aside class="journey-detail" id="journey-detail" aria-live="polite" aria-label="Selected journey milestone"></aside>
         </div>
       </div>
     </section>
