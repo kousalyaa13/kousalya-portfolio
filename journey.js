@@ -269,7 +269,6 @@ const loudounRoles = [
   ["power-platform","Microsoft Certified: Power Platform Fundamentals","Microsoft","Jun 2025"],
   ["google-ai","Google AI Essentials","Google","Apr 2025"],
   ["aws-cloud","AWS Certified Cloud Practitioner","Amazon Web Services (AWS)","Apr 2025","Apr 2028"],
-  ["citi","Social and Behavioral Research","CITI Program","Mar 2025","Mar 2028"],
   ["tryhackme","Pentesting Principles","TryHackMe","Feb 2025"],
   ["pl900","PL-900: Microsoft Power Platform Fundamentals","Microsoft","Oct 2024"],
   ["google-pm","Google Foundations of Project Management","Coursera","Oct 2024"],
@@ -296,7 +295,6 @@ const loudounRoles = [
   "power-platform": "https://learn.microsoft.com/api/credentials/share/en-us/KousalyaPotti-8565/BF6F679795C038B3?sharingId",
   "google-ai": "https://www.coursera.org/account/accomplishments/records/M3TSE7I8QGNY",
   "aws-cloud": "https://www.credly.com/badges/cd3b0cf0-0626-48de-9adc-1102fc571079/linked_in_profile",
-  "citi": "https://www.citiprogram.org/verify/?w28e16c92-f178-4e9d-b3be-8d537fa77e47-68724383",
   "tryhackme": "https://tryhackme.com/kousalyap/badges/intro-to-pentesting",
   "pl900": "https://learn.microsoft.com/api/achievements/share/en-us/KousalyaPotti-8565/QTS5256E?sharingId=11BB235EC04BE87",
   "google-pm": "https://coursera.org/verify/0IOKS3OWDIHB",
@@ -381,11 +379,6 @@ const loudounRoles = [
     "AWS services",
     "Cloud economics",
     "Cloud security"
-  ],
-  "citi": [
-    "Research ethics",
-    "Informed consent",
-    "Participant privacy"
   ],
   "tryhackme": [
     "Networking",
@@ -473,7 +466,8 @@ const loudounRoles = [
   const label = wordmarks[issuer] || issuer;
   button.className = 'issuer-gumball';
   button.textContent = label;
-  const filenames = {"anthropic":"anthropic_logo.png","at&t":"at&t_logo.webp","autodesk":"autodesk_logo.png","aws":"aws_logo.webp","codepath":"codepath_logo.png","cornell":"cornell_tech_logo.png","google":"google_logo.jpg","leetcode":"leetcode_logo.png","meta":"meta_logo.png","microsoft":"microsoft_logo.png","nrf":"nrf_logo.png","openai":"openai_logo.svg","oracle":"oracle_logo.png","servicenow":"servicenow_logo.png","snowflake":"snowflake_logo.png","tryhackme":"try_hack_me_logo.png"};
+  if (issuer === 'IBM') button.classList.add('issuer-ibm');
+  const filenames = {"anthropic":"anthropic_logo.png","at&t":"at&t_logo.webp","autodesk":"autodesk_logo.png","aws":"aws_logo.png","codepath":"codepath_logo.png","cornell":"cornell_tech_logo.png","google":"google_logo.png","leetcode":"leetcode_logo.png","meta":"meta_logo.png","microsoft":"microsoft_logo.png","nrf":"nrf_logo.png","openai":"openai_logo.svg","oracle":"oracle_logo.png","servicenow":"servicenow_logo.png","snowflake":"snowflake_logo.png","tryhackme":"try_hack_me_logo.png"};
   const filename = filenames[label.toLowerCase()];
   if (filename) {
    const logo = new Image();
@@ -486,8 +480,40 @@ const loudounRoles = [
   button.addEventListener('click',()=>openCredentials(issuer));
   document.getElementById('issuer-buttons').append(button);
  }
+ const globe = document.querySelector('.gumball-globe');
+ const balls = [...globe.querySelectorAll('.issuer-gumball')];
+ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+ const bounces = new WeakMap();
+ let lastBounce = 0;
+
+ function nudgeGumballs(event) {
+  if (reducedMotion.matches || (event.type === 'pointermove' && event.pointerType === 'touch' && !event.buttons)) return;
+  const now = performance.now();
+  if (event.type === 'pointermove' && now - lastBounce < 45) return;
+  lastBounce = now;
+  for (const ball of balls) {
+   if (bounces.get(ball)?.playState === 'running') continue;
+   const rect = ball.getBoundingClientRect();
+   const dx = rect.left + rect.width / 2 - event.clientX;
+   const dy = rect.top + rect.height / 2 - event.clientY;
+   const distance = Math.hypot(dx, dy);
+   const reach = rect.width * 1.5;
+   if (distance >= reach) continue;
+   const strength = (1 - distance / reach) * Math.min(9, rect.width * 0.16);
+   const x = distance > 1 ? dx / distance * strength : 0;
+   const y = distance > 1 ? dy / distance * strength : -strength;
+   bounces.set(ball, ball.animate([
+    { translate: '0 0' },
+    { translate: x+'px '+y+'px', offset: 0.28 },
+    { translate: (-x*0.35)+'px '+(-y*0.35)+'px', offset: 0.64 },
+    { translate: '0 0' }
+   ], { duration: 420, easing: 'ease-out' }));
+  }
+ }
+ globe.addEventListener('pointerdown', nudgeGumballs);
+ globe.addEventListener('pointermove', nudgeGumballs);
  function relatedCredentials(bookId) {
-  const ids = {att:['att'], codepath:['ai110','ai201'], bttai:['cornell'], fire:['citi']}[bookId] || [];
+  const ids = {att:['att'], codepath:['ai110','ai201'], bttai:['cornell']}[bookId] || [];
   if (!ids.length) return '';
   return '<section class="book-references"><h3>Related credentials</h3><ul class="book-credentials">'+ids.map(id => {
    const [,title,issuer,issued] = credentials.find(credential => credential[0] === id);
