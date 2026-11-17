@@ -385,6 +385,13 @@ const journeyMilestones = [
  {id:"witomni",type:"work",year:"2026",x:85,y:52,icon:"🤖",name:"witOmni",role:"AI Engineering Intern",date:"Aug 2026 – Present",description:"Developing a repurchase prediction classifier using more than 500,000 transactions and customer behavior features.",skills:["Python","Machine Learning","RFM","Classification"]},
  {id:"nrg",type:"program",year:"2024",x:32,y:17,icon:"📈",name:"National Research Group",role:"Program Experience",date:"2024",description:"A milestone in my early exploration of technology and professional opportunities.",skills:["Professional Development"]}
 ];
+const journeyPlaques = {
+ fairfax:"fairfax.png",markcuban:"mark_cuban.png",obscurity:"Obscurity Labs Pixel Plaque.png",
+ fire:"fire.png",bttguild:"break_through_tech.png",loudoun:"loudoun.png",
+ umdta:"umd.png",oracle:"oracle.png",capitalone:"capital_one.png",
+ bttai:"break_through_tech.png",witomni:"witomni.png",nrg:"national_research_group.png"
+};
+const journeyArt = file => "assets/" + file.split("/").map(encodeURIComponent).join("/");
 const journeyStops = document.getElementById("journey-stops");
 const journeyDetail = document.getElementById("journey-detail");
 if (journeyStops && journeyDetail) {
@@ -392,7 +399,7 @@ if (journeyStops && journeyDetail) {
  function showJourneyDetail() {
   const p = journeyMilestones.find(m=>m.id===selected);
   if (!p) return;
-  journeyDetail.innerHTML = '<div class="journey-window-top"><span>● &nbsp;● &nbsp;●</span><span>✦ milestone unlocked</span></div><div class="journey-window-body"><div class="journey-detail-icon">'+p.icon+'</div><div class="journey-year">'+escapeHTML(p.year)+' · '+(p.type==="work"?"Work experience":"Program & fellowship")+'</div><h3>'+escapeHTML(p.name)+'</h3><div class="journey-role">'+escapeHTML(p.role)+'</div><div class="journey-date">'+escapeHTML(p.date)+'</div><p>'+escapeHTML(p.description)+'</p><div class="journey-skill-label">✦ Skills & experiences</div><div class="journey-skills">'+p.skills.map(t=>'<span>'+escapeHTML(t)+'</span>').join("")+'</div></div>';
+  journeyDetail.innerHTML = '<div class="journey-window-top"><span>● &nbsp;● &nbsp;●</span><span>✦ milestone unlocked</span></div><div class="journey-window-body"><div class="journey-detail-icon">'+(journeyPlaques[p.id]?'<img src="'+journeyArt("plaques/"+journeyPlaques[p.id])+'" alt="">':p.icon)+'</div><div class="journey-year">'+escapeHTML(p.year)+' · '+(p.type==="work"?"Work experience":"Program & fellowship")+'</div><h3>'+escapeHTML(p.name)+'</h3><div class="journey-role">'+escapeHTML(p.role)+'</div><div class="journey-date">'+escapeHTML(p.date)+'</div><p>'+escapeHTML(p.description)+'</p><div class="journey-skill-label">✦ Skills & experiences</div><div class="journey-skills">'+p.skills.map(t=>'<span>'+escapeHTML(t)+'</span>').join("")+'</div></div>';
  }
  function renderJourney() {
   const visible = journeyMilestones.filter(m=>filter==="all"||m.type===filter);
