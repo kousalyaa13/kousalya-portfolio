@@ -215,3 +215,9 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
  .open-book { grid-template-columns:minmax(0,1fr); }
  .book-context { background:#fff8eb; border-top:1px solid #e5d7d3; }
 }
+
+.book-spines span { max-height: 138px; }
+.book-page h4 { margin: 10px 0 4px; font-size: 12px; }
+.book-skills { display:flex; flex-wrap:wrap; gap:5px; list-style:none; margin:0; padding:0; }
+.book-skills li { background:#ecdbef; border-radius:5px; padding:3px 7px; font-size:12px; }
+@media(max-width:780px) { .book-spines span { max-height:112px; } }
