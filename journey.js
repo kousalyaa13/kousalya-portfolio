@@ -1,7 +1,7 @@
 /* Experience dates and copy transcribed from the supplied LinkedIn PDF. */
 const experienceRecords = [
   {
-    id: 'att', type: 'program', name: 'AT&T', start: '2025', date: '2025',
+    id: 'att', type: 'program', name: 'AT&T', start: '2025-06', date: 'Jun 2025',
     role: 'AT&T Technology Academy Participant',
     description: 'Completed AT&T’s Technology Academy program focused on Agile delivery, cloud computing, APIs, AI/ML fundamentals, and modern software engineering practices.'
   },
@@ -253,6 +253,52 @@ const loudounRoles = [
  const shelf = document.getElementById('bookshelf');
  const book = document.getElementById('experience-book');
  const h = escapeHTML;
+ const credentials = [
+  ["aws-ai","AWS Certified AI Practitioner","Amazon Web Services (AWS)","Nov 2026","Nov 2029"],
+  ["claude","Claude 101","Anthropic","Nov 2026"],
+  ["fluency","AI Fluency Framework & Foundations","Anthropic","Nov 2026"],
+  ["openai","AI Foundations","OpenAI","Oct 2026"],
+  ["ai201","Applications of AI Engineering","CodePath","Aug 2026"],
+  ["nask","Now Assist Skill Kit Fundamentals","ServiceNow","Aug 2026"],
+  ["cornell","Machine Learning Foundations","Cornell University","Jul 2026"],
+  ["ai110","Foundations of AI Engineering","CodePath","May 2026"],
+  ["snowpro","SnowPro Associate: Platform Certification","Snowflake","Feb 2026","Feb 2028"],
+  ["ibm-de","Introduction to Data Engineering","IBM","Jan 2026"],
+  ["att","AT&T Technology Academy Participant","AT&T","Jun 2025","Jan 2030"],
+  ["sql50","SQL50","LeetCode","Jun 2025"],
+  ["power-platform","Microsoft Certified: Power Platform Fundamentals","Microsoft","Jun 2025"],
+  ["google-ai","Google AI Essentials","Google","Apr 2025"],
+  ["aws-cloud","AWS Certified Cloud Practitioner","Amazon Web Services (AWS)","Apr 2025","Apr 2028"],
+  ["citi","Social and Behavioral Research","CITI Program","Mar 2025","Mar 2028"],
+  ["tryhackme","Pentesting Principles","TryHackMe","Feb 2025"],
+  ["pl900","PL-900: Microsoft Power Platform Fundamentals","Microsoft","Oct 2024"],
+  ["google-pm","Google Foundations of Project Management","Coursera","Oct 2024"],
+  ["ibm-sql","IBM Databases and SQL for Data Science with Python","Coursera","May 2024"],
+  ["meta","Meta Introduction to Front-End Development","Coursera","May 2024"],
+  ["nrf","Customer Service & Sales Certification","NRF Foundation","Apr 2024"],
+  ["azure","Microsoft Certified: Azure Fundamentals","Microsoft Azure","Nov 2023"],
+  ["revit","Certified Professional Autodesk Revit Architecture","Autodesk","May 2023"],
+  ["oracle-db","Oracle Database Foundations Associate","Oracle","May 2023"],
+  ["autocad","Autodesk Certified User: AutoCAD","Autodesk","Jul 2022"],
+  ["mta","MTA: Introduction to Programming Using Python","Microsoft","May 2021"],
+  ["powerpoint","Microsoft Office Specialist: PowerPoint Certification","Microsoft","May 2021"],
+  ["word","Microsoft Office Specialist: Word Certification","Microsoft","May 2021"]
+ ];
+ const credentialShelf = document.getElementById('cert-carousel');
+ credentialShelf.innerHTML = credentials.map(([id,title,issuer,issued,expires]) =>
+  '<li id="credential-'+id+'" tabindex="-1"><span>'+escapeHTML(issuer)+'</span><strong>'+escapeHTML(title)+'</strong><small>Issued '+issued+(expires?' · Expires '+expires:'')+'</small></li>'
+ ).join('');
+ document.querySelectorAll('[data-cert-step]').forEach(button => button.addEventListener('click', () => {
+  credentialShelf.scrollBy({left:Number(button.dataset.certStep)*credentialShelf.clientWidth*0.85,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+ }));
+ function relatedCredentials(bookId) {
+  const ids = {att:['att'], codepath:['ai110','ai201'], bttai:['cornell'], fire:['citi']}[bookId] || [];
+  if (!ids.length) return '';
+  return '<section class="book-references"><h3>Related credentials</h3><ul class="book-credentials">'+ids.map(id => {
+   const [,title,issuer,issued] = credentials.find(credential => credential[0] === id);
+   return '<li><a href="#credential-'+id+'">'+escapeHTML(title)+'</a><small>'+escapeHTML(issuer)+' · '+issued+'</small></li>';
+  }).join('')+'</ul></section>';
+ }
  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
  const format = date => months[Number(date.slice(5))-1] + ' ' + date.slice(0,4);
  const range = entry => entry.date || (format(entry.start) + (entry.start === entry.end ? '' : ' – ' + (entry.end ? format(entry.end) : 'Present')));
@@ -588,9 +634,16 @@ const loudounRoles = [
   shelf.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed',String(button.dataset.book === id)));
   const roles = rolesFor(entry);
   const plaque = entry.plaque ? '<img class="book-plaque" alt="" src="assets/plaques/'+encodeURIComponent(entry.plaque)+'">' : '';
-  book.innerHTML = '<div class="book-page"><h2 tabindex="-1">'+h(labels[entry.id] || entry.name)+'</h2>'+roles.map(roleBlock).join('')+'</div><div class="book-page book-context">'+plaque+'<h3>Top skills</h3>'+skillGroups(roles)+
+  book.innerHTML = '<div class="book-page"><h2 tabindex="-1">'+h(labels[entry.id] || entry.name)+'</h2>'+roles.map(roleBlock).join('')+'</div><div class="book-page book-context">'+plaque+'<h3>Top skills</h3>'+skillGroups(roles)+relatedCredentials(id)+
    '</div>';
   addRecommendations(id);
+  book.querySelectorAll('.book-credentials a').forEach(link => link.addEventListener('click', event => {
+   const card = document.getElementById(link.hash.slice(1));
+   if (!card) return;
+   event.preventDefault();
+   card.scrollIntoView({block:'center',inline:'center'});
+   card.focus({preventScroll:true});
+  }));
   if (navigate) book.querySelector('h2').focus({preventScroll:!matchMedia('(max-width: 780px)').matches});
  }
  shelf.innerHTML = [['work','Work experience'],['program','Programs & research']].map(([type,title]) =>
