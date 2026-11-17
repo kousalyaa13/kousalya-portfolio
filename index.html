@@ -42,6 +42,15 @@
       </div>
       <div class="cloud-edge" aria-hidden="true"></div>
     </section>
+    <section class="section lavender-section journey-v2" id="experience">
+      <div class="wrap">
+        <div class="section-head"><div><div class="mini-label">MY JOURNEY ✿</div><h2>little steps, big adventures 🌷</h2><p>The work, programs, and people that shaped how I build.</p></div></div>
+        <div class="bookshelf-layout">
+          <nav class="bookshelf" id="bookshelf" aria-label="Browse experience books"></nav>
+          <section class="open-book" id="experience-book" aria-label="Selected experience"></section>
+        </div>
+      </div>
+    </section>
     <section class="section wrap" id="projects">
       <div class="section-head reveal">
         <div><div class="mini-label">THINGS I'VE BUILT</div><h2>✿ my projects <span class="squiggle">〰</span></h2></div>
@@ -57,19 +66,6 @@
       <p class="project-count" id="project-count" role="status" aria-live="polite"></p>
       <div class="project-grid" id="project-gallery"></div>
     </section>
-    <section class="section lavender-section journey-v2" id="experience">
-      <div class="wrap">
-        <div class="section-head"><div><div class="mini-label">MY JOURNEY ✿</div><h2>little steps, big adventures 🌷</h2><p>The work, programs, and people that shaped how I build.</p></div></div>
-        <div class="jt-toolbar">
-          <span class="jt-note">A little more curious with every chapter.</span>
-          <div class="jv-filters" role="group" aria-label="Filter milestones"><button class="jv-filter active" data-type="all" aria-pressed="true">All experiences</button><button class="jv-filter" data-type="work" aria-pressed="false">Work</button><button class="jv-filter" data-type="program" aria-pressed="false">Programs</button></div>
-        </div>
-        <p class="jt-count" id="jv-count" role="status" aria-live="polite"></p>
-        <div class="jt-timeline" id="jt-timeline"></div>
-        <div class="jt-ending"><span aria-hidden="true">✦</span> still learning, still building, still blooming.</div>
-      </div>
-      <div class="jv-modal" id="jv-modal" hidden><div class="jv-backdrop" data-close="true"></div><div class="jv-dialog" role="dialog" aria-modal="true" aria-labelledby="jv-title" tabindex="-1"><div class="jv-dialog-head"><span>● &nbsp;● &nbsp;●</span><span>✦ milestone unlocked</span><button id="jv-close" type="button" aria-label="Close milestone">×</button></div><div id="jv-dialog-body"></div></div></div>
-    </section>
     <section class="section wrap about-section" id="about">
       <div class="about-card reveal">
         <div>
@@ -84,12 +80,17 @@
         </div>
         <aside class="about-side"><div class="pixel-flower" aria-hidden="true">✿</div><h3>currently exploring ✧</h3><ul><li>AWS AI & cloud services</li><li>Data engineering & Databricks</li><li>Agentic AI & LLM workflows</li><li>AI product building</li></ul></aside>
       </div>
-      <div class="campus-art reveal"><div class="sprite sprite-campus" role="img" aria-label="Pixel-art campus building with cherry blossoms"></div></div><div class="certs reveal"><div class="mini-label">MY LITTLE BADGE COLLECTION</div><h3>certified & curious ✨</h3><div class="cert-grid">
-        <span>☁️ AWS Certified Cloud Practitioner</span><span>❄️ Snowflake SnowPro Associate</span><span>🔷 Microsoft Azure Fundamentals (AZ-900)</span><span>⚡ Microsoft Power Platform Fundamentals (PL-900)</span><span>🧩 ServiceNow NASK</span>
-      </div><p class="fineprint">View my <a href="https://www.linkedin.com/in/kousalya-potti/" target="_blank" rel="noopener noreferrer">LinkedIn profile</a> for additional credentials and their issuer details.</p></div>
+      <div class="campus-art reveal"><div class="sprite sprite-campus" role="img" aria-label="Pixel-art campus building with cherry blossoms"></div></div><div class="certs reveal"><div class="mini-label">MY LITTLE BADGE COLLECTION</div><h3>certified & curious ✨</h3><p class="gumball-instruction">Pick a gumball to see that issuer’s credentials.</p>
+      <div class="gumball-machine">
+        <div class="gumball-cap" aria-hidden="true"></div>
+        <div class="gumball-globe"><div id="issuer-buttons" class="gumball-grid"></div></div>
+        <div class="gumball-base" aria-hidden="true"><span class="gumball-knob"></span><span class="gumball-chute"></span></div>
+      </div>
+      <dialog id="credential-dialog" class="reference-dialog" aria-labelledby="credential-issuer"><form method="dialog"><button type="submit" autofocus>Close</button></form><h4 id="credential-issuer"></h4><div id="issuer-credentials"></div></dialog><p class="fineprint">View my <a href="https://www.linkedin.com/in/kousalya-potti/" target="_blank" rel="noopener noreferrer">LinkedIn profile</a> for additional credentials and their issuer details.</p></div>
     </section>
   </main>
   <footer><div class="wrap footer-content"><div class="footer-flowers" aria-hidden="true"><span class="sprite sprite-garden"></span></div><h2>let's make something lovely ✦</h2><p>Have a project idea, an opportunity, or just want to say hi?</p><div class="socials footer-social"><a href="https://github.com/kousalyaa13" target="_blank" rel="noopener noreferrer">GitHub</a><a href="https://www.linkedin.com/in/kousalya-potti/" target="_blank" rel="noopener noreferrer">LinkedIn</a></div><small>© <span id="year">2026</span> Kousalya Potti · made with ♡ and a few pixels</small></div></footer>
   <button class="mascot" id="mascot" type="button" aria-label="Talk to the pixel companion"><span class="sprite sprite-robot" aria-hidden="true"></span><span class="mascot-speech" id="mascot-speech" aria-live="polite">psst... hi! ✨</span></button>
+  <script defer src="journey.js"></script>
 </body>
 </html>
