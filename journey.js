@@ -467,21 +467,49 @@ const loudounRoles = [
   const selected = selectedId && document.getElementById('credential-'+selectedId);
   if (selected) selected.focus();
  }
+ const issuerLogos = {
+  "AWS": "aws_logo.webp",
+  "Anthropic": "anthropic_logo.png",
+  "Microsoft": "microsoft_logo.png",
+  "OpenAI": "openai_logo.svg",
+  "Snowflake": "snowflake_logo.png",
+  "CodePath": "codepath_logo.png",
+  "Cornell": "cornell_tech_logo.png",
+  "AT&T": "at&t_logo.webp",
+  "ServiceNow": "servicenow_logo.png",
+  "LeetCode": "leetcode_logo.png",
+  "Google": "google_logo.jpg",
+  "TryHackMe": "try_hack_me_logo.png",
+  "Meta": "meta_logo.png",
+  "NRF": "nrf_logo.png",
+  "Autodesk": "autodesk_logo.png",
+  "Oracle": "oracle_logo.png"
+};
+ const ballRows = [3, 4, 4, 4, 3];
+ const grid = document.getElementById('issuer-buttons');
+ let row;
  for (const issuer of new Set(credentials.map(issuerFor))) {
+  if (ballRows.length && (!row || row.children.length === ballRows[0])) {
+   if (row) ballRows.shift();
+   row = document.createElement('div');
+   row.className = 'gumball-row';
+   grid.append(row);
+  }
   const button = document.createElement('button');
   button.type = 'button';
   const label = wordmarks[issuer] || issuer;
   button.className = 'issuer-gumball';
   button.textContent = label;
-  const logo = new Image();
-  logo.alt = '';
-  const logoName = label.toLowerCase().replace('&','and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  logo.addEventListener('load', () => button.replaceChildren(logo), {once:true});
-  logo.src = 'assets/issuer-logos/'+logoName+'.png';
+  if (issuerLogos[label]) {
+   const logo = new Image();
+   logo.alt = '';
+   logo.addEventListener('load', () => button.replaceChildren(logo), {once:true});
+   logo.src = 'assets/logos/'+encodeURIComponent(issuerLogos[label]);
+  }
   button.setAttribute('aria-label', issuer);
   button.setAttribute('aria-haspopup','dialog');
   button.addEventListener('click',()=>openCredentials(issuer));
-  document.getElementById('issuer-buttons').append(button);
+  row.append(button);
  }
  function relatedCredentials(bookId) {
   const ids = {att:['att'], codepath:['ai110','ai201'], bttai:['cornell'], fire:['citi']}[bookId] || [];

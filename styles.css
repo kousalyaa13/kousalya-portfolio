@@ -265,3 +265,16 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .gumball-knob { top:9px; width:47px; height:26px; border:3px solid #60476c; border-radius:12px; background:#f4d18b; }
 .gumball-chute { top:45px; width:72px; height:32px; border:3px solid #d6b8e1; border-radius:13px 13px 5px 5px; background:#4a3256; }
 @media(max-width:520px) { .issuer-gumball { flex-basis:calc((100% - 24px)/4); } .gumball-globe { padding:28px 8% 20px; } }
+
+.about-credentials.certs { margin:0; min-width:0; align-self:center; text-align:center; }
+.about-credentials .fineprint { margin-inline:auto; }
+.gumball-machine { width:min(100%,380px); }
+.gumball-globe { box-sizing:border-box; aspect-ratio:1; border-radius:50%; padding:0; display:grid; place-items:center; }
+.gumball-grid { display:grid; width:80%; height:76%; gap:3px; grid-template-rows:repeat(5,minmax(0,1fr)); }
+.gumball-row { display:flex; gap:4px; justify-content:center; min-height:0; }
+.issuer-gumball { flex:none; height:100%; width:auto; aspect-ratio:1; font-size:clamp(8px,1vw,11px); }
+.issuer-gumball img { display:block; min-width:0; max-height:80%; width:80%; object-fit:contain; }
+.gumball-cap { width:39%; }
+.gumball-base { width:59%; height:124px; margin-top:-12px; border-radius:12px 12px 22px 22px; }
+.gumball-knob { top:20px; }
+.gumball-chute { top:60px; }
