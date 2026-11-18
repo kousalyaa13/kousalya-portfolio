@@ -49,9 +49,11 @@
     </section>
     <section class="section wrap" id="tech-stack" aria-labelledby="tech-stack-heading">
       <h2 id="tech-stack-heading">my tech stack</h2>
-      <div class="stack-grid">
-        <div class="stack-card">
-          <h3>Business &amp; product analysis</h3>
+      <div class="stack-notebook" role="group" aria-label="Tech stack categories">
+        <input class="stack-choice" type="radio" name="stack-category" id="stack-choice-0" aria-controls="stack-page-0">
+        <label class="stack-tab" for="stack-choice-0">Business &amp; Product</label>
+        <div class="stack-page" id="stack-page-0" role="region" aria-labelledby="stack-title-0">
+          <h3 id="stack-title-0">Business &amp; product analysis</h3>
           <ul>
             <li>Requirements gathering, stakeholder collaboration, process mapping and improvement</li>
             <li>KPI reporting, feature prioritization, user feedback and prototyping</li>
@@ -59,8 +61,10 @@
             <li>Figma, Excel and Power Query</li>
           </ul>
         </div>
-        <div class="stack-card">
-          <h3>Data analytics &amp; visualization</h3>
+        <input class="stack-choice" type="radio" name="stack-category" id="stack-choice-1" aria-controls="stack-page-1" checked>
+        <label class="stack-tab" for="stack-choice-1">Analytics</label>
+        <div class="stack-page" id="stack-page-1" role="region" aria-labelledby="stack-title-1">
+          <h3 id="stack-title-1">Data analytics &amp; visualization</h3>
           <ul>
             <li>SQL, Python, R and pandas</li>
             <li>Power BI, Tableau and Amazon QuickSight</li>
@@ -68,8 +72,10 @@
             <li>Dashboard design, root-cause analysis and data validation</li>
           </ul>
         </div>
-        <div class="stack-card">
-          <h3>Data science &amp; statistics</h3>
+        <input class="stack-choice" type="radio" name="stack-category" id="stack-choice-2" aria-controls="stack-page-2">
+        <label class="stack-tab" for="stack-choice-2">Data Science</label>
+        <div class="stack-page" id="stack-page-2" role="region" aria-labelledby="stack-title-2">
+          <h3 id="stack-title-2">Data science &amp; statistics</h3>
           <ul>
             <li>A/B testing, hypothesis testing, statistical significance and regression</li>
             <li>Feature engineering, classification, predictive modeling and cross-validation</li>
@@ -77,16 +83,20 @@
             <li>Model evaluation with precision, recall, F1 and ROC-AUC</li>
           </ul>
         </div>
-        <div class="stack-card">
-          <h3>Data engineering &amp; cloud</h3>
+        <input class="stack-choice" type="radio" name="stack-category" id="stack-choice-3" aria-controls="stack-page-3">
+        <label class="stack-tab" for="stack-choice-3">Data Engineering</label>
+        <div class="stack-page" id="stack-page-3" role="region" aria-labelledby="stack-title-3">
+          <h3 id="stack-title-3">Data engineering &amp; cloud</h3>
           <ul>
             <li>Snowflake, Databricks, SQL Server (SSMS), MySQL and Oracle</li>
             <li>ETL, data modeling, SQL optimization and data-quality controls</li>
             <li>AWS, Azure and Supabase</li>
           </ul>
         </div>
-        <div class="stack-card">
-          <h3>AI, ML &amp; NLP</h3>
+        <input class="stack-choice" type="radio" name="stack-category" id="stack-choice-4" aria-controls="stack-page-4">
+        <label class="stack-tab" for="stack-choice-4">AI &amp; NLP</label>
+        <div class="stack-page" id="stack-page-4" role="region" aria-labelledby="stack-title-4">
+          <h3 id="stack-title-4">AI, ML &amp; NLP</h3>
           <ul>
             <li>Hugging Face, Claude Code and Gemini</li>
             <li>Retrieval-augmented generation (RAG), AI agents and LLM workflows</li>
@@ -94,24 +104,30 @@
             <li>Roboflow and object detection</li>
           </ul>
         </div>
-        <div class="stack-card">
-          <h3>Programming &amp; web development</h3>
+        <input class="stack-choice" type="radio" name="stack-category" id="stack-choice-5" aria-controls="stack-page-5">
+        <label class="stack-tab" for="stack-choice-5">Programming</label>
+        <div class="stack-page" id="stack-page-5" role="region" aria-labelledby="stack-title-5">
+          <h3 id="stack-title-5">Programming &amp; web development</h3>
           <ul>
             <li>Python, SQL, R, Java, JavaScript, HTML and CSS</li>
             <li>Flask, REST APIs, Git and GitHub</li>
             <li>Selenium and Beautiful Soup</li>
           </ul>
         </div>
-        <div class="stack-card">
-          <h3>Automation &amp; low-code</h3>
+        <input class="stack-choice" type="radio" name="stack-category" id="stack-choice-6" aria-controls="stack-page-6">
+        <label class="stack-tab" for="stack-choice-6">Automation</label>
+        <div class="stack-page" id="stack-page-6" role="region" aria-labelledby="stack-title-6">
+          <h3 id="stack-title-6">Automation &amp; low-code</h3>
           <ul>
             <li>Power Apps, Power Pages, Power Automate and Dataverse</li>
             <li>SharePoint and Microsoft 365</li>
             <li>Workflow automation and application prototyping</li>
           </ul>
         </div>
-        <div class="stack-card">
-          <h3>Infrastructure &amp; networking</h3>
+        <input class="stack-choice" type="radio" name="stack-category" id="stack-choice-7" aria-controls="stack-page-7">
+        <label class="stack-tab" for="stack-choice-7">Infrastructure</label>
+        <div class="stack-page" id="stack-page-7" role="region" aria-labelledby="stack-title-7">
+          <h3 id="stack-title-7">Infrastructure &amp; networking</h3>
           <ul>
             <li>VMware vSphere, Infoblox, Active Directory and DNS</li>
             <li>GNU Radio, SDR++, RTL-SDR, SiK, MAVLink and PyMavlink</li>
