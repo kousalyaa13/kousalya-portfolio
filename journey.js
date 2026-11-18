@@ -871,5 +871,16 @@ const loudounRoles = [
   '<section><h3>'+title+'</h3><div class="book-spines">'+entries.filter(p=>p.type===type).map(p=>'<button type="button" data-book="'+h(p.id)+'" aria-controls="experience-book"><span>'+h(labels[p.id] || p.name)+'</span></button>').join('')+'</div></section>'
  ).join('');
  shelf.querySelectorAll('button').forEach(button => button.addEventListener('click', () => select(button.dataset.book,true)));
- select('loudoun');
+ const shelfLayout = shelf.closest('.bookshelf-layout');
+ shelf.querySelectorAll('[data-book]').forEach(button => button.setAttribute('aria-pressed','false'));
+ shelf.addEventListener('click', event => {
+  if (!event.target.closest('[data-book]') || shelfLayout.classList.contains('has-selection')) return;
+  const before = shelf.getBoundingClientRect();
+  shelfLayout.classList.add('has-selection');
+  const after = shelf.getBoundingClientRect();
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && before.left !== after.left) {
+   shelf.animate([{transform:'translateX('+(before.left-after.left)+'px)'},{transform:'translateX(0)'}],{duration:320,easing:'ease-out'});
+   shelfLayout.querySelector('.open-book').animate([{opacity:0},{opacity:1}],{duration:320,easing:'ease-out'});
+  }
+ }, true);
 })();
