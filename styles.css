@@ -282,8 +282,6 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .hero-grid { min-height:430px; padding-bottom:28px; }
 #experience { padding-top:clamp(25px,3vw,45px); }
 #contact { scroll-margin-top:80px; }
-.bookshelf-layout:not(.has-selection) { display:block; max-width:950px; margin-inline:auto; }
+.bookshelf-layout:not(.has-selection) { display:block; max-width:650px; margin-inline:auto; }
 .bookshelf-layout:not(.has-selection) .open-book { display:none; }
 .bookshelf-layout:not(.has-selection) .book-spines { flex-wrap:wrap; justify-content:center; overflow:visible; }
-.bookshelf-layout:not(.has-selection) .book-spines button { flex-basis:clamp(46px,7vw,76px); }
-.bookshelf-layout.has-selection .book-spines { flex-wrap:wrap; overflow:visible; }
