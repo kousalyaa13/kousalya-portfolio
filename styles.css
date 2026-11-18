@@ -280,8 +280,15 @@ footer{background:linear-gradient(#e7dcff,#cdb9f4);text-align:center;padding:55p
 .gumball-globe { touch-action:pan-y pinch-zoom; }
 
 .hero-grid { min-height:0; padding-bottom:0; }
-#experience { padding-top:0; }
+#experience { padding-top:clamp(28px, 4vw, 56px); }
 #contact { scroll-margin-top:80px; }
 .bookshelf-layout:not(.has-selection) { display:block; max-width:650px; margin-inline:auto; }
 .bookshelf-layout:not(.has-selection) .open-book { display:none; }
 .bookshelf-layout:not(.has-selection) .book-spines { flex-wrap:wrap; justify-content:center; overflow:visible; }
+
+#tech-stack { padding-bottom: 0; }
+.stack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+.stack-card { padding: 18px 20px; border: 1px solid #d9c5ef; border-radius: 16px; background: #f7f1fd; }
+.stack-card h3 { margin: 0 0 8px; color: var(--plum); }
+.stack-card ul { margin: 0; padding-inline-start: 1.2em; }
+.stack-card li + li { margin-block-start: 6px; }
